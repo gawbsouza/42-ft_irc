@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 08:09:02 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/10 08:35:24 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/10 13:18:25 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/10 13:18:25 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LOGGER_H
 # define LOGGER_H
 
-#include <string>
-#include <sstream>
+# include <string>
+# include <sstream>
 
 class Log
 {
@@ -46,9 +46,4 @@ private:
 
 };
 
-
-
 #endif
-
-// Log.debug("testando!");
-// Log.debug(Log.msg << "mensagem" << var << teste);
