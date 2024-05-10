@@ -6,14 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 08:21:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/10 13:32:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/10 13:44:31 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Log.hpp"
 #include "Colors.hpp"
 
-#include <sstream>
 #include <iostream>
 
 Log::Level Log::_level = ALL;
