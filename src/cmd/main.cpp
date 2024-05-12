@@ -4,13 +4,6 @@
 
 int main()
 {
-    
-    Log::setLevel(Log::ALL);
-
-    Log::debug("A debug message");
-    Log::info("An information message");
-    Log::warning("An warning message");
-    Log::error("An error message");
-
+    std::cout << "Hello World!" << std::endl;
     return 0;
 }
