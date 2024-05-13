@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#ifndef COLORS_HPP
+# define COLORS_HPP
 
 const char *COLOR_RED = "\e[31m";
 const char *COLOR_YELLOW = "\e[33m";

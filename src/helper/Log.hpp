@@ -38,7 +38,7 @@ public:
     static void warning(const std::string & msg);
     static void error(const std::string & msg);
 
-private:
+private: 
 
     static Level _level;
     Log();

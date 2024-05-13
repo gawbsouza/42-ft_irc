@@ -33,3 +33,9 @@
 *.exe
 *.out
 *.app
+
+# VS Code
+.vscode
+
+# ircserv binary
+ircserv
