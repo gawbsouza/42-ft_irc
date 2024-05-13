@@ -1,29 +1,41 @@
-NAME        = ircserv
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
+#    Updated: 2024/05/12 00:11:03 by gasouza          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-COMPILER    = g++ -c
-LINKER      = g++
-CFLAGS      = -Wall -Werror -Wextra -std=c++98 -g3
+NAME 		= ircserv
 
-SRCS        = $(wildcard src/*/*.cpp)
-INCS        = $(wildcard src/*/*.hpp)
-OBJS        = $(SRCS:.cpp=.o)
+COMPILER	= g++ -c
+LINKER		= g++
+CFLAGS		= -Wall -Werror -Wextra -std=c++98
 
-CLEANUP     = rm -rf
+SRCS		= $(wildcard src/*/*.cpp)
+INCS 		= $(wildcard src/*/*.hpp)
+OBJS		= $(SRCS:.cpp=.o)
 
-all: 		$(NAME)
+CLEANUP		= rm -rf
 
-$(NAME): 	$(OBJS) $(INCS)
-		 	$(LINKER) $(OBJS) -o $@
+all: $(NAME)
 
-%.o: 		%.cpp
-	 		$(COMPILER) $(CFLAGS) $< -o $@
+$(NAME): $(OBJS) $(INCS)
+	$(LINKER) $(OBJS) -o $@
+
+%.o: %.cpp
+	$(COMPILER) $(CFLAGS) $< -o $@
 
 clean:
-			$(CLEANUP) $(OBJS)
+	$(CLEANUP) $(OBJS)
 
-fclean:		clean
-			$(CLEANUP) $(NAME)
+fclean: clean
+	$(CLEANUP) $(NAME)
 
-re: 		fclean all
+re: fclean all
 
-.PHONY: 	all clean fclean re
+.PHONY: all clean fclean re
