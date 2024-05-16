@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 08:21:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/10 13:44:31 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/16 20:19:40 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include <iostream>
 
 Log::Level Log::_level = ALL;
+
+std::string replaceNewLineChar(const std::string & str) {
+    std::string copy = str;
+    size_t findAt = copy.find("\n");
+    while (findAt != std::string::npos) {
+        copy.replace(findAt, 1, "\\n");
+        findAt = copy.find("\n");
+    }
+    return copy;
+}
 
 std::string currentDateTime()
 {
@@ -41,9 +51,8 @@ void Log::debug(const std::string & msg)
     if (_level > DEBUG) {
         return;
     }
-    std::cout << currentDateTime()
-              << COLOR_GRAY << " [DBG] " << COLOR_RESET
-              << msg << std::endl;
+    std::cout << COLOR_GRAY << "DBG" << "[" + currentDateTime() + "] "
+              << replaceNewLineChar(msg) << COLOR_RESET << std::endl;
 }
 
 void Log::info(const std::string & msg)
@@ -51,9 +60,8 @@ void Log::info(const std::string & msg)
     if (_level > INFO) {
         return;
     }
-    std::cout << currentDateTime()
-              << COLOR_BLUE << " [INF] " << COLOR_RESET
-              << msg << std::endl;
+    std::cout << "INF" << "[" + currentDateTime() + "] "
+              << replaceNewLineChar(msg) << std::endl;
 }
 
 void Log::warning(const std::string & msg)
@@ -61,9 +69,8 @@ void Log::warning(const std::string & msg)
     if (_level > WARNING) {
         return;
     }
-    std::cout << currentDateTime()
-              << COLOR_YELLOW << " [WAR] " << COLOR_RESET
-              << msg << std::endl;
+    std::cout << COLOR_YELLOW << "WAR" << "[" + currentDateTime() + "] "
+              << replaceNewLineChar(msg) << COLOR_RESET << std::endl;
 }
 
 void Log::error(const std::string & msg)
@@ -71,7 +78,6 @@ void Log::error(const std::string & msg)
     if (_level > ERROR) {
         return;
     }
-    std::cout << currentDateTime()
-              << COLOR_RED << " [ERR] " << COLOR_RESET
-              << msg << std::endl;
+    std::cout << COLOR_RED << "ERR" << "[" + currentDateTime() + "] "
+              << replaceNewLineChar(msg)  << COLOR_RESET << std::endl;
 }
