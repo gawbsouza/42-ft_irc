@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Connection.hpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/14 16:50:10 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/16 20:28:45 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CONNECTION_HPP
 # define CONNECTION_HPP
 
-# include <poll.h>
-# include <vector>
 # include <string>
 
 class Connection
@@ -12,13 +22,13 @@ class Connection
     int _port;
     std::string _address;
     std::string _password;
+    int _readBufferSize;
     
 	bool _closed;
 
 public:
 
-    Connection(int id, int fd, int port, const std::string& address, 
-			   const std::string& password);
+    Connection(int id, int fd, const std::string & address, int port, const std::string & password);
     ~Connection();
 
     int         getId() const;
@@ -28,21 +38,22 @@ public:
     std::string getPassword() const;
     
     bool        isClosed() const;
-	void 		setStatus(bool status);
+    void        close();
+    
+    std::string str() const;
 
     size_t      sendMessage(const std::string &msg) const;
     std::string readMessage();
 
-    friend bool operator==(const Connection &lhs, const Connection &rhs) {
-        return lhs._fd == rhs._fd;
+    bool operator==(const Connection &rhs) {
+        return this->_fd == rhs._fd;
     }
 
-    friend bool operator!=(const Connection &lhs, const Connection &rhs) {
-        return !(lhs == rhs);
+    bool operator!=(const Connection &rhs) {
+        return this->_fd != rhs._fd;
     }
 };
 
-typedef std::vector<Connection> Session;
 
 
 #endif
