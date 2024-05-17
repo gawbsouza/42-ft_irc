@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/16 23:51:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/17 20:10:09 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 #include <string.h>
 #include <poll.h>
 #include <list>
+#include <fcntl.h>
 
 #define CONN_QUEUE_SIZE 5
+
+void setFdNonBlocking(int fd);
 
 Server::Server(const std::string & name, int port, const std::string password)
 {
@@ -39,10 +42,7 @@ Server::Server(const std::string & name, int port, const std::string password)
 	this->_handlers[EVENT_MESSAGE] = NULL;
 }
 
-Server::~Server()
-{
-	_destroyConnections();
-}
+Server::~Server() {}
 
 void Server::addHandler(EventType type, EventHandler *handler)
 {
@@ -54,52 +54,60 @@ void Server::addHandler(EventType type, EventHandler *handler)
 void Server::run()
 {
 	this->_serverRunning = true;
+	
 	std::stringstream ss; ss << "Server started on port: " << this->_port;
 	Log::info(ss.str());
+	Log::info("Server password: " + this->_password);
+	
 	try
 	{   
-    	_setup();
-		_connectionMonitor();
+    	this->_setup();
+		this->_connectionMonitor();
 	}
-	catch(const std::exception& e)
+	catch(const std::exception & e)
 	{
 		this->_serverRunning = false;
-		_destroyConnections();
+		this->_destroyConnections();
 		throw;
 	}
+	
+	this->_destroyConnections();
+	
+	Log::info("Server stopped!");
 }
 
 void Server::_setup()
 {
-	Log::info("Server password: " + this->_password);
-	
 	int socketFd = socket(AF_INET, SOCK_STREAM, 0);
+	
 	if (socketFd == -1) {
-		throw std::runtime_error("creating socket");
+		throw std::runtime_error("Creating server socket");
 	}
-
-	this->_serverSocket = socketFd;
-
+	
 	Log::debug("Server socket created!");
 	
-	sockaddr_in serverAddr; memset(&serverAddr, 0, sizeof(serverAddr)); 
+	setFdNonBlocking(socketFd);
 	
-	serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(this->_port);
-    serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	this->_serverSocket = socketFd;
+
+	sockaddr_in serverAddr = {};
+
+	serverAddr.sin_family		= AF_INET;
+    serverAddr.sin_port 		= htons(this->_port);
+    serverAddr.sin_addr.s_addr	= htonl(INADDR_ANY);
+
+	sockaddr *socketAddr		= reinterpret_cast<sockaddr*>(&serverAddr);
 	
-	if (bind(_serverSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == -1) {
-    	throw std::runtime_error("binding port to the server socket");
+	if (bind(this->_serverSocket, socketAddr, sizeof(serverAddr)) == -1) {
+    	throw std::runtime_error("Binding port to the server socket");
 	}
 
 	std::stringstream ss; ss << "Server socket bind at port " << this->_port;
     Log::debug(ss.str());
 
-	if (listen(_serverSocket, CONN_QUEUE_SIZE) == -1)  {
-		throw std::runtime_error("socket listening");
+	if (listen(this->_serverSocket, CONN_QUEUE_SIZE) == -1)  {
+		throw std::runtime_error("Server socket start listening");
 	}
-	
-	std::string address = inet_ntoa(serverAddr.sin_addr);
 
 	Log::info("Server listening for connections!");
 }
@@ -112,31 +120,38 @@ void Server::_connectionMonitor()
 		this->_serverEvents();
 		this->_clientEvents();
 	}
-	this->_destroyConnections();
+	Log::debug("Connections monitor stopped");
 }
 
 void Server::_serverEvents(void)
 {
-	this->_serverEventsRunning = true;
+	pollfd pollFD = {};
+
+	pollFD.fd		= this->_serverSocket;
+	pollFD.events	= POLLIN;
+	pollFD.revents	= 0;
 	
-	pollfd pollFD = {.fd = _serverSocket, .events = POLLIN, .revents = 0};
-	int activity = poll(&pollFD, 1, 0);
+	int activity	= poll(&pollFD, 1, 0);
 
 	if (activity == -1) {
-		throw std::runtime_error("processing poll from server socket");
+		Log::debug("Function poll interrupted for server socket");
+		return;
 	}
 	
 	if (activity != 1 || !(pollFD.revents & POLLIN)) {
 		return;
 	}
 	
-	sockaddr_in connAddr; memset(&connAddr, 0, sizeof(connAddr));
-	socklen_t connAddSize = sizeof(connAddr);
+	sockaddr_in connAddr	= {};
+	socklen_t connAddSize	= sizeof(connAddr);
+	sockaddr *sockAddr		= reinterpret_cast<sockaddr*>(&connAddr);
 
-	const int connSocket = accept(this->_serverSocket, reinterpret_cast<sockaddr*>(&connAddr), &connAddSize);
+	const int connSocket = accept(this->_serverSocket, sockAddr, &connAddSize);
 	
+	setFdNonBlocking(connSocket);
+
 	std::string connAddrStr = inet_ntoa(connAddr.sin_addr);
-	int connPort = ntohs(connAddr.sin_port);
+	int connPort			= ntohs(connAddr.sin_port);
 
 	Connection *newConn = new Connection(this->_nextConnId(), connSocket, connAddrStr, connPort, this->_password);
 
@@ -157,42 +172,35 @@ void Server::_serverEvents(void)
 
 	ss.str(""); ss << "Event (EVENT_CONNECT) dispatched for connection: " << newConn->str();
 	Log::debug(ss.str());
-
-	this->_serverEventsRunning = false;
-}
-
-int Server::_nextConnId()
-{
-	return ++_idsCount;
 }
 
 void Server::_clientEvents()
 {
-	this->_clientEventsRunning = true;
 	std::list<Connection*> connToRemove;
-
-	std::list<Connection*>::iterator it;
+	std::list<Connection*>::iterator 	it;
+	
 	for (it = this->_connections.begin(); it != this->_connections.end(); it++) 
 	{
 		Connection *conn = *it;
 		std::stringstream ss; 
 		
-		pollfd pollFD = {.fd = conn->getFd(), .events = POLLIN | POLLHUP, .revents = 0};
+		pollfd pollFD	= {};
+		
+		pollFD.fd 		= conn->getFd();
+		pollFD.events	= POLLIN | POLLHUP;
+		pollFD.revents	= 0;
 
-		int activity = poll(&pollFD, 1, 0);
+		int activity	= poll(&pollFD, 1, 0);
 		
 		if (activity == -1 || pollFD.revents & POLLHUP)
 		{
 			conn->close();
 			connToRemove.push_back(conn);
 			
-			if (activity == -1) {
-				Log::warning("Connection socket corrupted: " + conn->str());
-			} else {
-				Log::info("Connection closed: " + conn->str());
-				ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
-				Log::debug(ss.str());
-			}
+			Log::info("Connection closed: " + conn->str());
+			
+			ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
+			Log::debug(ss.str());
 			
 			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
 			if (handler != NULL) {
@@ -212,7 +220,9 @@ void Server::_clientEvents()
 		if (conn->isClosed())
 		{
 			connToRemove.push_back(conn);
+			
 			Log::info( "Connection closed: " + conn->str());
+			
 			ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
 			Log::debug(ss.str());
 
@@ -227,19 +237,6 @@ void Server::_clientEvents()
 
 		Log::debug("Message from " + conn->str() + ": " + message);
 
-		//remover
-
-		if (message.find("USER") != std::string::npos) {
-			conn->sendMessage(":gabsouzas 001 :Welcome to the ft_irc Network, gabsouzas\r\n");
-			conn->sendMessage(":gabsouzas 002 :Your host is ft_irc.org, running version 1.0.0\r\n");
-			conn->sendMessage(":gabsouzas 003 :This server was created 2024-05-16\r\n");
-			Log::debug("Send message to client!");
-		}
-		if (message.find("JOIN") != std::string::npos) {
-			conn->sendMessage(":gabsouzas JOIN #teste\r\t:server 332 #teste teste\r\n:server 353  #teste :gabriel1 gabriel2\r\n");
-			Log::debug("Send message to client!");
-		}
-
 		EventHandler *handler = this->_handlers[EVENT_MESSAGE];
 		if (handler != NULL) {
 			handler->handle(Event(EVENT_MESSAGE, conn, message));
@@ -251,43 +248,51 @@ void Server::_clientEvents()
 		this->_connections.remove(*it);
 		delete *it;
 	}
-	
-	this->_clientEventsRunning = false;
 }
 
 void Server::stop(void)
 {
-	if (!this->_serverRunning) {
-		return ;
-	}
 	this->_serverRunning = false;
-	
-	// while (this->_clientEventsRunning || this->_serverEventsRunning) {}
-	
 	Log::info("Server stopping...");
-	_destroyConnections();
-
-	// Destruir socket do server
-	Log::info("Server stopped!");
 }
 
 void Server::_destroyConnections(void)
 {
-
-	// while (this->_clientEventsRunning || this->_serverEventsRunning) {}
-	
-	Log::debug("Server connections closing...");
+	Log::info("Server closing connections...");
 	
 	std::list<Connection*> copy = this->_connections; 
 	std::list<Connection*>::iterator it;
 
-	for (it = copy.begin(); it != copy.end(); it++) {
+	for (it = copy.begin(); it != copy.end(); it++)
+	{
 		Connection *conn = *it;
-		Log::debug("Connection closed: " + conn->str());
+		
+		Log::info("Connection closed: " + conn->str());
+		
 		this->_connections.remove(conn);
 		conn->close();
+		
 		delete conn;
 	}
 	
-	Log::debug("Server connections closed");
+	Log::info("Server closed connections");
+}
+
+int Server::_nextConnId()
+{
+	return ++_idsCount;
+}
+
+void setFdNonBlocking(int fd)
+{
+    int flags = fcntl(fd, F_GETFL, 0);
+	
+    if (flags == -1) {
+        Log::error("Getting fd flags");
+        return;
+    }
+	
+    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
+		Log::error("Setting fd O_NONBLOCK flag");
+    }
 }
