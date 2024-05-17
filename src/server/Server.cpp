@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/17 20:10:09 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/17 20:23:57 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,9 @@ void Server::_serverEvents(void)
 
 	this->_connections.push_back(newConn);
 	
-	std::stringstream ss; ss << "New connection stablished: " << newConn->str();
-	Log::info(ss.str());
+	Log::info("New connection stablished: " + newConn->str());
 
-	ss.str(""); ss << "Connections count: " << this->_connections.size();
+	std::stringstream ss; ss << "Connections count: " << this->_connections.size();
 	Log::debug(ss.str());
 
 	EventHandler *handler = this->_handlers[EVENT_CONNECT];
@@ -170,8 +169,7 @@ void Server::_serverEvents(void)
 	
 	handler->handle(Event(EVENT_CONNECT, newConn, ""));
 
-	ss.str(""); ss << "Event (EVENT_CONNECT) dispatched for connection: " << newConn->str();
-	Log::debug(ss.str());
+	Log::debug("Event (EVENT_CONNECT) dispatched for connection: " + newConn->str());
 }
 
 void Server::_clientEvents()
@@ -199,7 +197,7 @@ void Server::_clientEvents()
 			
 			Log::info("Connection closed: " + conn->str());
 			
-			ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
+			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
 			Log::debug(ss.str());
 			
 			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
@@ -223,7 +221,7 @@ void Server::_clientEvents()
 			
 			Log::info( "Connection closed: " + conn->str());
 			
-			ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
+			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
 			Log::debug(ss.str());
 
 			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
