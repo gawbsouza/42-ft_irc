@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 20:34:37 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/16 22:34:44 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
 #include <string>
-#include <vector>
+#include <list>
+#include <map>
 #include <signal.h>
 
 #include "../entity/Connection.hpp"
@@ -13,24 +26,35 @@ class Server
 {
 	private:
 		
-		static EventHandler *_eventHandler;
-		static Session _session;
+		std::map<EventType, EventHandler*> _handlers;
+		std::list<Connection*> _connections;
 		
-		~Server(void);
-		Server(void);
-		static void _setup(const int port, const std::string& password);
-		static void _connectionMonitor(void);
-		static void _serverEvents(void);
-		static void _clientEvents(Session::iterator& sessionIter);
-		static void _sessionIterUpdate(Session::iterator& sIter, size_t& sIdx);
-		static void _destroySession(void);
-		static void _handleSignal(int signalNumber);
-		static void _signalListener(void);
+		std::string _name;
+		int _port;
+		std::string _password;
+
+		int _serverSocket;
+		bool volatile _serverRunning;
+		int	_idsCount;
+
+		bool volatile _serverEventsRunning;
+		bool volatile _clientEventsRunning;
+	
+		void _setup(void);
+		void _connectionMonitor(void);
+		void _serverEvents(void);
+		void _clientEvents(void);
+		void _destroyConnections(void);
+		int	_nextConnId(void);
 
 	public:
 
-		static void run(const int port, const std::string password);
-		static void onEvent(EventHandler *handler);
+		Server(const std::string & name, int port, const std::string password);
+		~Server(void);
+
+		void run(void);
+		void stop(void);
+		void addHandler(EventType type, EventHandler * handler);
 };
 
 #endif

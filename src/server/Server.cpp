@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/16 23:51:32 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Server.hpp"
 #include "../entity/Connection.hpp"
-#include "../handler/SessionEventHandler.hpp"
 #include "../helper/Log.hpp"
+
 #include <sys/socket.h>
 #include <stdexcept>
 #include <netinet/in.h>
@@ -9,172 +21,273 @@
 #include <sstream>
 #include <iostream>
 #include <string.h>
+#include <poll.h>
+#include <list>
 
 #define CONN_QUEUE_SIZE 5
 
-EventHandler* Server::_eventHandler = NULL;
-Session Server::_session;
-
-Server::~Server() {}
-
-Server::Server() {}
-
-void Server::onEvent(EventHandler *handler) {
-    _eventHandler = handler;
+Server::Server(const std::string & name, int port, const std::string password)
+{
+	this->_name = name;
+	this->_port = port;
+	this->_password = password;
+	this->_serverRunning = false;
+	this->_idsCount = 0;
+	this->_serverSocket = -1;
+	this->_handlers[EVENT_CONNECT] = NULL;
+	this->_handlers[EVENT_DISCONNECT] = NULL;
+	this->_handlers[EVENT_MESSAGE] = NULL;
 }
 
-void Server::run(const int port, const std::string password)
+Server::~Server()
 {
+	_destroyConnections();
+}
+
+void Server::addHandler(EventType type, EventHandler *handler)
+{
+	if (type == EVENT_CONNECT || type == EVENT_DISCONNECT || type == EVENT_MESSAGE ) {
+		this->_handlers[type] = handler;
+	}
+}
+
+void Server::run()
+{
+	this->_serverRunning = true;
+	std::stringstream ss; ss << "Server started on port: " << this->_port;
+	Log::info(ss.str());
 	try
 	{   
-		if (_eventHandler == NULL)
-			throw std::runtime_error("sesssion event handler missing");
-    	_setup(port, password);
+    	_setup();
 		_connectionMonitor();
 	}
 	catch(const std::exception& e)
 	{
-		_destroySession();
+		this->_serverRunning = false;
+		_destroyConnections();
 		throw;
 	}
 }
 
-void Server::_setup(const int port, const std::string& password)
+void Server::_setup()
 {
-	int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+	Log::info("Server password: " + this->_password);
+	
+	int socketFd = socket(AF_INET, SOCK_STREAM, 0);
+	if (socketFd == -1) {
+		throw std::runtime_error("creating socket");
+	}
+
+	this->_serverSocket = socketFd;
+
+	Log::debug("Server socket created!");
+	
 	sockaddr_in serverAddr; memset(&serverAddr, 0, sizeof(serverAddr)); 
 	
 	serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(port);
+    serverAddr.sin_port = htons(this->_port);
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
-	if (serverSocket == -1) 
-		throw std::runtime_error("creating socket.");
-    
-	if (bind(serverSocket, reinterpret_cast<sockaddr*>(&serverAddr), 
-		sizeof(serverAddr)) == -1) 
-    	throw std::runtime_error("binding port to the server socket.");
-    
-	if (listen(serverSocket, CONN_QUEUE_SIZE) == -1) 
-		throw std::runtime_error("socket listening.");
+	if (bind(_serverSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == -1) {
+    	throw std::runtime_error("binding port to the server socket");
+	}
+
+	std::stringstream ss; ss << "Server socket bind at port " << this->_port;
+    Log::debug(ss.str());
+
+	if (listen(_serverSocket, CONN_QUEUE_SIZE) == -1)  {
+		throw std::runtime_error("socket listening");
+	}
 	
 	std::string address = inet_ntoa(serverAddr.sin_addr);
 
-	_session.push_back(Connection(0, serverSocket, port, address, password));
-	
-	std::stringstream ss; ss << "IRC Server running at " + address + ':' 
-							 << port << '.';
-
-	Log::debug(ss.str());
+	Log::info("Server listening for connections!");
 }
 
 void Server::_connectionMonitor()
 {  
-    Session::iterator sessionIter = _session.begin();
-	size_t sessionIndex = 0;
-
-	_signalListener();
-
-	while (_session.begin()->isClosed() == false)
+	Log::debug("Connections monitor started");
+	while (this->_serverRunning)
     {
-		if (sessionIter->getId() == 0)
-			_serverEvents();
-		else if (sessionIter->getId() > 0)
-			_clientEvents(sessionIter);
-
-		_sessionIterUpdate(sessionIter, sessionIndex);
+		this->_serverEvents();
+		this->_clientEvents();
 	}
-	_destroySession();
-}
-
-void Server::_signalListener(void)
-{
-	signal(SIGINT, _handleSignal);
- 	signal(SIGTSTP, _handleSignal);
-  	signal(SIGQUIT, _handleSignal);
+	this->_destroyConnections();
 }
 
 void Server::_serverEvents(void)
 {
-	pollfd pollFD; 
-	pollFD.fd = _session.begin()->getFd();
-	pollFD.events = POLLIN;
-	pollFD.revents = 0;
-
-	while (int activity = poll(&pollFD, 1, 0) && !_session.begin()->isClosed())
-	{
-		Session::iterator sessionIter = _session.begin();
-		if (activity == -1)
-			throw std::runtime_error("starting poll monitoring.");
-		else if (pollFD.revents & POLLIN )
-			_eventHandler->handle(Event(EVENT_CONNECT, "", _session, 	
-									    sessionIter));
-	}
-}
-
-void Server::_clientEvents(Session::iterator& sessionIter)
-{
-	pollfd pollFD; 
-	pollFD.fd = sessionIter->getFd();
-	pollFD.events = POLLIN | POLLHUP;
-	pollFD.revents = 0;
+	this->_serverEventsRunning = true;
 	
-	if (int activity = poll(&pollFD, 1, 0) && !_session.begin()->isClosed())
-	{
-		std::string message = sessionIter->readMessage();
-		if (activity == -1)
-            Log::error("client socket corrupted.");
-		else if (sessionIter->isClosed())
-			_eventHandler->handle(Event(EVENT_DISCONNECT, message, _session, 
-								  sessionIter));
-		else if ((message.empty() && pollFD.revents & POLLIN ) || 
-				 pollFD.revents & POLLHUP)
-			_eventHandler->handle(Event(EVENT_CLOSE, message, _session, 
-								  sessionIter));
-		else
-			_eventHandler->handle(Event(EVENT_MESSAGE, message, _session, 
-									  sessionIter));
+	pollfd pollFD = {.fd = _serverSocket, .events = POLLIN, .revents = 0};
+	int activity = poll(&pollFD, 1, 0);
+
+	if (activity == -1) {
+		throw std::runtime_error("processing poll from server socket");
 	}
+	
+	if (activity != 1 || !(pollFD.revents & POLLIN)) {
+		return;
+	}
+	
+	sockaddr_in connAddr; memset(&connAddr, 0, sizeof(connAddr));
+	socklen_t connAddSize = sizeof(connAddr);
+
+	const int connSocket = accept(this->_serverSocket, reinterpret_cast<sockaddr*>(&connAddr), &connAddSize);
+	
+	std::string connAddrStr = inet_ntoa(connAddr.sin_addr);
+	int connPort = ntohs(connAddr.sin_port);
+
+	Connection *newConn = new Connection(this->_nextConnId(), connSocket, connAddrStr, connPort, this->_password);
+
+	this->_connections.push_back(newConn);
+	
+	std::stringstream ss; ss << "New connection stablished: " << newConn->str();
+	Log::info(ss.str());
+
+	ss.str(""); ss << "Connections count: " << this->_connections.size();
+	Log::debug(ss.str());
+
+	EventHandler *handler = this->_handlers[EVENT_CONNECT];
+	if (handler == NULL) {
+		return;
+	}
+	
+	handler->handle(Event(EVENT_CONNECT, newConn, ""));
+
+	ss.str(""); ss << "Event (EVENT_CONNECT) dispatched for connection: " << newConn->str();
+	Log::debug(ss.str());
+
+	this->_serverEventsRunning = false;
 }
 
-void Server::_sessionIterUpdate(Session::iterator& sIter, size_t& sIdx)
+int Server::_nextConnId()
 {
-	sIter = _session.begin() + (sIdx - (sIdx > 0));
+	return ++_idsCount;
+}
+
+void Server::_clientEvents()
+{
+	this->_clientEventsRunning = true;
+	std::list<Connection*> connToRemove;
+
+	std::list<Connection*>::iterator it;
+	for (it = this->_connections.begin(); it != this->_connections.end(); it++) 
+	{
+		Connection *conn = *it;
+		std::stringstream ss; 
 		
-	if (sIter >= _session.end() -1)
-	{
-		sIter = _session.begin(); 
-		sIdx = 0;	
-	}
-	else
-	{
-		sIter++; 
-		sIdx++;
-	}
-}
+		pollfd pollFD = {.fd = conn->getFd(), .events = POLLIN | POLLHUP, .revents = 0};
 
-void Server::_destroySession(void)
-{
-	for (Session::iterator iter = _session.begin(); 
-		 iter != _session.end(); iter++)
-	{
-		close((*iter).getFd());
-		if ( iter->getId() > 0)
+		int activity = poll(&pollFD, 1, 0);
+		
+		if (activity == -1 || pollFD.revents & POLLHUP)
 		{
-			std::stringstream ss; ss << "Client " << iter->getId()
-				  			 	     << " disconnected.";
-			Log::debug(ss.str());
+			conn->close();
+			connToRemove.push_back(conn);
+			
+			if (activity == -1) {
+				Log::warning("Connection socket corrupted: " + conn->str());
+			} else {
+				Log::info("Connection closed: " + conn->str());
+				ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
+				Log::debug(ss.str());
+			}
+			
+			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
+			if (handler != NULL) {
+				handler->handle(Event(EVENT_DISCONNECT, conn, ""));
+				Log::debug("Event (EVENT_DISCONNECT) dispatched for connection: " + conn->str());
+			}
+
+			continue;
 		}
-	} 
+
+		if (!(pollFD.revents & POLLIN)) {
+			continue;
+		}
+		
+		std::string message = conn->readMessage();
+
+		if (conn->isClosed())
+		{
+			connToRemove.push_back(conn);
+			Log::info( "Connection closed: " + conn->str());
+			ss.str(""); ss << "Connections count: " << this->_connections.size() - connToRemove.size();
+			Log::debug(ss.str());
+
+			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
+			if (handler != NULL) {
+				handler->handle(Event(EVENT_DISCONNECT, conn, ""));
+				Log::debug("Event (EVENT_DISCONNECT) dispatched for connection: " + conn->str());
+			}
+
+			continue;
+		}
+
+		Log::debug("Message from " + conn->str() + ": " + message);
+
+		//remover
+
+		if (message.find("USER") != std::string::npos) {
+			conn->sendMessage(":gabsouzas 001 :Welcome to the ft_irc Network, gabsouzas\r\n");
+			conn->sendMessage(":gabsouzas 002 :Your host is ft_irc.org, running version 1.0.0\r\n");
+			conn->sendMessage(":gabsouzas 003 :This server was created 2024-05-16\r\n");
+			Log::debug("Send message to client!");
+		}
+		if (message.find("JOIN") != std::string::npos) {
+			conn->sendMessage(":gabsouzas JOIN #teste\r\t:server 332 #teste teste\r\n:server 353  #teste :gabriel1 gabriel2\r\n");
+			Log::debug("Send message to client!");
+		}
+
+		EventHandler *handler = this->_handlers[EVENT_MESSAGE];
+		if (handler != NULL) {
+			handler->handle(Event(EVENT_MESSAGE, conn, message));
+			Log::debug("Event (EVENT_MESSAGE) dispatched for connection: " + conn->str());
+		}
+	}
+
+	for(it = connToRemove.begin(); it != connToRemove.end(); it++) {
+		this->_connections.remove(*it);
+		delete *it;
+	}
 	
-	_session.clear();
+	this->_clientEventsRunning = false;
 }
 
-void Server::_handleSignal(int signalNumber) 
+void Server::stop(void)
 {
-	std::cout << "\e[2D";
-	if (signalNumber == SIGINT) Log::debug("SIGINT signal caught.");
-	else if (signalNumber == SIGTSTP) Log::debug("SIGTSTP signal caught.");
-	else if (signalNumber == SIGQUIT) Log::debug("SIGQUIT signal caught.");
-	if (signalNumber) _session.begin()->setStatus(true);
+	if (!this->_serverRunning) {
+		return ;
+	}
+	this->_serverRunning = false;
+	
+	// while (this->_clientEventsRunning || this->_serverEventsRunning) {}
+	
+	Log::info("Server stopping...");
+	_destroyConnections();
+
+	// Destruir socket do server
+	Log::info("Server stopped!");
+}
+
+void Server::_destroyConnections(void)
+{
+
+	// while (this->_clientEventsRunning || this->_serverEventsRunning) {}
+	
+	Log::debug("Server connections closing...");
+	
+	std::list<Connection*> copy = this->_connections; 
+	std::list<Connection*>::iterator it;
+
+	for (it = copy.begin(); it != copy.end(); it++) {
+		Connection *conn = *it;
+		Log::debug("Connection closed: " + conn->str());
+		this->_connections.remove(conn);
+		conn->close();
+		delete conn;
+	}
+	
+	Log::debug("Server connections closed");
 }
