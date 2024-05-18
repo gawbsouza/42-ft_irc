@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   EventHandler.hpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 20:24:15 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/16 20:24:16 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EVENT_HANDLER_HPP
 # define EVENT_HANDLER_HPP
 
@@ -6,28 +18,24 @@
 typedef enum 
 {
     EVENT_CONNECT,
-    EVENT_CLOSE,
     EVENT_DISCONNECT,
     EVENT_MESSAGE
 }   EventType;
 
 struct Event
 {
-    EventType   		type;
-	std::string 		message;
-    Session&			session;
-    Session::iterator	sessionIter;
+    EventType type;
+    Connection *conn;
+	std::string message;
 
-	Event(EventType t, const std::string& m, Session& s, Session::iterator& sI)
-    : type(t), message(m), session(s), sessionIter(sI) {}
+	Event(EventType t, Connection * conn, const std::string & message)
+    : type(t), conn(conn), message(message){}
 };
-
 
 class EventHandler
 {
 public:
     virtual void handle(Event event) = 0;
-	virtual ~EventHandler() {};	
 };
 
 #endif

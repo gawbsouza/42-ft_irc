@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Connection.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/15 20:26:48 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "Connection.hpp"
 
 #include <cstring>
 #include <unistd.h>
+#include <sstream>
 
-Connection::Connection(int id, int fd, int port, const std::string& address, 
-			   		   const std::string& password)
+Connection::Connection(int id, int fd, const std::string& address, int port, const std::string& password)
 {
     this->_id = id;
     this->_fd = fd;
@@ -13,6 +24,7 @@ Connection::Connection(int id, int fd, int port, const std::string& address,
     this->_address = address;
     this->_password = password;
     this->_closed = false;
+    this->_readBufferSize = 1024;
 }
 
 Connection::~Connection() {}
@@ -23,33 +35,54 @@ std::string Connection::getAddress() const { return this->_address; }
 std::string Connection::getPassword() const { return this->_password; }
 int Connection::getPort() const { return this->_port; }
 bool Connection::isClosed() const { return this->_closed; }
-void Connection::setStatus(bool status) { this->_closed = status; }
 
+void closeFd(int fd) {
+    close(fd);
+}
+
+void Connection::close() {
+    if (this->_closed) {
+        return;
+    }
+    closeFd(this->_fd);
+    this->_closed = true; 
+}
+
+std::string Connection::str() const 
+{
+    std::stringstream ss;
+    ss << "(" << this->_id << ") " << this->_address << ":" << this->_port;
+    return ss.str();
+}
 
 size_t Connection::sendMessage (const std::string &msg) const {
     if (this->_closed) {
         return -1;
     }
-
-    // TODO: close if error? ex: -1
     return write(this->getFd(), msg.c_str(), msg.size());
 }
 
 std::string Connection::readMessage()
 {
-    char buff[1024];
+    if (this->_closed) {
+        return "";
+    }
 
-    const size_t readed = read(this->_fd, buff, 1024);
+    int buffSize = this->_readBufferSize;
+    char buff[buffSize];
 
-    // TODO: if < 0 than close connection
-    if (readed > 1024) {
+    const size_t bytesRead = read(this->_fd, buff, buffSize);
+
+    if (bytesRead < 1) { // end of file or error
         this->_closed = true;
         return "";
     }
 
-    char str[1024];
-    strncpy(str, buff, readed);
-    str[readed] = '\0';
+    char resultStr[buffSize + 1];
+    char nullByte = '\0';
 
-    return str;
+    strncpy(resultStr, buff, bytesRead);
+    resultStr[bytesRead] = nullByte;
+
+    return resultStr;
 }
