@@ -7,8 +7,28 @@ on:
     branches: [ "main" ]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - run: make
+
+  tests:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Valgrind
+      run: sudo apt install valgrind
+
+    - name: Install GTest
+      run: apt-get install libgtest-dev && apt-get install cmake && cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib
+    
+    - name: Run Tests
+      run: make test-run
+
+    - name: Run Tests with Valgrind
+      run: valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./runTests
