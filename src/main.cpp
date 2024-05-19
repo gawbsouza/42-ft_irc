@@ -6,12 +6,11 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 17:17:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:30:34 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "handler/EventHandler.hpp"
-#include "handler/CommandHandler.hpp"
 #include "helper/Log.hpp"
 #include "server/Server.hpp"
 #include "entity/Connection.hpp"
