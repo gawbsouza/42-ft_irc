@@ -6,32 +6,24 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 08:21:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/16 22:38:34 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/18 09:58:33 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Log.hpp"
 #include "Colors.hpp"
+#include "Strings.hpp"
 
 #include <iostream>
 
 Log::Level Log::_level = ALL;
 
-void replace(std::string & src, const std::string & need, const std::string & rplc)
-{
-    size_t findAt = src.find(need);
-    while (findAt != std::string::npos) {
-        src.replace(findAt, 1, rplc);
-        findAt = src.find(need);
-    }
-}
-
 std::string replaceScapeChars(const std::string & str) {
     std::string copy = str;
-    replace(copy, "\n", "\\n"); // newline | line feed
-    replace(copy, "\r", "\\r"); // carriage return
-    replace(copy, "\f", "\\r"); // form feed
-    replace(copy, "\t", "\\t"); // horizontal tab
+    Strings::replace(copy, "\n", "\\n"); // newline | line feed
+    Strings::replace(copy, "\r", "\\r"); // carriage return
+    Strings::replace(copy, "\f", "\\r"); // form feed
+    Strings::replace(copy, "\t", "\\t"); // horizontal tab
     return copy;
 }
 
