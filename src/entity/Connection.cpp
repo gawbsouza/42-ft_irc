@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/15 20:26:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:05:27 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,31 @@ std::string Connection::str() const
     return ss.str();
 }
 
-size_t Connection::sendMessage (const std::string &msg) const {
-    if (this->_closed) {
+size_t Connection::sendMessage (const std::string &msg) {
+    if (this->isClosed()) {
         return -1;
     }
-    return write(this->getFd(), msg.c_str(), msg.size());
+    
+    int written = write(this->getFd(), msg.c_str(), msg.size());
+    
+    if (written == -1) {
+        this->close();
+        return 0;
+    }
+    
+    return written;
 }
 
 std::string Connection::readMessage()
 {
-    if (this->_closed) {
+    if (this->isClosed()) {
         return "";
     }
 
     int buffSize = this->_readBufferSize;
     char buff[buffSize];
 
-    const size_t bytesRead = read(this->_fd, buff, buffSize);
+    const int bytesRead = read(this->_fd, buff, buffSize);
 
     if (bytesRead < 1) { // end of file or error
         this->_closed = true;

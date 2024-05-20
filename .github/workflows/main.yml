@@ -1,14 +1,31 @@
-name: Main branch CI
+name: Branch CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  push
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - run: make
+
+  tests:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: Bacondish2023/setup-googletest@v1
+      with:
+        tag: v1.14.0
+    
+    - name: Install Valgrind
+      run: sudo apt install valgrind 
+    
+    - name: Run Tests without Valgrind
+      run: make test-run
+
+    - name: Run Tests with Valgrind
+      run: valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./runTests

@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/05/15 20:14:08 by gasouza          ###   ########.fr        #
+#    Updated: 2024/05/19 14:37:31 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,14 @@ CFLAGS		= -Wall -Werror -Wextra -std=c++98
 SRCS		= $(wildcard src/*/*.cpp)
 INCS 		= $(wildcard src/*/*.hpp)
 OBJS		= $(SRCS:.cpp=.o)
+MAIN		= src/main.cpp
 
 CLEANUP		= rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(INCS)
-	$(LINKER) $(OBJS) -o $@
+$(NAME): $(OBJS) $(INCS) $(MAIN)
+	$(LINKER) $(OBJS) $(MAIN) -o $@
 
 %.o: %.cpp
 	$(COMPILER) $(CFLAGS) $< -o $@
@@ -39,3 +40,32 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+## == Tests ========================= ##
+
+TEST_NAME	= runTests
+
+TEST_SRCS	= $(wildcard test/*/*.cpp)
+TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
+TEST_MAIN	= test/main.cpp
+
+test: $(TEST_NAME)
+
+test-run: $(TEST_NAME)
+	@./$(TEST_NAME)
+
+$(TEST_NAME): $(OBJS) $(INCS) $(TEST_OBJS) $(TEST_MAIN)
+	$(LINKER) $(OBJS) $(TEST_OBJS) $(TEST_MAIN) -o runTests -lgtest -lgtest_main -pthread
+
+%Test.o: %Test.cpp
+	$(COMPILER) -Wall -Werror -Wextra -g $< -o $@
+
+test-clean:
+	$(CLEANUP) $(TEST_OBJS)
+
+test-fclean: test-clean
+	$(CLEANUP) $(TEST_NAME)
+
+test-re: test-fclean test
+
+.PHONY: test test-run test-clean test-fclean test-re

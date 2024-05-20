@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:50:10 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/16 20:28:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:04:20 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ public:
     
     std::string str() const;
 
-    size_t      sendMessage(const std::string &msg) const;
+    size_t      sendMessage(const std::string &msg);
     std::string readMessage();
 
     bool operator==(const Connection &rhs) {
