@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 17:05:27 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/21 08:35:29 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <sstream>
 
-Connection::Connection(int id, int fd, const std::string& address, int port, const std::string& password)
+Connection::Connection(int id, int fd, const std::string & address, int port, const std::string & password)
 {
     this->_id = id;
     this->_fd = fd;
@@ -27,14 +27,66 @@ Connection::Connection(int id, int fd, const std::string& address, int port, con
     this->_readBufferSize = 1024;
 }
 
+Connection::Connection(const Connection & conn)
+{
+    *this = conn;
+}
+
 Connection::~Connection() {}
 
-int Connection::getId() const { return this->_id; }
-int Connection::getFd() const { return this->_fd; }
-std::string Connection::getAddress() const { return this->_address; }
-std::string Connection::getPassword() const { return this->_password; }
-int Connection::getPort() const { return this->_port; }
-bool Connection::isClosed() const { return this->_closed; }
+Connection & Connection::operator=(const Connection & conn)
+{
+    if (this != &conn) {
+        this->_id = conn._id;
+        this->_fd = conn._fd;
+        this->_address = conn._address;
+        this->_port = conn._port;
+        this->_password = conn._password;
+        this->_readBufferSize = conn._readBufferSize;
+        this->_closed = conn._closed;
+    }
+    return *this;
+}
+
+bool Connection::operator==(const Connection & conn)
+{
+    return this->_id == conn._id;
+}
+
+bool Connection::operator!=(const Connection & conn)
+{
+    return this->_id != conn._id;
+}
+
+int Connection::getId() const 
+{ 
+    return this->_id; 
+}
+
+int Connection::getFd() const 
+{ 
+    return this->_fd;
+}
+
+std::string Connection::getAddress() const
+{ 
+    return this->_address;
+}
+
+std::string Connection::getPassword() const
+{ 
+    return this->_password;
+}
+
+int Connection::getPort() const 
+{
+    return this->_port;
+}
+
+bool Connection::isClosed() const 
+{ 
+    return this->_closed;
+}
 
 void closeFd(int fd) {
     close(fd);
@@ -51,11 +103,12 @@ void Connection::close() {
 std::string Connection::str() const 
 {
     std::stringstream ss;
-    ss << "(" << this->_id << ") " << this->_address << ":" << this->_port;
+    ss << "(" << this->_id << ")[" << this->_address << ":" << this->_port << "]";
     return ss.str();
 }
 
-size_t Connection::sendMessage (const std::string &msg) {
+size_t Connection::sendMessage (const std::string &msg)
+{
     if (this->isClosed()) {
         return -1;
     }

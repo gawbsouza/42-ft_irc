@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:50:10 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 17:04:20 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/20 21:33:34 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class Connection
 public:
 
     Connection(int id, int fd, const std::string & address, int port, const std::string & password);
+    Connection(const Connection & conn);
     ~Connection();
 
     int         getId() const;
@@ -42,18 +43,12 @@ public:
     
     std::string str() const;
 
-    size_t      sendMessage(const std::string &msg);
+    size_t      sendMessage(const std::string & msg);
     std::string readMessage();
 
-    bool operator==(const Connection &rhs) {
-        return this->_fd == rhs._fd;
-    }
-
-    bool operator!=(const Connection &rhs) {
-        return this->_fd != rhs._fd;
-    }
+    Connection &    operator=(const Connection & conn);
+    bool            operator==(const Connection & conn);
+    bool            operator!=(const Connection & conn);
 };
-
-
 
 #endif

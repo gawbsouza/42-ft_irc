@@ -6,14 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:33:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 23:51:59 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/21 08:37:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "UserService.hpp"
 
 UserService::UserService() {}
-
 UserService::~UserService() {}
 
 size_t UserService::usersCount()
@@ -21,22 +20,17 @@ size_t UserService::usersCount()
     return this->_users.size();
 }
 
-void UserService::addUser(User * user)
+void UserService::addUser(User & user)
 {
-    if (user == NULL) {
-        return;
-    }
-
-    this->_users.push_back(user);
+    this->_users.push_back(&user);
 }
 
-void UserService::removeUser(User * user)
+void UserService::removeUser(User & user)
 {
-    this->_users.remove(user);
+    this->_users.remove(&user);
 }
 
-
-User *UserService::getUserByConnection(const Connection *conn)
+User * UserService::getUserByConnection(const Connection & conn)
 {
     std::list<User*> copy = this->_users;
     std::list<User*>::iterator it;
@@ -47,10 +41,7 @@ User *UserService::getUserByConnection(const Connection *conn)
         if (user == NULL) { 
             continue;
         }
-        Connection *userConn = user->getConnection();
-        if (userConn == NULL) { 
-            continue;
-        }
+        Connection & userConn = user->getConnection();
         if (userConn == conn) {
             return user;
         }

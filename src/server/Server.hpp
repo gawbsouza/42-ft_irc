@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:34:37 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/17 19:53:33 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/21 08:39:30 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,35 @@
 
 class Server
 {
-	private:
-		
-		std::map<EventType, EventHandler*>	_handlers;
-		std::list<Connection*>				_connections;
-		
-		std::string	_name;
-		int			_port;
-		std::string _password;
-
-		bool	_serverRunning;
-		int		_serverSocket;
-		int		_idsCount;
 	
-		void	_setup(void);
-		void	_connectionMonitor(void);
-		void	_serverEvents(void);
-		void	_clientEvents(void);
-		void	_destroyConnections(void);
-		int		_nextConnId(void);
+private:
+		
+	std::map<EventType, EventHandler*>	_handlers;
+	std::list<Connection> _connections;
+	
+	std::string	_name;
+	int			_port;
+	std::string _password;
 
-	public:
+	bool	_serverRunning;
+	int		_serverSocket;
+	int		_idsCount;
 
-		Server(const std::string & name, int port, const std::string password);
-		~Server(void);
+	void	_setup(void);
+	void	_connectionMonitor(void);
+	void	_serverEvents(void);
+	void	_clientEvents(void);
+	void	_destroyConnections(void);
+	int		_nextConnId(void);
 
-		void	run(void);
-		void	stop(void);
-		void	addHandler(EventType type, EventHandler * handler);
+public:
+
+	Server(const std::string & name, int port, const std::string password);
+	~Server(void);
+
+	void run(void);
+	void stop(void);
+	void addHandler(EventType type, EventHandler & handler);
 };
 
 #endif
