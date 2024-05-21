@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:04:06 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 18:19:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/20 20:46:47 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ private:
     std::string _userName;
     std::string _realName;
     
-    Connection *_conn;
+    Connection & _conn;
     
     bool _authenticated;
 
 public:
 
-    User(Connection * conn);
+    User(Connection & conn);
     ~User(void);
     
-    Connection *getConnection(void);
+    Connection & getConnection(void);
 
     bool isAuthenticated(void);
     bool isRegistered(void);

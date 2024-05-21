@@ -6,21 +6,20 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:21:17 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 23:59:05 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/20 21:48:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 
-User::User(Connection * conn)
+User::User(Connection & conn): _conn(conn)
 {
-    this->_conn = conn;
     this->_authenticated = false;
 }
 
 User::~User(void) {}
 
-Connection *User::getConnection(void)
+Connection & User::getConnection(void)
 {
     return this->_conn;
 }

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 18:13:36 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/21 08:16:52 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 TEST(StringsTest, ReplaceMultiplesSpaces)
 {
-    
     std::string str = "        ";
     Strings::replace(str, "  ", " ");
 
@@ -26,7 +25,6 @@ TEST(StringsTest, ReplaceMultiplesSpaces)
 
 TEST(StringsTest, ReplaceWithMultiplesSizes)
 {
-    
     std::string str = "abc 54 *&\n -------       ";
     
     Strings::replace(str, "abc", "");
