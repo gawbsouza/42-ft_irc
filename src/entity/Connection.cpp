@@ -6,11 +6,12 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:35:29 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/21 09:00:46 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Connection.hpp"
+#include "../helper/Log.hpp"
 
 #include <cstring>
 #include <unistd.h>
@@ -119,7 +120,7 @@ size_t Connection::sendMessage (const std::string &msg)
         this->close();
         return 0;
     }
-    
+    Log::debug("Sent to " + this->str() + " " + msg);
     return written;
 }
 
@@ -145,5 +146,6 @@ std::string Connection::readMessage()
     strncpy(resultStr, buff, bytesRead);
     resultStr[bytesRead] = nullByte;
 
+    Log::debug("Received from " + this->str() + " " + resultStr);
     return resultStr;
 }
