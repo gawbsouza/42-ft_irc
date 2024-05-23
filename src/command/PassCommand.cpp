@@ -22,7 +22,7 @@ void PassCommand::execute(User & user, std::vector<std::string> args) const
     Connection &conn = user.getConnection();
 
     if(user.isAuthenticated()) {
-        conn.sendMessage(":ft_irc 462 :You already registered\r\n");
+        conn.sendMessage(":ft_irc 462 :You already authenticated\r\n");
         return;
     }
 
