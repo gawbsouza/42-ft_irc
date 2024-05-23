@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/19 18:04:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/22 19:55:00 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,21 @@ std::vector<std::string> Strings::split(const std::string & str, const std::stri
         end = str.find(delimit, start);
     }
 
-    tokens.push_back(str.substr(start));
-
+    std::string endSub = str.substr(start);
+    if (endSub != "") {
+        tokens.push_back(str.substr(start));
+    }
+    
     return tokens;
+}
+
+std::string Strings::toUpper(const std::string & str)
+{
+    std::string copy = str;
+
+    for (size_t i = 0; i < str.size(); i++) {
+        copy[i] = toupper(copy[i]);
+    }
+
+    return copy;
 }
