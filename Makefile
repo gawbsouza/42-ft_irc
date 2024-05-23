@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/05/21 08:30:48 by gasouza          ###   ########.fr        #
+#    Updated: 2024/05/22 23:41:22 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ test-run-val: $(TEST_NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./$(TEST_NAME)
 
 $(TEST_NAME): $(OBJS) $(INCS) $(TEST_OBJS) $(TEST_MAIN)
-	$(LINKER) $(OBJS) $(TEST_OBJS) $(TEST_MAIN) -o runTests -lgtest -lgtest_main -pthread
+	$(LINKER) $(OBJS) $(TEST_OBJS) $(TEST_MAIN) -o runTests -lgtest -lgmock -lgtest_main -pthread
 
 %Test.o: %Test.cpp
 	$(COMPILER) -Wall -Werror -Wextra $< -o $@
