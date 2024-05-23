@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:32:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/22 07:49:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,11 @@ void Server::_serverEvents(void)
 	std::string connAddrStr = inet_ntoa(connAddr.sin_addr);
 	int connPort			= ntohs(connAddr.sin_port);
 
-	Connection newConn(this->_nextConnId(), connSocket, connAddrStr, connPort, this->_password);
+	Connection *newConn = new Connection(this->_nextConnId(), connSocket, connAddrStr, connPort, this->_password);
 
-	this->_connections.push_back(newConn);
+	this->_connections.push_back(*newConn);
 	
-	Log::info("New connection stablished: " + newConn.str());
+	Log::info("New connection stablished: " + newConn->str());
 
 	std::stringstream ss; ss << "Connections count: " << this->_connections.size();
 	Log::debug(ss.str());
@@ -167,9 +167,7 @@ void Server::_serverEvents(void)
 		return;
 	}
 	
-	handler->handle(Event(EVENT_CONNECT, newConn, ""));
-
-	Log::debug("Event (EVENT_CONNECT) dispatched for connection: " + newConn.str());
+	handler->handle(Event(EVENT_CONNECT, *newConn, ""));
 }
 
 void Server::_clientEvents()
@@ -230,8 +228,6 @@ void Server::_clientEvents()
 
 			continue;
 		}
-
-		Log::info("Message from " + conn.str() + ": " + message);
 
 		EventHandler *handler = this->_handlers[EVENT_MESSAGE];
 		if (handler != NULL) {

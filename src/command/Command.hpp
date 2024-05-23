@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Strings.hpp                                        :+:      :+:    :+:   */
+/*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 22:06:48 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/18 09:32:40 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/22 23:37:48 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_HPP
-# define STRING_HPP
+#ifndef COMMAND_HPP
+# define COMMAND_HPP
 
-#include <string>
+#include "../entity/User.hpp"
+
 #include <vector>
+#include <string>
 
-class Strings
+class Command
 {
-    
-private:
-
-    Strings();
-    ~Strings();
-    
 public:
 
-    static void replace(std::string & src, const std::string & need, const std::string & rplc);
-    static std::vector<std::string> split(const std::string & str, const std::string & delimit);
-    static std::string toUpper(const std::string & str);
-    
+    virtual void execute(User & user, std::vector<std::string> args) const = 0;
 };
 
 #endif

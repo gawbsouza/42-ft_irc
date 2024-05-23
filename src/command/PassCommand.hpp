@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Strings.hpp                                        :+:      :+:    :+:   */
+/*   PassCommand.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 22:06:48 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/21 22:36:23 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/21 22:42:55 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_HPP
-# define STRING_HPP
+#ifndef PASS_COMMAND_HPP
+# define PASS_COMMAND_HPP
 
-#include <string>
-#include <vector>
+#include "Command.hpp"
+#include "../entity/UserService.hpp"
 
-class Strings
+class PassCommand: public Command
 {
     
 private:
 
-    Strings();
-    ~Strings();
-    
+    UserService & _service;
+
 public:
 
-    static void replace(std::string & src, const std::string & need, const std::string & rplc);
-    static std::vector<std::string> split(const std::string & str, const std::string & delimit);
-    static std::string toUpper(const std::string & str);
+    PassCommand(UserService & userService);
+    ~PassCommand(void);
+    
+    void execute(User & user, std::vector<std::string> args) const;
     
 };
 

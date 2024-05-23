@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Strings.hpp                                        :+:      :+:    :+:   */
+/*   MockCommand.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 22:06:48 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/22 18:46:38 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/22 18:47:00 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_HPP
-# define STRING_HPP
+#include <gmock/gmock.h>
 
-#include <string>
-#include <vector>
+#include "../../src/command/Command.hpp"
 
-class Strings
+class MockCommand: public Command
 {
-    
-private:
-
-    Strings();
-    ~Strings();
-    
 public:
-
-    static void replace(std::string & src, const std::string & need, const std::string & rplc);
-    static std::vector<std::string> split(const std::string & str, const std::string & delimit);
-    static std::string toUpper(const std::string & str);
-    
+    MOCK_METHOD (void, execute, (User & user, std::vector<std::string> args), (const, override) );
 };
-
-#endif

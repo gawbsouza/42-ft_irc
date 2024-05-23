@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Strings.hpp                                        :+:      :+:    :+:   */
+/*   UserHandler.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 22:06:48 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/21 23:09:17 by gasouza           #+#    #+#             */
+/*   Updated: 2024/05/21 23:21:52 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_HPP
-# define STRING_HPP
+#ifndef USER_HANDLER_HPP
+# define USER_HANDLER_HPP
 
-#include <string>
-#include <vector>
+#include "../entity/UserService.hpp"
+#include "EventHandler.hpp"
 
-class Strings
+class UserHandler: public EventHandler
 {
     
 private:
 
-    Strings();
-    ~Strings();
-    
+    UserService & _service;
+
 public:
 
-    static void replace(std::string & src, const std::string & need, const std::string & rplc);
-    static std::vector<std::string> split(const std::string & str, const std::string & delimit);
-    static std::string toUpper(const std::string & str);
+    UserHandler(UserService & service);
+    ~UserHandler(void);
+    
+    void handle(Event event);
     
 };
 
