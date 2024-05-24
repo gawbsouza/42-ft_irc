@@ -3,38 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   PassCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 23:12:22 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:17:54 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PassCommand.hpp"
+#include "ResponseCode.hpp"
+#include "../helper/Log.hpp"
 
 #include <sstream>
+
+#define	PASS_NAME "PASS"
 
 PassCommand::PassCommand(UserService & service): _service(service) {}
 PassCommand::~PassCommand(void) {}
 
 void PassCommand::execute(User & user, std::vector<std::string> args) const
 {
-    Connection &conn = user.getConnection();
+	Log::info(PASS_NAME " command called");
+    
+	Connection &conn = user.getConnection();
 
     if(user.isAuthenticated()) {
-        conn.sendMessage(":ft_irc 462 :You already registered\r\n");
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE PASS_NAME SPACE MSG_AUTHENTICATED CRLF);
         return;
     }
 
     if (args.size() == 0) {
-        conn.sendMessage(":ft_irc 461 PASS :Not enough parameters\r\n");
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS SPACE PASS_NAME SPACE MSG_NEEDMOREPARAMS CRLF);
         return;
     }
     
     if (conn.getPassword() != args.at(0)) {
-        conn.sendMessage(":ft_irc 464 :Password incorrect\r\n");
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_PASSWDMISMATCH SPACE MSG_PASSWDMISMATCH CRLF);
         return;
     }
-
-    user.authenticate();
+	
+	Log::debug("User authenticated from " + conn.str());
+    user.authenticate();	
 }
