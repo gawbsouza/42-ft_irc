@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/23 21:49:50 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:34:43 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
 #include "command/PassCommand.hpp"
+#include "command/UserCommand.hpp"
 #include "command/ResponseCode.hpp"
 
 #include <iostream>
@@ -62,8 +63,10 @@ int	main(int argc, char** argv)
 	CommandHandler commandHandler(userService);
 	UserHandler userHandler(userService);
 	PassCommand passCommand(userService);
+	UserCommand userCommand(userService);
 
 	commandHandler.addCommand("PASS", passCommand);
+	commandHandler.addCommand("USER", userCommand);
 	
 	try
 	{
