@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 19:55:00 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:33:07 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,35 @@ std::string Strings::toUpper(const std::string & str)
     }
 
     return copy;
+}
+
+bool Strings::isOnPattern(const std::string & str, const std::string & pattern, const size_t limitIndex)
+{
+	size_t strLength = str.length();
+	size_t patternLength = pattern.length();
+	
+	if (!strLength || !patternLength){
+		return false;
+	}
+
+	if (limitIndex >= strLength){
+		const_cast<size_t&>(limitIndex) = strLength - 1;
+	}
+	
+	for (size_t index = 0; index <= limitIndex; index++){
+		if(pattern.find(str.at(index)) == STR_NPOS){
+			return false;	
+		}
+	}
+	
+	return true;
+}
+
+void Strings::truncateBySize(std::string &str, const size_t size)
+{
+	if (size >= str.length()){
+		return;
+	}
+
+	str.erase(size, STR_NPOS);
 }

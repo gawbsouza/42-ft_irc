@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   StringsTest.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 19:53:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:43:09 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,55 @@ TEST(StringsTest, ToUpper)
     EXPECT_EQ("1234", Strings::toUpper("1234"));
     EXPECT_EQ(" RGHT ", Strings::toUpper(" rght "));
     EXPECT_EQ("@#T A B T &! ", Strings::toUpper("@#t a b t &! "));
+}
+
+TEST(StringsTest, stringIsOnPattern)
+{
+	std::string str1 = "BrunoLuiz1234";
+	std::string pattern1 = ALPHANUM_PATTERN;
+
+    EXPECT_TRUE(Strings::isOnPattern(str1, pattern1));
+}
+
+TEST(StringsTest, stringIsNotOnPattern)
+{
+	std::string str1 = "BrunoLuiz1234@#$%";
+	std::string pattern1 = ALPHANUM_PATTERN;
+
+    EXPECT_FALSE(Strings::isOnPattern(str1, pattern1));
+}
+
+TEST(StringsTest, stringEmptyAndOrPatternEmpty)
+{
+	std::string str1 = "";
+	std::string str2 = "BrunoLuiz1234";
+	std::string pattern1 = "";
+	std::string pattern2 = ALPHANUM_PATTERN;
+
+    EXPECT_FALSE(Strings::isOnPattern(str1, pattern1));
+    EXPECT_FALSE(Strings::isOnPattern(str2, pattern1));
+    EXPECT_FALSE(Strings::isOnPattern(str1, pattern2));
+}
+
+TEST(StringsTest, truncateVariousSizes)
+{
+	std::string str1 = "123456789";
+	Strings::truncateBySize(str1, 7);
+    EXPECT_EQ("1234567", str1);
+
+	std::string str2 = "123456789";
+	Strings::truncateBySize(str2, 3);
+	EXPECT_EQ("123", str2);
+
+	std::string str3 = "123456789";
+	Strings::truncateBySize(str3, 1);
+	EXPECT_EQ("1", str3);
+
+	std::string str4 = "123456789";
+	Strings::truncateBySize(str4, 0);
+	EXPECT_EQ("", str4);
+
+	std::string str5 = "123456789";
+	Strings::truncateBySize(str5, 50);
+	EXPECT_EQ("123456789", str5);
 }
