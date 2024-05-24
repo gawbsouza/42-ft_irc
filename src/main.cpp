@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 23:29:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/23 21:49:50 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
 #include "command/PassCommand.hpp"
+#include "command/ResponseCode.hpp"
 
 #include <iostream>
 #include <sstream>
 #include <csignal>
 
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
-#define VALID_PORT_CHARS "0123456789"
-#define SERVER_NAME "ft_irc"
+#define EXIT_SUCCESS 		0
+#define EXIT_FAILURE		1
+#define SERVER_NAME		 	"ft_irc"
+#define VALID_PORT_CHARS	"0123456789"
 
 void	setupSignalHandler(int signalNumber);
 void	signalsHandler(int signalNumber);
