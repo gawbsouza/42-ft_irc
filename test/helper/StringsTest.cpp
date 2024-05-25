@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   StringsTest.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 19:53:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/25 12:38:32 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,56 @@ TEST(StringsTest, ToUpper)
     EXPECT_EQ("1234", Strings::toUpper("1234"));
     EXPECT_EQ(" RGHT ", Strings::toUpper(" rght "));
     EXPECT_EQ("@#T A B T &! ", Strings::toUpper("@#t a b t &! "));
+}
+
+TEST(StringsTest, stringsIsOnPattern)
+{
+    EXPECT_TRUE(Strings::isOnPattern("BrunoLuiz1234", ALPHANUM_PATTERN));
+    EXPECT_TRUE(Strings::isOnPattern("BrunoLuiz1234@#!", ALPHANUM_PATTERN, 12));
+}
+
+TEST(StringsTest, stringIsNotOnPattern)
+{
+    EXPECT_FALSE(Strings::isOnPattern("BrunoLuiz1234@#$%", ALPHANUM_PATTERN, 16));
+    EXPECT_FALSE(Strings::isOnPattern("\"BrunoLuiz1234", ALPHANUM_PATTERN));
+    EXPECT_FALSE(Strings::isOnPattern("BrunoL\ruiz1234", ALPHANUM_PATTERN));
+}
+
+TEST(StringsTest, stringEmptyAndOrPatternEmpty)
+{
+	std::string str1 = "";
+	std::string str2 = "BrunoLuiz1234";
+	std::string pattern1 = "";
+	std::string pattern2 = ALPHANUM_PATTERN;
+
+    EXPECT_FALSE(Strings::isOnPattern("", ""));
+    EXPECT_FALSE(Strings::isOnPattern("", "", 50));
+    EXPECT_FALSE(Strings::isOnPattern("BrunoLuiz1234", ""));
+    EXPECT_FALSE(Strings::isOnPattern("BrunoLuiz1234", "", 2));
+    EXPECT_FALSE(Strings::isOnPattern("", ALPHANUM_PATTERN));
+    EXPECT_FALSE(Strings::isOnPattern("", ALPHANUM_PATTERN, -1));
+    EXPECT_FALSE(Strings::isOnPattern("", ALPHANUM_PATTERN, 2.5f));
+}
+
+TEST(StringsTest, truncateVariousSizes)
+{
+	std::string stringTest = "123456789";
+	Strings::truncateBySize(stringTest, 7);
+    EXPECT_EQ("1234567", stringTest);
+
+	stringTest = "123456789";
+	Strings::truncateBySize(stringTest, 3);
+	EXPECT_EQ("123", stringTest);
+
+	stringTest = "123456789";
+	Strings::truncateBySize(stringTest, 1);
+	EXPECT_EQ("1", stringTest);
+
+	stringTest = "123456789";
+	Strings::truncateBySize(stringTest, 0);
+	EXPECT_EQ("", stringTest);
+
+	stringTest = "123456789";
+	Strings::truncateBySize(stringTest, 50);
+	EXPECT_EQ("123456789", stringTest);
 }
