@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/24 17:33:07 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/24 23:41:58 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ std::string Strings::toUpper(const std::string & str)
     return copy;
 }
 
-bool Strings::isOnPattern(const std::string & str, const std::string & pattern, const size_t limitIndex)
+bool Strings::isOnPattern(const std::string & str, const std::string & pattern, size_t limitIndex)
 {
 	size_t strLength = str.length();
 	size_t patternLength = pattern.length();
@@ -69,11 +69,11 @@ bool Strings::isOnPattern(const std::string & str, const std::string & pattern, 
 	}
 
 	if (limitIndex >= strLength){
-		const_cast<size_t&>(limitIndex) = strLength - 1;
+		limitIndex = strLength - 1;
 	}
 	
 	for (size_t index = 0; index <= limitIndex; index++){
-		if(pattern.find(str.at(index)) == STR_NPOS){
+		if(pattern.find(str.at(index)) == std::string::npos){
 			return false;	
 		}
 	}
@@ -87,5 +87,34 @@ void Strings::truncateBySize(std::string &str, const size_t size)
 		return;
 	}
 
-	str.erase(size, STR_NPOS);
+	str.erase(size, std::string::npos);
+}
+
+std::string Strings::join(const std::vector<std::string>::iterator &begin, 
+						  const std::vector<std::string>::iterator &end, 
+						  const std::string &sep)
+{
+	std::string joined;
+	
+	for (std::vector<std::string>::iterator iter = begin; iter != end; iter++){
+		joined.append(*iter);
+		
+		if(iter != end){
+			joined.append(sep);
+		}
+	}
+
+	return joined;
+}
+
+std::string Strings::removePrefix(const std::string &str, const std::string &prefix)
+{
+	std::string cleaned = str;
+	size_t prefixOccurence = str.find_first_of(prefix);
+	
+	if (prefixOccurence != std::string::npos){
+		cleaned = str.substr(prefixOccurence + prefix.size());
+	}	
+	
+	return cleaned;
 }

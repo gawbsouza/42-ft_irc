@@ -13,7 +13,7 @@ private:
     UserService & _service;
 	
 	bool _checkUsername(const std::string & username) const;
-	bool _checkRealname(std::string & realnameStream, const std::vector<std::string> args) const;
+	bool _checkRealname(std::string & realname) const;
 
 public:
 

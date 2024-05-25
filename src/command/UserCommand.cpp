@@ -2,6 +2,7 @@
 #include "UserCommand.hpp"
 #include "ResponseCode.hpp"
 #include "../helper/Strings.hpp"
+#include "../helper/Log.hpp"
 
 #include <sstream>
 
@@ -19,9 +20,9 @@ UserCommand::~UserCommand(void) {}
 
 void UserCommand::execute(User & user, std::vector<std::string> args) const
 {
-	std::string realname;
+	Log::info(USER_NAME " command called");
 	std::string username = args[0];
-    Connection &conn = user.getConnection();
+	Connection &conn = user.getConnection();
 
     if(user.isRegistered()) {
         conn.sendMessage(SERVER_PREFIX SPACE ERR_ALREADYREGISTERED SPACE MSG_ALREADYREGISTERED CRLF);
@@ -38,7 +39,10 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
-	if (!_checkRealname(realname, args)){
+	std::string realname = Strings::removePrefix(args[REALNAME_ARG_INDEX] , ":");
+	realname.append(Strings::join(args.begin() + REALNAME_ARG_INDEX, args.end(), " "));
+	
+	if (!_checkRealname(realname)){
 		conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_REALNAME_EROR CRLF);
 		return;
 	}
@@ -48,41 +52,30 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 
 	user.setUserName(username);
 	user.setRealName(realname);
-
+	Log::debug("User set username/realname from " + conn.str());
 }
 
 bool UserCommand::_checkUsername(const std::string & username) const
 {
-	if (!Strings::isOnPattern(username, ALPHANUM_PATTERN, 0))
+	if (!Strings::isOnPattern(username, ALPHANUM_PATTERN, 0)){
 		return false;
+	}
 	
-	if (!Strings::isOnPattern(username, ALPHANUM_PATTERN USERNAME_PATTERN))
+	if (!Strings::isOnPattern(username, ALPHANUM_PATTERN USERNAME_PATTERN)){
 		return false;
+	}
 	
 	return true;
 }
 
-
-bool UserCommand::_checkRealname(std::string & realname, const std::vector<std::string> args) const
+bool UserCommand::_checkRealname(std::string & realname) const
 {
-	size_t argsSize = args.size();
-
-	for (size_t vecIndex = REALNAME_ARG_INDEX; vecIndex < argsSize; vecIndex++){
-		size_t itemSize = args.at(vecIndex).size();
-		
-		for (size_t strIndex = 0; strIndex < itemSize; strIndex++){
-			if(!std::isprint(args.at(vecIndex).at(strIndex))){
-        		return false;
-			}
-		}
-		
-		if (vecIndex == REALNAME_ARG_INDEX)
-				realname.append(args.at(vecIndex).substr(1));
-		else 
-			realname.append(args.at(vecIndex));
-		
-		if (vecIndex < argsSize - 1){
-			realname.append(" ");
+	std::string::iterator iter = realname.begin();
+	std::string::iterator end = realname.end();
+	
+	for (; iter != end; iter++){
+		if(!std::isprint(*iter)){
+			return false;
 		}
 	}
 
