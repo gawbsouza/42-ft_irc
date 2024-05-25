@@ -11,8 +11,8 @@
 #define USERNAME_MAX_LENGTH 	30
 #define USERNAME_PATTERN 		"-._"
 #define	USER_NAME 				"USER"
-#define MSG_USERNAME_EROR		":Username must be composed of alphanumeric, underscore, dash and/or dot characters"
-#define MSG_REALNAME_EROR		":Realname must be composed of printable characters"
+#define MSG_USERNAME_ERROR		":Username must be composed of alphanumeric, underscore, dash and/or dot characters"
+#define MSG_REALNAME_ERROR		":Realname must be composed of printable characters"
 
 
 UserCommand::UserCommand(UserService & service): _service(service) {}
@@ -21,8 +21,12 @@ UserCommand::~UserCommand(void) {}
 void UserCommand::execute(User & user, std::vector<std::string> args) const
 {
 	Log::info(USER_NAME " command called");
-	std::string username = args[0];
 	Connection &conn = user.getConnection();
+
+    if(!user.isAuthenticated()) {
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_NOTREGISTERED SPACE MSG_NOTREGISTERED CRLF);
+        return;
+    }
 
     if(user.isRegistered()) {
         conn.sendMessage(SERVER_PREFIX SPACE ERR_ALREADYREGISTERED SPACE MSG_ALREADYREGISTERED CRLF);
@@ -33,9 +37,11 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
         conn.sendMessage(SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS SPACE MSG_NEEDMOREPARAMS CRLF);
         return;
     }
+
+	std::string username = args[0];
     
 	if (!_checkUsername(username)){
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_USERNAME_EROR CRLF);
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_USERNAME_ERROR CRLF);
 		return;
 	}
 
@@ -43,7 +49,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	realname.append(Strings::join(args.begin() + REALNAME_ARG_INDEX, args.end(), " "));
 	
 	if (!_checkRealname(realname)){
-		conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_REALNAME_EROR CRLF);
+		conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_REALNAME_ERROR CRLF);
 		return;
 	}
 	
