@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/24 23:41:58 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:36:18 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,11 @@ std::string Strings::join(const std::vector<std::string>::iterator &begin,
 {
 	std::string joined;
 	
-	for (std::vector<std::string>::iterator iter = begin; iter != end; iter++){
+	for (std::vector<std::string>::iterator iter = begin; iter != end; iter++)
+	{
 		joined.append(*iter);
 		
-		if(iter != end){
+		if(iter != end - 1){
 			joined.append(sep);
 		}
 	}
