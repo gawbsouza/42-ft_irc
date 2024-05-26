@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   StringsTest.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/25 12:38:32 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:39:16 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,32 @@ TEST(StringsTest, truncateVariousSizes)
 	stringTest = "123456789";
 	Strings::truncateBySize(stringTest, 50);
 	EXPECT_EQ("123456789", stringTest);
+}
+
+TEST(StringsTest, SplitWithEmptyArgs)
+{
+    std::vector<std::string> strs;
+    
+    EXPECT_EQ("", Strings::join(strs.begin(), strs.end(), " "));
+    EXPECT_EQ("", Strings::join(strs.begin(), strs.end(), "-"));
+}
+
+TEST(StringsTest, SplitWithOneArgs)
+{
+    std::vector<std::string> strs;
+    strs.push_back("test");
+    
+    EXPECT_EQ("test", Strings::join(strs.begin(), strs.end(), " "));
+    EXPECT_EQ("test", Strings::join(strs.begin(), strs.end(), "-"));
+}
+
+TEST(StringsTest, SplitWithSomeArgs)
+{
+    std::vector<std::string> strs;
+    strs.push_back("test1");
+    strs.push_back("test2");
+    strs.push_back("test3");
+    
+    EXPECT_EQ("test1 test2 test3", Strings::join(strs.begin(), strs.end(), " "));
+    EXPECT_EQ("test1-test2-test3", Strings::join(strs.begin(), strs.end(), "-"));
 }
