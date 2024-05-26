@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/20 21:45:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:48:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ public:
 
     void addUser(User & user);
     void removeUser(User & user);
+
+    std::list<User *> getUsers() const;
     
     size_t usersCount(void);
     

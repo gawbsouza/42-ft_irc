@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/24 14:34:43 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:27:01 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
 #include "command/ResponseCode.hpp"
+
+#include "system/UsersCommand.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -64,9 +66,14 @@ int	main(int argc, char** argv)
 	UserHandler userHandler(userService);
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
+	UsersCommand usersCommand(userService);
 
+	// Common Commands
 	commandHandler.addCommand("PASS", passCommand);
 	commandHandler.addCommand("USER", userCommand);
+
+	// System commands
+	commandHandler.addCommand("@USERS", usersCommand);
 	
 	try
 	{

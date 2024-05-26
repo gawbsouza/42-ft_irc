@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:33:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:37:03 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:48:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,9 @@ bool UserService::nickNameExists(const std::string & nickName)
     }
     
     return false;
+}
+
+std::list<User *> UserService::getUsers() const
+{
+    return this->_users;
 }
