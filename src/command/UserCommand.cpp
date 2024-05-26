@@ -40,13 +40,18 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 
 	std::string username = args[0];
     
-	if (!_checkUsername(username)){
+	if (!_checkUsername(username)) {
         conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_USERNAME_ERROR CRLF);
 		return;
 	}
 
 	std::string realname = Strings::removePrefix(args[REALNAME_ARG_INDEX] , ":");
-	realname.append(Strings::join(args.begin() + REALNAME_ARG_INDEX, args.end(), " "));
+
+	if (args.size() > 4) {
+		std::string remainingNameParts = Strings::join(args.begin() + REALNAME_ARG_INDEX + 1, args.end(), " ");
+		realname.append(" ");
+		realname.append(remainingNameParts);
+	}
 	
 	if (!_checkRealname(realname)){
 		conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_REALNAME_ERROR CRLF);
