@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:19:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 08:53:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/27 22:27:48 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,21 @@
 # define MODE_LIMIT_FLAG    "l"
 # define MODE_TOPIC_FLAG    "t"
 # define MODE_INVITE_FLAG   "i"
-# define MODE_OPERATOR_FLAG "o"
 
 typedef enum
 {
     CHANNEL_COMMON,
     CHANNEL_OPERATOR,
-    CHANNEL_CREATOR
-} ChannelUserType;
+}   ChannelUserType;
 
 struct ChannelUser
 {
     User & user;
     ChannelUserType type;
+
+    bool operator==(const ChannelUser & chUser) const {
+        return &user == &chUser.user; 
+    }
 };
 
 class Channel
@@ -68,6 +70,7 @@ public:
     
     void          addUser(User & user);
     ChannelUser * getUser(User & user);
+    void          removeUser(User & user);
     
     void        setPassword(const std::string & password);
     std::string getPassword(void);
@@ -88,6 +91,8 @@ public:
     void broadCast(User & from, const std::string & message);
 
     std::vector<ChannelUser> getUsers(void);
+    
+    size_t usersCount(void);
     
     std::string getModeStr(void);
 };

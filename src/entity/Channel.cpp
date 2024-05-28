@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:10:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 08:49:47 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/27 22:29:13 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Channel::Channel(User & creator, const std::string name)
 {
     ChannelUser channelUser = {
         user: creator,
-        type: CHANNEL_CREATOR
+        type: CHANNEL_OPERATOR
     };
 
     this->_users.push_back(channelUser);
@@ -96,6 +96,8 @@ void Channel::addUser(User & user)
     if (this->getUser(user) != NULL) {
         return;
     }
+    
+    this->_inviteList.remove(user.getNickName());
 
     ChannelUser chUser = {
         user: user,
@@ -103,6 +105,19 @@ void Channel::addUser(User & user)
     };
 
     this->_users.push_back(chUser);
+}
+
+void Channel::removeUser(User & user)
+{
+    std::list<ChannelUser>::iterator it;
+    
+    for(it = this->_users.begin(); it != this->_users.end(); it++) {
+        ChannelUser chUser = *it;
+        if (&chUser.user == &user) {
+            this->_users.remove(chUser);
+            return;
+        }
+    }
 }
 
 void Channel::setPassword(const std::string & password)
@@ -146,7 +161,7 @@ void Channel::setOperator(User & user)
 {
     ChannelUser *chUser = this->getUser(user);
     
-    if (chUser == NULL || chUser->type != CHANNEL_COMMON) {
+    if (chUser == NULL) {
         return;
     }
 
@@ -157,7 +172,7 @@ void Channel::removeOperator(User & user)
 {
     ChannelUser *chUser = this->getUser(user);
     
-    if (chUser == NULL || chUser->type != CHANNEL_OPERATOR) {
+    if (chUser == NULL) {
         return;
     }
 
@@ -186,6 +201,11 @@ std::vector<ChannelUser> Channel::getUsers(void)
 {
     std::vector<ChannelUser> copy(this->_users.begin(), this->_users.end());
     return copy;
+}
+
+size_t Channel::usersCount(void)
+{
+    return this->_users.size();
 }
 
 std::string Channel::getModeStr(void)
