@@ -10,11 +10,11 @@
 #define NICKNAME_MAX_LENGTH		20
 #define NICKNAME_PATTERN		"-[]\\`{}^_"
 #define	NICKNAME_CMD			"NICK"
-#define NICKNAME_SUFFIX			SPACE ASTERISK SPACE COLON + nickname + CRLF
+#define NICKNAME_SUFFIX			SPACE ASTERISK SPACE + nickname + CRLF
 #define NICKNAME_SEP			SPACE NICKNAME_CMD SPACE
 #define NICKNAME_SEP2			SPACE ASTERISK NICKNAME_SEP
 #define JOINED_ERRONEUSNICKNAME	SERVER_PREFIX SPACE ERR_ERRONEUSNICKNAME NICKNAME_SUFFIX
-#define JOINED_NICKNAMEINUSE	SERVER_PREFIX SPACE ERR_NICKNAMEINUSE NICKNAME_SUFFIX CRLF
+#define JOINED_NICKNAMEINUSE	SERVER_PREFIX SPACE ERR_NICKNAMEINUSE NICKNAME_SUFFIX
 #define JOINED_NEEDMOREPARAMS	SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS NICKNAME_SEP2 MSG_NEEDMOREPARAMS CRLF
 #define JOINED_NOTAUTHENTICATED	SERVER_PREFIX SPACE ERR_UNKNOWNERROR NICKNAME_SEP MSG_NOTAUTHENTICATED CRLF
 
@@ -47,15 +47,14 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 		conn.sendMessage(JOINED_NICKNAMEINUSE);
         return;
 	}
-	std::string oldNickname = "";
+	std::stringstream ss;
 
 	if (user.getNickName().size() > 0){
-		oldNickname.append( COLON + user.getNickName());
+		conn.sendMessage(COLON + user.getNickName() + NICKNAME_SEP + nickname + CRLF);
 	}
 
 	user.setNickName(nickname);
 	
-	conn.sendMessage(oldNickname + NICKNAME_SEP + nickname + CRLF);
 	Log::debug("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
