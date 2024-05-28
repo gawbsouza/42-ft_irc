@@ -47,8 +47,15 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 		conn.sendMessage(JOINED_NICKNAMEINUSE);
         return;
 	}
-	
+	std::string oldNickname = "";
+
+	if (user.getNickName().size() > 0){
+		oldNickname.append( COLON + user.getNickName());
+	}
+
 	user.setNickName(nickname);
+	
+	conn.sendMessage(oldNickname + NICKNAME_SEP + nickname);
 	Log::debug("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
