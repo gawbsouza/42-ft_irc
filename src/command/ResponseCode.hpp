@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/27 22:57:30 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/28 00:32:21 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define CRLF			"\r\n"
 #define SPACE			" "
 #define COLON			":"
+#define ASTERISK		"*"
 
 //messages
 #define MSG_ALREADYAUTHENTICATED	":You already authenticated"
