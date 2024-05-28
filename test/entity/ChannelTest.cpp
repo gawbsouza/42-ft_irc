@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:17:52 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 08:53:34 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/27 22:22:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ TEST(ChannelTest, DefaultStateAndGetters)
 
     // User
     EXPECT_TRUE(chUser != NULL);
-    EXPECT_EQ(CHANNEL_CREATOR, chUser->type);
+    EXPECT_EQ(CHANNEL_OPERATOR, chUser->type);
     EXPECT_EQ(&user, &chUser->user);
     // Others
     EXPECT_EQ("channelTest", channel.getName());
@@ -152,20 +152,6 @@ TEST(ChannelTest, Invite)
     EXPECT_TRUE(channel.isInvited("SomeOneNick"));
 }
 
-TEST(ChannelTest, SetOperatorWithCreatorMustNotChangeHisType)
-{
-    Connection conn(0, 0, "", 0, "");
-    User user(conn);
-    
-    Channel channel(user, "channelTest");
-    channel.setOperator(user);
-    ChannelUser *chUser = channel.getUser(user);
-
-    EXPECT_TRUE(chUser != NULL);
-    EXPECT_EQ(CHANNEL_CREATOR, chUser->type);
-    EXPECT_EQ(&user, &chUser->user);
-}
-
 TEST(ChannelTest, SetOperatorWithCommonStatusMustUpdateToOperator)
 {
     Connection conn1(0, 0, "", 0, "");
@@ -187,26 +173,6 @@ TEST(ChannelTest, SetOperatorWithCommonStatusMustUpdateToOperator)
     EXPECT_TRUE(chUser != NULL);
     EXPECT_EQ(CHANNEL_OPERATOR, chUser->type);
     EXPECT_EQ(&user2, &chUser->user);
-}
-
-TEST(ChannelTest, RemoveOperatorWithCreatorMustNotChangeHisType)
-{
-    Connection conn(0, 0, "", 0, "");
-    User user(conn);
-    
-    Channel channel(user, "channelTest");
-    ChannelUser *chUser = channel.getUser(user);
-    
-    EXPECT_TRUE(chUser != NULL);
-    EXPECT_EQ(CHANNEL_CREATOR, chUser->type);
-    EXPECT_EQ(&user, &chUser->user);
-    
-    channel.removeOperator(user);
-    chUser = channel.getUser(user);
-
-    EXPECT_TRUE(chUser != NULL);
-    EXPECT_EQ(CHANNEL_CREATOR, chUser->type);
-    EXPECT_EQ(&user, &chUser->user);
 }
 
 TEST(ChannelTest, RemoveOperatorWithOperatorStatusMustUpdateToCommon)
@@ -256,7 +222,7 @@ TEST(ChannelTest, GetUsers)
     EXPECT_EQ(&user1, &users.at(0).user);
     EXPECT_EQ(&user2, &users.at(1).user);
     EXPECT_EQ(&user3, &users.at(2).user);
-    EXPECT_EQ(CHANNEL_CREATOR,  users.at(0).type);
+    EXPECT_EQ(CHANNEL_OPERATOR,  users.at(0).type);
     EXPECT_EQ(CHANNEL_COMMON,   users.at(1).type);
     EXPECT_EQ(CHANNEL_OPERATOR, users.at(2).type);
 }
@@ -336,4 +302,52 @@ TEST(ChannelTest, GetModeStrWithMultiFlags)
 
     channel.setLimit(0);
     EXPECT_EQ("+itk", channel.getModeStr());
+}
+
+TEST(ChannelTest, RemoveUserFromInviteListWhenAddedOnChannel)
+{
+    Connection conn1(0, 0, "", 0, "");
+    Connection conn2(1, 1, "", 0, "");
+    User user1(conn1);
+    User user2(conn2);
+
+    Channel channel(user1, "channelTest");
+
+    user2.setNickName("UserTest2");
+
+    EXPECT_FALSE(channel.isInvited("UserTest2"));
+    channel.invite("UserTest2");
+    EXPECT_TRUE(channel.isInvited("UserTest2"));
+    channel.addUser(user2);
+    EXPECT_FALSE(channel.isInvited("UserTest2"));
+}
+
+TEST(ChannelTest, RemoveUserCanRemoveOperator)
+{
+    Connection conn1(0, 0, "", 0, "");
+    User user1(conn1);
+
+    Channel channel(user1, "channelTest");
+
+    channel.removeUser(user1);
+
+    EXPECT_TRUE(channel.getUser(user1) == NULL);
+    EXPECT_EQ(0, channel.usersCount());
+}
+
+TEST(ChannelTest, RemoveUserCanRemoveAllUsers)
+{
+    Connection conn1(0, 0, "", 0, "");
+    Connection conn2(1, 1, "", 0, "");
+    User user1(conn1);
+    User user2(conn2);
+
+    Channel channel(user1, "channelTest");
+
+    channel.addUser(user2);
+
+    EXPECT_EQ(2, channel.usersCount());
+    channel.removeUser(user1);
+    channel.removeUser(user2);
+    EXPECT_EQ(0, channel.usersCount());
 }
