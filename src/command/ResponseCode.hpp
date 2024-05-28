@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/28 00:32:21 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/28 01:56:08 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 #define MSG_PASSWDMISMATCH      	":Password incorrect"
 #define MSG_NOTREGISTERED       	":You have not registered"
 #define MSG_ALREADYREGISTERED   	":You already registered"
+#define MSG_WELCOME_MESSAGE   		":Welcome to the ft_irc Network,"
 
 //error codes
+#define WELCOME_MESSAGE			"001"
 #define ERR_UNKNOWNERROR        "400"
 #define	ERR_ERRONEUSNICKNAME	"432"
 #define ERR_NICKNAMEINUSE 		"433"
