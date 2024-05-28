@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/26 12:27:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/27 14:51:07 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "entity/Connection.hpp"
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
+#include "command/NickCommand.hpp"
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
 #include "command/ResponseCode.hpp"
@@ -64,6 +65,7 @@ int	main(int argc, char** argv)
 	UserService userService;
 	CommandHandler commandHandler(userService);
 	UserHandler userHandler(userService);
+	NickCommand nickCommand(userService);
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
 	UsersCommand usersCommand(userService);
@@ -71,6 +73,7 @@ int	main(int argc, char** argv)
 	// Common Commands
 	commandHandler.addCommand("PASS", passCommand);
 	commandHandler.addCommand("USER", userCommand);
+	commandHandler.addCommand("NICK", nickCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
