@@ -6,13 +6,24 @@
 
 #include <sstream>
 
-#define REALNAME_ARG_INDEX 		3
-#define REALNAME_MAX_LENGTH 	60
-#define USERNAME_MAX_LENGTH 	30
-#define USERNAME_PATTERN 		"-._"
-#define	USER_NAME 				"USER"
-#define MSG_USERNAME_ERROR		":Username must be composed of alphanumeric, underscore, dash and/or dot characters"
-#define MSG_REALNAME_ERROR		":Realname must be composed of printable characters"
+#define USERNAME_ARG_INDEX 			0
+#define REALNAME_ARG_INDEX 			3
+#define REALNAME_MAX_LENGTH 		60
+#define USERNAME_MAX_LENGTH 		30
+#define USERNAME_PATTERN 			"-._"
+#define	USERNAME_CMD 				"USER"
+#define USERNAME_SEP				SPACE USERNAME_CMD SPACE
+#define USERNAME_SEP2				SPACE ASTERISK USERNAME_SEP
+#define USERNAME_SEP3				SPACE + nickname + SPACE
+#define MSG_USERNAME_ERROR			":Username contains invalid characters"
+#define MSG_REALNAME_ERROR			":Realname contains no printable characters"
+#define MSG_NONICKNAMEPROVIDED		":No nickname provided"
+#define JOINED_WELCOME_MESSAGE		SERVER_PREFIX SPACE WELCOME_MESSAGE USERNAME_SEP3 MSG_WELCOME_MESSAGE
+#define JOINED_USERNAME_ERROR		SERVER_PREFIX SPACE ERR_UNKNOWNERROR USERNAME_SEP MSG_USERNAME_ERROR CRLF
+#define JOINED_REALNAME_ERROR		SERVER_PREFIX SPACE ERR_UNKNOWNERROR USERNAME_SEP MSG_REALNAME_ERROR CRLF
+#define JOINED_NEEDMOREPARAMS		SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS USERNAME_SEP2 MSG_NEEDMOREPARAMS CRLF
+#define JOINED_NONICKNAMEPROVIDED	SERVER_PREFIX SPACE ERR_UNKNOWNERROR USERNAME_SEP MSG_NONICKNAMEPROVIDED CRLF
+#define JOINED_ALREADYREGISTERED	SERVER_PREFIX SPACE ERR_ALREADYREGISTERED USERNAME_SEP MSG_ALREADYREGISTERED CRLF
 
 
 UserCommand::UserCommand(UserService & service): _service(service) {}
@@ -20,28 +31,18 @@ UserCommand::~UserCommand(void) {}
 
 void UserCommand::execute(User & user, std::vector<std::string> args) const
 {
-	Log::info(USER_NAME " command called");
+	Log::info("USER command called");
 	Connection &conn = user.getConnection();
 
-    if(!user.isAuthenticated()) {
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_NOTREGISTERED SPACE MSG_NOTREGISTERED CRLF);
-        return;
-    }
-
-    if(user.isRegistered()) {
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_ALREADYREGISTERED SPACE MSG_ALREADYREGISTERED CRLF);
-        return;
-    }
-
     if (args.size() < 4) {
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS SPACE MSG_NEEDMOREPARAMS CRLF);
+        conn.sendMessage(JOINED_NEEDMOREPARAMS);
         return;
     }
 
-	std::string username = args[0];
+	std::string username = args[USERNAME_ARG_INDEX];
     
 	if (!_checkUsername(username)) {
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_USERNAME_ERROR CRLF);
+        conn.sendMessage(JOINED_USERNAME_ERROR);
 		return;
 	}
 
@@ -54,15 +55,28 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	}
 	
 	if (!_checkRealname(realname)){
-		conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE USER_NAME SPACE MSG_REALNAME_ERROR CRLF);
+		conn.sendMessage(JOINED_REALNAME_ERROR);
 		return;
 	}
+
+    if(user.getNickName().size() == 0) {
+        conn.sendMessage(JOINED_NONICKNAMEPROVIDED);
+        return;
+    }
+
+    if(user.isRegistered()) {
+        conn.sendMessage(JOINED_ALREADYREGISTERED);
+        return;
+    }
 	
+	std::string nickname = user.getNickName();
 	Strings::truncateBySize(username, USERNAME_MAX_LENGTH);
 	Strings::truncateBySize(realname, REALNAME_MAX_LENGTH);
 
 	user.setUserName(username);
 	user.setRealName(realname);
+	
+	conn.sendMessage(JOINED_WELCOME_MESSAGE SPACE + nickname + CRLF);
 	Log::debug("User set username/realname from " + conn.str());
 }
 

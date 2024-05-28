@@ -10,9 +10,9 @@
 #define NICKNAME_MAX_LENGTH		20
 #define NICKNAME_PATTERN		"-[]\\`{}^_"
 #define	NICKNAME_CMD			"NICK"
-#define NICKNAME_SUFFIX			SPACE ASTERISK SPACE + nickname + CRLF
 #define NICKNAME_SEP			SPACE NICKNAME_CMD SPACE
 #define NICKNAME_SEP2			SPACE ASTERISK NICKNAME_SEP
+#define NICKNAME_SUFFIX			SPACE ASTERISK SPACE + nickname + CRLF
 #define JOINED_ERRONEUSNICKNAME	SERVER_PREFIX SPACE ERR_ERRONEUSNICKNAME NICKNAME_SUFFIX
 #define JOINED_NICKNAMEINUSE	SERVER_PREFIX SPACE ERR_NICKNAMEINUSE NICKNAME_SUFFIX
 #define JOINED_NEEDMOREPARAMS	SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS NICKNAME_SEP2 MSG_NEEDMOREPARAMS CRLF
@@ -31,11 +31,6 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
         return;
     }
     
-	if (!user.isAuthenticated()) {
-        conn.sendMessage(JOINED_NOTAUTHENTICATED);
-        return;
-    }
-
 	std::string nickname = args[NICKNAME_ARG_INDEX];
 
 	if (!_checkNickname(nickname)) {
@@ -43,11 +38,15 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
+	if (!user.isAuthenticated()) {
+        conn.sendMessage(JOINED_NOTAUTHENTICATED);
+        return;
+    }
+
 	if (_service.nickNameExists(nickname)) {
 		conn.sendMessage(JOINED_NICKNAMEINUSE);
         return;
 	}
-	std::stringstream ss;
 
 	if (user.getNickName().size() > 0){
 		conn.sendMessage(COLON + user.getNickName() + NICKNAME_SEP + nickname + CRLF);
