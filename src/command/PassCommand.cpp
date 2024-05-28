@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/23 22:17:54 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/28 00:13:13 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void PassCommand::execute(User & user, std::vector<std::string> args) const
 	Connection &conn = user.getConnection();
 
     if(user.isAuthenticated()) {
-        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE PASS_NAME SPACE MSG_AUTHENTICATED CRLF);
+        conn.sendMessage(SERVER_PREFIX SPACE ERR_UNKNOWNERROR SPACE PASS_NAME SPACE MSG_ALREADYAUTHENTICATED CRLF);
         return;
     }
 
