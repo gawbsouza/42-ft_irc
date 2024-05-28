@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/24 22:41:07 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:09:34 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-#define ALPHANUM_PATTERN	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#define ALPHA_PATTERN		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#define NUM_PATTERN			"0123456789"
+#define ALPHANUM_PATTERN	NUM_PATTERN ALPHA_PATTERN 
 
 class Strings
 {
