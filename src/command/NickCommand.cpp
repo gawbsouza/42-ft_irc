@@ -55,7 +55,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 
 	user.setNickName(nickname);
 	
-	conn.sendMessage(oldNickname + NICKNAME_SEP + nickname);
+	conn.sendMessage(oldNickname + NICKNAME_SEP + nickname + CRLF);
 	Log::debug("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
