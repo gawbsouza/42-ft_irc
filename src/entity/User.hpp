@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:04:06 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/20 20:46:47 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:04:48 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ public:
     bool isRegistered(void);
 
     void authenticate(void);
+    void sendMessage(const std::string & message);
     
     std::string getNickName(void);
     std::string getUserName(void);

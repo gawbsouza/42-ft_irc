@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:21:17 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/20 21:48:03 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:29:02 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ bool User::isAuthenticated(void)
 void User::authenticate(void)
 {
     this->_authenticated = true;
+}
+
+void User::sendMessage(const std::string & message)
+{
+    this->_conn.sendMessage(message);
 }
 
 bool User::isRegistered(void)
