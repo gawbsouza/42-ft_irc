@@ -6,7 +6,7 @@
 #    By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/05/28 14:28:31 by bluiz-al         ###   ########.fr        #
+#    Updated: 2024/05/30 13:05:02 by bluiz-al         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= ircserv
 
 COMPILER	= g++ -c
 LINKER		= g++
-CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g3
+CFLAGS		= -Wall -Werror -Wextra -std=c++98
 
 SRCS		= $(wildcard src/*/*.cpp)
 INCS 		= $(wildcard src/*/*.hpp)

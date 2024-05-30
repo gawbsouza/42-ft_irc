@@ -17,14 +17,14 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	Log::info(USER_CMD " command called from " + conn.str());
 
     if (args.size() < 4) {
-        conn.sendMessage(Strings::f(MSG_NEEDMOREPARAMS, USER_CMD));
+        conn.sendMessage(Strings::f(ERR_NEEDMOREPARAMS, USER_CMD));
         return;
     }
 
 	std::string username = args[USERNAME_ARG_INDEX];
     
 	if (!_checkUsername(username)) {
-        conn.sendMessage(Strings::f(MSG_GENERICERROR, USER_CMD, "Username contains invalid characters"));
+        conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Username contains invalid characters"));
 		return;
 	}
 
@@ -37,17 +37,17 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	}
 	
 	if (!_checkRealname(realname)){
-		conn.sendMessage(Strings::f(MSG_GENERICERROR, USER_CMD, "Username contains invalid characters"));
+		conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Username contains invalid characters"));
 		return;
 	}
 
     if(user.getNickName().size() == 0) {
-        conn.sendMessage(Strings::f(MSG_GENERICERROR, USER_CMD, "Must register nickname before"));
+        conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Must register nickname first"));
         return;
     }
 
     if(user.isRegistered()) {
-        conn.sendMessage(Strings::f(MSG_ALREADYREGISTERED, USER_CMD));
+        conn.sendMessage(Strings::f(ERR_ALREADYREGISTERED, USER_CMD));
         return;
     }
 	
@@ -58,7 +58,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	user.setUserName(username);
 	user.setRealName(realname);
 	
-	conn.sendMessage(Strings::f(MSG_WELCOMEMESSAGE, nickname, nickname));
+	conn.sendMessage(Strings::f(ERR_WELCOMEMESSAGE, nickname, nickname));
 	Log::info("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
 }
 
