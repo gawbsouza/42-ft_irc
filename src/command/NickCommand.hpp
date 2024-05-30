@@ -5,6 +5,11 @@
 #include "Command.hpp"
 #include "../entity/UserService.hpp"
 
+#define	NICK_CMD "NICK"
+
+#define NICKNAME_ARG_INDEX      0
+#define NICKNAME_MAX_LENGTH     20
+
 class NickCommand: public Command
 {
     

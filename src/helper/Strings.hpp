@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 14:09:34 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:20:05 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ public:
 							const std::vector<std::string>::iterator & end, 
 							const std::string & sep);
 	static std::string removePrefix(const std::string & str, const std::string & prefix);
+    
+    static std::string f(const std::string & str, const std::string & args);
+    static std::string f(const std::string & str, const std::string & arg1, const std::string & arg2);
+    static std::string f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3);
 
 };
 

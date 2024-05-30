@@ -6,11 +6,12 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/26 12:36:18 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 00:23:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Strings.hpp"
+#include <cstdio>
 
 Strings::Strings() {}
 Strings::~Strings() {}
@@ -118,4 +119,23 @@ std::string Strings::removePrefix(const std::string &str, const std::string &pre
 	}	
 	
 	return cleaned;
+}
+
+std::string Strings::f(const std::string & str, const std::string & args)
+{
+	char msg[1024];
+	sprintf(msg, str.c_str(), args.c_str());
+	return msg;
+}
+std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2)
+{
+	char msg[1024];
+	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str());
+	return msg;
+}
+std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3)
+{
+	char msg[1024];
+	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str());
+	return msg;
 }

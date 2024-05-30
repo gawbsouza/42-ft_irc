@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 14:51:07 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 00:24:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "command/NickCommand.hpp"
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
-#include "command/ResponseCode.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -71,9 +70,9 @@ int	main(int argc, char** argv)
 	UsersCommand usersCommand(userService);
 
 	// Common Commands
-	commandHandler.addCommand("PASS", passCommand);
-	commandHandler.addCommand("USER", userCommand);
-	commandHandler.addCommand("NICK", nickCommand);
+	commandHandler.addCommand(PASS_CMD, passCommand);
+	commandHandler.addCommand(USER_CMD, userCommand);
+	commandHandler.addCommand(NICK_CMD, nickCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
