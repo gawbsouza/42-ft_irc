@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 00:24:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 02:58:03 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "handler/EventHandler.hpp"
 #include "helper/Log.hpp"
+#include "helper/Strings.hpp"
 #include "server/Server.hpp"
 #include "entity/Connection.hpp"
+#include "entity/UserService.hpp"
+#include "entity/ChannelService.hpp"
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
+#include "command/JoinCommand.hpp"
 #include "command/NickCommand.hpp"
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
@@ -28,6 +32,7 @@
 
 #define EXIT_SUCCESS 		0
 #define EXIT_FAILURE		1
+#define PORT_ARG_INDEX		1
 #define SERVER_NAME		 	"ft_irc"
 #define VALID_PORT_CHARS	"0123456789"
 
@@ -51,8 +56,8 @@ int	main(int argc, char** argv)
 		return EXIT_FAILURE;
 	} 
 	
-	std::stringstream ss; ss << argv[1];
-	if (ss.str().find_first_not_of(VALID_PORT_CHARS) != std::string::npos)
+	std::stringstream ss; ss << argv[PORT_ARG_INDEX];
+	if (!Strings::isOnPattern(ss.str(), NUM_PATTERN))
 	{
 		std::cerr << "ircserv error: Port must be a number" << std::endl;
 		return EXIT_FAILURE;
@@ -62,17 +67,24 @@ int	main(int argc, char** argv)
 	std::string password = argv[2];
 
 	UserService userService;
-	CommandHandler commandHandler(userService);
+	ChannelService channelService;
+	
 	UserHandler userHandler(userService);
+	CommandHandler commandHandler(userService);
+	
 	NickCommand nickCommand(userService);
+	JoinCommand joinCommand(channelService);
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
+	
 	UsersCommand usersCommand(userService);
+	
 
 	// Common Commands
 	commandHandler.addCommand(PASS_CMD, passCommand);
 	commandHandler.addCommand(USER_CMD, userCommand);
 	commandHandler.addCommand(NICK_CMD, nickCommand);
+	commandHandler.addCommand(JOIN_CMD, joinCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);

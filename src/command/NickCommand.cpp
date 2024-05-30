@@ -1,6 +1,7 @@
 
 #include "NickCommand.hpp"
 #include "IRCProtocol.hpp"
+#include "IRCProtocol.hpp"
 #include "../helper/Strings.hpp"
 #include "../helper/Log.hpp"
 
@@ -16,24 +17,24 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	Log::info(NICK_CMD " command called from " + conn.str());
 
     if (args.size() == 0) {
-        conn.sendMessage(Strings::f(MSG_NEEDMOREPARAMS, NICK_CMD));
+        conn.sendMessage(Strings::f(ERR_NEEDMOREPARAMS, NICK_CMD));
         return;
     }
     
 	std::string nickname = args[NICKNAME_ARG_INDEX];
 
 	if (!_checkNickname(nickname)) {
-        conn.sendMessage(Strings::f(MSG_ERRONEUSNICKNAME, nickname));
+        conn.sendMessage(Strings::f(ERR_ERRONEUSNICKNAME, nickname));
 		return;
 	}
 
 	if (!user.isAuthenticated()) {
-        conn.sendMessage(Strings::f(MSG_NOTAUTHENTICATED, NICK_CMD));
+        conn.sendMessage(Strings::f(ERR_NOTAUTHENTICATED, NICK_CMD));
         return;
     }
 
 	if (_service.nickNameExists(nickname)) {
-		conn.sendMessage(Strings::f(MSG_NICKNAMEINUSE, NICK_CMD));
+		conn.sendMessage(Strings::f(ERR_NICKNAMEINUSE, NICK_CMD));
         return;
 	}
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   PassCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 01:13:56 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 02:26:04 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PassCommand.hpp"
+#include "IRCProtocol.hpp"
 #include "IRCProtocol.hpp"
 #include "../helper/Log.hpp"
 #include "../helper/Strings.hpp"
@@ -28,17 +29,17 @@ void PassCommand::execute(User & user, std::vector<std::string> args) const
 	Log::info(PASS_CMD " command called from " + conn.str());
 
     if(user.isAuthenticated()) {
-        conn.sendMessage(Strings::f(MSG_ALREADYAUTHENTICATED, PASS_CMD));
+        conn.sendMessage(Strings::f(ERR_ALREADYAUTHENTICATED, PASS_CMD));
         return;
     }
 
     if (args.size() == 0) {
-        conn.sendMessage(Strings::f(MSG_NEEDMOREPARAMS, PASS_CMD));
+        conn.sendMessage(Strings::f(ERR_NEEDMOREPARAMS, PASS_CMD));
         return;
     }
     
     if (conn.getPassword() != args.at(0)) {
-        conn.sendMessage(Strings::f(MSG_PASSWDMISMATCH, PASS_CMD));
+        conn.sendMessage(Strings::f(ERR_PASSWDMISMATCH, PASS_CMD));
         return;
     }
 	
