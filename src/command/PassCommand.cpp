@@ -3,50 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   PassCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/28 03:40:25 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 01:13:56 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PassCommand.hpp"
-#include "ResponseCode.hpp"
+#include "IRCProtocol.hpp"
 #include "../helper/Log.hpp"
+#include "../helper/Strings.hpp"
 
+#include <cstdio>
 #include <sstream>
-
-#define	PASS_CMD					"PASS"
-#define PASS_SEP					SPACE PASS_CMD SPACE
-#define PASS_SEP2					SPACE ASTERISK PASS_SEP
-#define	JOINED_ALREADYAUTHENTICATED	SERVER_PREFIX SPACE ERR_UNKNOWNERROR PASS_SEP MSG_ALREADYAUTHENTICATED CRLF
-#define	JOINED_PASSWDMISMATCH		SERVER_PREFIX SPACE ERR_PASSWDMISMATCH PASS_SEP MSG_PASSWDMISMATCH CRLF
-#define JOINED_NEEDMOREPARAMS		SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS PASS_SEP2 MSG_NEEDMOREPARAMS CRLF
 
 PassCommand::PassCommand(UserService & service): _service(service) {}
 PassCommand::~PassCommand(void) {}
 
 void PassCommand::execute(User & user, std::vector<std::string> args) const
 {
-	Log::info("PASS command called");
-    
 	Connection &conn = user.getConnection();
+    
+	Log::info(PASS_CMD " command called from " + conn.str());
 
     if(user.isAuthenticated()) {
-        conn.sendMessage(JOINED_ALREADYAUTHENTICATED);
+        conn.sendMessage(Strings::f(MSG_ALREADYAUTHENTICATED, PASS_CMD));
         return;
     }
 
     if (args.size() == 0) {
-        conn.sendMessage(JOINED_NEEDMOREPARAMS);
+        conn.sendMessage(Strings::f(MSG_NEEDMOREPARAMS, PASS_CMD));
         return;
     }
     
     if (conn.getPassword() != args.at(0)) {
-        conn.sendMessage(JOINED_PASSWDMISMATCH);
+        conn.sendMessage(Strings::f(MSG_PASSWDMISMATCH, PASS_CMD));
         return;
     }
 	
-	Log::debug("User authenticated from " + conn.str());
-    user.authenticate();	
+    user.authenticate();
+    
+	Log::info("User authenticated from " + conn.str());
 }

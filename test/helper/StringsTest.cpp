@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/26 12:39:16 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 00:50:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,4 +164,12 @@ TEST(StringsTest, SplitWithSomeArgs)
     
     EXPECT_EQ("test1 test2 test3", Strings::join(strs.begin(), strs.end(), " "));
     EXPECT_EQ("test1-test2-test3", Strings::join(strs.begin(), strs.end(), "-"));
+}
+
+TEST(StringsTest, Sprintf)
+{
+    EXPECT_EQ("", Strings::f("", ""));
+    EXPECT_EQ("teste teste", Strings::f("teste %s", "teste"));
+    EXPECT_EQ("teste teste teste", Strings::f("teste %s %s", "teste", "teste"));
+    EXPECT_EQ("teste teste teste teste", Strings::f("teste %s %s %s", "teste", "teste", "teste"));
 }

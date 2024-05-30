@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:36:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 22:42:55 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/29 23:43:12 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include "Command.hpp"
 #include "../entity/UserService.hpp"
+
+#define	PASS_CMD "PASS"
 
 class PassCommand: public Command
 {

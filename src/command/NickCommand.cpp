@@ -1,60 +1,53 @@
 
 #include "NickCommand.hpp"
-#include "ResponseCode.hpp"
+#include "IRCProtocol.hpp"
 #include "../helper/Strings.hpp"
 #include "../helper/Log.hpp"
 
 #include <sstream>
-
-#define NICKNAME_ARG_INDEX		0
-#define NICKNAME_MAX_LENGTH		20
-#define NICKNAME_PATTERN		"-[]\\`{}^_"
-#define	NICKNAME_CMD			"NICK"
-#define NICKNAME_SEP			SPACE NICKNAME_CMD SPACE
-#define NICKNAME_SEP2			SPACE ASTERISK NICKNAME_SEP
-#define NICKNAME_SUFFIX			SPACE ASTERISK SPACE + nickname + CRLF
-#define JOINED_ERRONEUSNICKNAME	SERVER_PREFIX SPACE ERR_ERRONEUSNICKNAME NICKNAME_SUFFIX
-#define JOINED_NICKNAMEINUSE	SERVER_PREFIX SPACE ERR_NICKNAMEINUSE NICKNAME_SUFFIX
-#define JOINED_NEEDMOREPARAMS	SERVER_PREFIX SPACE ERR_NEEDMOREPARAMS NICKNAME_SEP2 MSG_NEEDMOREPARAMS CRLF
-#define JOINED_NOTAUTHENTICATED	SERVER_PREFIX SPACE ERR_UNKNOWNERROR NICKNAME_SEP MSG_NOTAUTHENTICATED CRLF
 
 NickCommand::NickCommand(UserService & service): _service(service) {}
 NickCommand::~NickCommand(void) {}
 
 void NickCommand::execute(User & user, std::vector<std::string> args) const
 {
-	Log::info("Nick command called");
 	Connection &conn = user.getConnection();
 
+	Log::info(NICK_CMD " command called from " + conn.str());
+
     if (args.size() == 0) {
-        conn.sendMessage(JOINED_NEEDMOREPARAMS);
+        conn.sendMessage(Strings::f(MSG_NEEDMOREPARAMS, NICK_CMD));
         return;
     }
     
 	std::string nickname = args[NICKNAME_ARG_INDEX];
 
 	if (!_checkNickname(nickname)) {
-        conn.sendMessage(JOINED_ERRONEUSNICKNAME);
+        conn.sendMessage(Strings::f(MSG_ERRONEUSNICKNAME, nickname));
 		return;
 	}
 
 	if (!user.isAuthenticated()) {
-        conn.sendMessage(JOINED_NOTAUTHENTICATED);
+        conn.sendMessage(Strings::f(MSG_NOTAUTHENTICATED, NICK_CMD));
         return;
     }
 
 	if (_service.nickNameExists(nickname)) {
-		conn.sendMessage(JOINED_NICKNAMEINUSE);
+		conn.sendMessage(Strings::f(MSG_NICKNAMEINUSE, NICK_CMD));
         return;
 	}
 
+	if (user.getNickName().size() == 0){
+		conn.sendMessage(Strings::f("%s %s\r\n", NICK_CMD, nickname));
+	}
+
 	if (user.getNickName().size() > 0){
-		conn.sendMessage(COLON + user.getNickName() + NICKNAME_SEP + nickname + CRLF);
+		conn.sendMessage(Strings::f(":%s %s %s\r\n", user.getNickName(), NICK_CMD, nickname));
 	}
 
 	user.setNickName(nickname);
 	
-	Log::debug("User set \"" + nickname + "\" nickname from " + conn.str());
+	Log::info("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
 bool NickCommand::_checkNickname(const std::string & nickname) const
@@ -63,11 +56,11 @@ bool NickCommand::_checkNickname(const std::string & nickname) const
         return false;
 	}
 
-	if (!Strings::isOnPattern(nickname, ALPHA_PATTERN NICKNAME_PATTERN, 0)){
+	if (!Strings::isOnPattern(nickname, ALPHA_PATTERN XCHARS_PATTERN, 0)){
 		return false;
 	}
 	
-	if (!Strings::isOnPattern(nickname, ALPHANUM_PATTERN NICKNAME_PATTERN)){
+	if (!Strings::isOnPattern(nickname.substr(1), ALPHANUM_PATTERN XCHARS_PATTERN)){
 		return false;
 	}
 
