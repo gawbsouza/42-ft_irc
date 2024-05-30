@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 01:38:56 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 02:58:03 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(PASS_CMD, passCommand);
 	commandHandler.addCommand(USER_CMD, userCommand);
 	commandHandler.addCommand(NICK_CMD, nickCommand);
+	commandHandler.addCommand(JOIN_CMD, joinCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
