@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
+#    By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/05/22 23:41:22 by gasouza          ###   ########.fr        #
+#    Updated: 2024/05/28 14:28:31 by bluiz-al         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= ircserv
 
 COMPILER	= g++ -c
 LINKER		= g++
-CFLAGS		= -Wall -Werror -Wextra -std=c++98
+CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g3
 
 SRCS		= $(wildcard src/*/*.cpp)
 INCS 		= $(wildcard src/*/*.hpp)

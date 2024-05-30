@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   PassCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 01:13:56 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 01:40:48 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PassCommand.hpp"
+#include "IRCProtocol.hpp"
 #include "IRCProtocol.hpp"
 #include "../helper/Log.hpp"
 #include "../helper/Strings.hpp"

@@ -1,6 +1,7 @@
 
 #include "UserCommand.hpp"
 #include "IRCProtocol.hpp"
+#include "IRCProtocol.hpp"
 #include "../helper/Strings.hpp"
 #include "../helper/Log.hpp"
 
