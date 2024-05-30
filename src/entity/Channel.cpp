@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:10:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 22:29:13 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/29 19:07:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,21 @@ ChannelUser * Channel::getUser(User & user)
     return NULL;
 }
 
+ChannelUser * Channel::getUser(const std::string & nick)
+{
+    std::list<ChannelUser>::iterator it;
+
+    for(it = this->_users.begin(); it != this->_users.end(); it++) {
+        ChannelUser chUser = *it;
+        if (chUser.user.getNickName() == nick) {
+            return &(*it);
+        }
+    }
+
+    return NULL;
+}
+
+
 void Channel::setTopic(const std::string & topic)
 {
     this->_topic = topic;
@@ -114,6 +129,19 @@ void Channel::removeUser(User & user)
     for(it = this->_users.begin(); it != this->_users.end(); it++) {
         ChannelUser chUser = *it;
         if (&chUser.user == &user) {
+            this->_users.remove(chUser);
+            return;
+        }
+    }
+}
+
+void Channel::removeUser(const std::string & nick)
+{
+    std::list<ChannelUser>::iterator it;
+    
+    for(it = this->_users.begin(); it != this->_users.end(); it++) {
+        ChannelUser chUser = *it;
+        if (chUser.user.getNickName() == nick) {
             this->_users.remove(chUser);
             return;
         }
@@ -168,9 +196,31 @@ void Channel::setOperator(User & user)
     chUser->type = CHANNEL_OPERATOR;
 }
 
+void Channel::setOperator(const std::string & nick)
+{
+    ChannelUser *chUser = this->getUser(nick);
+    
+    if (chUser == NULL) {
+        return;
+    }
+
+    chUser->type = CHANNEL_OPERATOR;
+}
+
 void Channel::removeOperator(User & user)
 {
     ChannelUser *chUser = this->getUser(user);
+    
+    if (chUser == NULL) {
+        return;
+    }
+
+    chUser->type = CHANNEL_COMMON;
+}
+
+void Channel::removeOperator(const std::string & nick)
+{
+    ChannelUser *chUser = this->getUser(nick);
     
     if (chUser == NULL) {
         return;

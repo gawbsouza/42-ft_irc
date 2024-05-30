@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:17:52 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 22:22:39 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 13:43:29 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,30 @@ TEST(ChannelTest, SetOperatorWithCommonStatusMustUpdateToOperator)
     EXPECT_EQ(&user2, &chUser->user);
 }
 
+TEST(ChannelTest, SetOperatorByNickNameWithCommonStatusMustUpdateToOperator)
+{
+    Connection conn1(0, 0, "", 0, "");
+    Connection conn2(1, 1, "", 0, "");
+    User user1(conn1);
+    User user2(conn2);
+
+    user2.setNickName("user2");
+    Channel channel(user1, "channelTest");
+    channel.addUser(user2);
+    ChannelUser *chUser = channel.getUser(user2);
+    
+    EXPECT_TRUE(chUser != NULL);
+    EXPECT_EQ(CHANNEL_COMMON, chUser->type);
+    EXPECT_EQ(&user2, &chUser->user);
+
+    channel.setOperator("user2");
+    chUser = channel.getUser(user2);
+    
+    EXPECT_TRUE(chUser != NULL);
+    EXPECT_EQ(CHANNEL_OPERATOR, chUser->type);
+    EXPECT_EQ(&user2, &chUser->user);
+}
+
 TEST(ChannelTest, RemoveOperatorWithOperatorStatusMustUpdateToCommon)
 {
     Connection conn1(0, 0, "", 0, "");
@@ -194,6 +218,33 @@ TEST(ChannelTest, RemoveOperatorWithOperatorStatusMustUpdateToCommon)
     EXPECT_EQ(&user2, &chUser->user);
 
     channel.removeOperator(user2);
+    chUser = channel.getUser(user2);
+    
+    EXPECT_TRUE(chUser != NULL);
+    EXPECT_EQ(CHANNEL_COMMON, chUser->type);
+    EXPECT_EQ(&user2, &chUser->user);
+}
+
+TEST(ChannelTest, RemoveOperatorByNickNameWithOperatorStatusMustUpdateToCommon)
+{
+    Connection conn1(0, 0, "", 0, "");
+    Connection conn2(1, 1, "", 0, "");
+    User user1(conn1);
+    User user2(conn2);
+    user2.setNickName("user2");
+
+    Channel channel(user1, "channelTest");
+    
+    channel.addUser(user2);
+    channel.setOperator(user2);
+    
+    ChannelUser *chUser = channel.getUser(user2);
+    
+    EXPECT_TRUE(chUser != NULL);
+    EXPECT_EQ(CHANNEL_OPERATOR, chUser->type);
+    EXPECT_EQ(&user2, &chUser->user);
+
+    channel.removeOperator("user2");
     chUser = channel.getUser(user2);
     
     EXPECT_TRUE(chUser != NULL);
@@ -349,5 +400,32 @@ TEST(ChannelTest, RemoveUserCanRemoveAllUsers)
     EXPECT_EQ(2, channel.usersCount());
     channel.removeUser(user1);
     channel.removeUser(user2);
+    EXPECT_EQ(0, channel.usersCount());
+}
+
+TEST(ChannelTest, GetUserByNickName)
+{
+    Connection conn1(0, 0, "", 0, "");
+    User user1(conn1);
+    
+    user1.setNickName("testeUser");
+    
+    Channel channel(user1, "channelTest");
+    ChannelUser *chUser = channel.getUser("testeUser");
+
+    EXPECT_TRUE(chUser != NULL);
+    EXPECT_EQ(&user1, &chUser->user);
+}
+
+TEST(ChannelTest, RemoveUserByNickName)
+{
+    Connection conn1(0, 0, "", 0, "");
+    User user1(conn1);
+    user1.setNickName("testeUser");
+    
+    Channel channel(user1, "channelTest");
+
+    EXPECT_EQ(1, channel.usersCount());
+    channel.removeUser("testeUser");
     EXPECT_EQ(0, channel.usersCount());
 }
