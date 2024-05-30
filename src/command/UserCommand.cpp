@@ -58,7 +58,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	user.setUserName(username);
 	user.setRealName(realname);
 	
-	conn.sendMessage(Strings::f(ERR_WELCOMEMESSAGE, nickname, nickname));
+	conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
 	Log::info("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
 }
 
