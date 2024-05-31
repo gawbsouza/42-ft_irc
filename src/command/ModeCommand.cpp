@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 21:50:26 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 14:10:23 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 20:51:42 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ ModeCommand::ModeCommand(ChannelService & channelService): _channelService(chann
 ModeCommand::~ModeCommand() {}
 
 void setChannelModes(User & user, Channel * channel, const std::string & modes, const std::vector<std::string> & args);
+void notifyChange(User & user, Channel * channel, modeFlagStatus type, const std::string op);
 
 void ModeCommand::execute(User & user, std::vector<std::string> args) const
 {
@@ -79,18 +80,15 @@ void ModeCommand::execute(User & user, std::vector<std::string> args) const
 
 void setChannelModes(User & user, Channel * channel, const std::string & modes, const std::vector<std::string> & args)
 {
-    std::string::const_iterator it;
-
-    modeFlagStatus modeOperation = UNCHANGED;
-
-    modeFlagStatus inviteMode = UNCHANGED;
+    modeFlagStatus modeOperation= UNCHANGED;
+    modeFlagStatus inviteMode   = UNCHANGED;
     modeFlagStatus passwordMode = UNCHANGED;
-    modeFlagStatus limitMode = UNCHANGED;
-    modeFlagStatus topicMode = UNCHANGED;
+    modeFlagStatus limitMode    = UNCHANGED;
+    modeFlagStatus topicMode    = UNCHANGED;
     modeFlagStatus operatorMode = UNCHANGED;
 
     std::string passwordValue = "";
-    std::string operatorName = "";
+    std::string operatorName  = "";
     int limitValue = 0;
 
     int passwordArgValueIndex = -1;
@@ -98,6 +96,7 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
     int limitArgValueIndex    = -1;
 
     size_t argsUsed = 0;
+    std::string::const_iterator it;
 
     for (it = modes.begin(); it != modes.end(); it++)
     {
@@ -114,7 +113,6 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
         if (token == 'l') { limitMode    = (modeOperation == ADD)? ADD : REMOVE; }
         if (token == 'o') { operatorMode = (modeOperation == ADD)? ADD : REMOVE; }
 
-        // password args
         if (token == 'k' && passwordMode == ADD && argsUsed < args.size())
         {
             if (passwordArgValueIndex == -1) { 
@@ -124,7 +122,6 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
             passwordValue = args.at(passwordArgValueIndex);
         }
 
-        // operator args
         if (token == 'o' && operatorMode != UNCHANGED && argsUsed < args.size())
         {
             if (operatorArgNameIndex == -1) { 
@@ -134,7 +131,6 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
             operatorName = args.at(operatorArgNameIndex);
         }
 
-        // limit args
         if (token == 'l' && limitMode == ADD && argsUsed < args.size())
         {
             if (limitArgValueIndex == -1) { 
@@ -145,8 +141,6 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
         }
     }
 
-    std::string channelName = "#" + channel->getName();
-    
     if (operatorMode != UNCHANGED)
     {
         ChannelUser *operatorUser = channel->getUser(operatorName);
@@ -158,22 +152,50 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
 
         if (operatorMode == ADD)    { channel->setOperator(operatorName); }
         if (operatorMode == REMOVE) { channel->removeOperator(operatorName); }
-
-        // notificar quem virou operator
+        
+        notifyChange(user, channel, operatorMode, "o " + operatorName);
     }
     
-    if (inviteMode == ADD)    { channel->setInviteOnly(true);  }
-    if (inviteMode == REMOVE) { channel->setInviteOnly(false); }
+    if (inviteMode != UNCHANGED)
+    {
+        if (inviteMode == ADD)    { channel->setInviteOnly(true);  }
+        if (inviteMode == REMOVE) { channel->setInviteOnly(false); }
+        notifyChange(user, channel, inviteMode, "i");
+    }
 
-    if (topicMode == ADD)    { channel->setRestrictTopicChange(true);  }
-    if (topicMode == REMOVE) { channel->setRestrictTopicChange(false); }
+    if (topicMode != UNCHANGED)
+    {
+        if (topicMode == ADD)    { channel->setRestrictTopicChange(true);  }
+        if (topicMode == REMOVE) { channel->setRestrictTopicChange(false); }
+        notifyChange(user, channel, topicMode, "t");
+    }
 
-    if (limitMode == ADD && limitValue > 0 ) { channel->setLimit(limitValue);  }
-    if (limitMode == REMOVE ) { channel->setLimit(0);  }
+    if (limitMode != UNCHANGED)
+    {
+        std::string operation = "l";
+        if (limitMode == ADD && limitValue > 0 ) {
+            channel->setLimit(limitValue);
+            operation.append(" " + args.at(limitArgValueIndex));
+        }
+        if (limitMode == REMOVE ) { channel->setLimit(0);  }
+        notifyChange(user, channel, limitMode, operation);
+    }
 
-    if (passwordMode == ADD && passwordValue.size() != 0 ) { channel->setPassword(passwordValue);  }
-    if (passwordMode == REMOVE ) { channel->setPassword("");  }
+    if (passwordMode)
+    {
+        if (passwordMode == ADD && passwordValue.size() != 0 ) { channel->setPassword(passwordValue);  }
+        if (passwordMode == REMOVE ) { channel->setPassword("");  }
+        notifyChange(user, channel, passwordMode, "k " + passwordValue);
+    }
     
-    user.sendMessage(Strings::f(RPL_CHANNELMODEIS, user.getNickName(), channelName, channel->getModeStr()));
-    channel->broadCast(user, Strings::f(RPL_CHANNELMODEIS, user.getNickName(), channelName, channel->getModeStr()));
+}
+
+void notifyChange(User & user, Channel * channel, modeFlagStatus type, const std::string op)
+{
+    std::string operation = type == ADD ? "+" + op : "-" + op;
+    std::string channelName = "#" + channel->getName();
+    std::string msg = Strings::f(":%s MODE %s %s\r\n", user.getNickName(), channelName, operation);
+
+    user.sendMessage(msg);
+    channel->broadCast(user, msg);
 }

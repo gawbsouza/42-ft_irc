@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:51:32 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 01:39:08 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:29:07 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ public:
     static std::string f(const std::string & str, const std::string & args);
     static std::string f(const std::string & str, const std::string & arg1, const std::string & arg2);
     static std::string f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3);
-
+    static std::string f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3, const std::string & arg4);
 };
 
 #endif

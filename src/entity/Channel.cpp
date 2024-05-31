@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:10:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/29 19:07:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 21:02:57 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,12 +270,20 @@ std::string Channel::getModeStr(void)
         modes << MODE_TOPIC_FLAG;
     }
 
+    if (this->_limit > 0) {
+        modes << MODE_LIMIT_FLAG;
+    }
+    
     if (this->hasPassword()) {
         modes << MODE_PASSWORD_FLAG;
     }
 
     if (this->_limit > 0) {
-        modes << MODE_LIMIT_FLAG << " " << this->getLimit();
+        modes << " " << this->getLimit();
+    }
+
+    if (this->hasPassword()) {
+        modes << " " << this->getPassword();
     }
 
     if (modes.str().size() > 0) {

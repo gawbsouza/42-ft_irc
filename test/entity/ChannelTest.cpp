@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:17:52 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 13:43:29 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 21:04:45 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,7 +318,7 @@ TEST(ChannelTest, GetModeStrWithPassword)
     Channel channel(user, "channelTest");
     channel.setPassword("test");
     
-    EXPECT_EQ("+k", channel.getModeStr());
+    EXPECT_EQ("+k test", channel.getModeStr());
 }
 
 TEST(ChannelTest, GetModeStrWithLimit)
@@ -349,10 +349,10 @@ TEST(ChannelTest, GetModeStrWithMultiFlags)
     EXPECT_EQ("+itl 10", channel.getModeStr());
 
     channel.setPassword("test");
-    EXPECT_EQ("+itkl 10", channel.getModeStr());
+    EXPECT_EQ("+itlk 10 test", channel.getModeStr());
 
     channel.setLimit(0);
-    EXPECT_EQ("+itk", channel.getModeStr());
+    EXPECT_EQ("+itk test", channel.getModeStr());
 }
 
 TEST(ChannelTest, RemoveUserFromInviteListWhenAddedOnChannel)
