@@ -39,33 +39,32 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	
     std::string joinedMessage = Strings::f(":%s %s %s\r\n", nickname, JOIN_CMD, channel);
 	std::string channelName = Strings::removePrefix(channel, "#");
-	conn.sendMessage(joinedMessage);
 
 	if (_service.channelExists(channelName) == true) {
 		Channel * channelGoted = _service.getChannelByName(channelName);
 		
         if (channelGoted->isInviteOnly() && !channelGoted->isInvited(nickname)) {
-			conn.sendMessage(Strings::f(ERR_INVITEONLYCHAN, channelName));
+			conn.sendMessage(Strings::f(ERR_INVITEONLYCHAN, nickname, channel));
             return;
 		}
 
         if (channelGoted->hasPassword() && channelKey != channelGoted->getPassword()) {             
-
-            conn.sendMessage(Strings::f(ERR_BADCHANNELKEY, channelKey));
+            conn.sendMessage(Strings::f(ERR_BADCHANNELKEY, nickname, channel));
             return;
 		}
 
 		size_t usersCount = channelGoted->usersCount();
 		size_t usersLimit = channelGoted->getLimit();
-		if (usersLimit > 0 && usersCount > usersLimit) {
-			conn.sendMessage(Strings::f(ERR_CHANNELISFULL, channelName));
+		if (usersLimit > 0 && usersCount >= usersLimit) {
+			conn.sendMessage(Strings::f(ERR_CHANNELISFULL, nickname, channel));
+			return;
 		}
 
+		channelGoted->addUser(user);
         std::string newUserMessage = Strings::f(":%s %s :#%s\r\n", nickname, JOIN_CMD, channelGoted->getName());
         channelGoted->broadCast(user, newUserMessage);
 		
-		channelGoted->addUser(user);
-		
+		conn.sendMessage(joinedMessage);
 		conn.sendMessage(Strings::f(RPL_TOPIC, nickname, channel, channelGoted->getTopic()));
 		conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(channelGoted->getUsers())));
 		conn.sendMessage(Strings::f(RPL_ENDOFNAMES, channel));
@@ -77,7 +76,8 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	Channel * newChannel = new Channel(user, channelName);
 	_service.addChannel(*newChannel);
 	newChannel->addUser(user);
-		
+	
+	conn.sendMessage(joinedMessage);
 	conn.sendMessage(Strings::f(RPL_NOTOPIC, nickname, channel));
     conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(newChannel->getUsers()))); 
 	conn.sendMessage(Strings::f(RPL_ENDOFNAMES, channel));
@@ -124,8 +124,6 @@ std::string JoinCommand::_joinedchannelUserList(const std::vector<ChannelUser> &
 			joinedChanList.append(" ");
 		}
 	}
-
-	joinedChanList.append("\r\n");
 
 	return joinedChanList;
 }
