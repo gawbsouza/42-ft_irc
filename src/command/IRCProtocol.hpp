@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/30 23:22:58 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:09:30 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@
 #define RPL_NOTOPIC					":ft_irc 331 %s %s :No topic is set\r\n"
 #define RPL_TOPIC					":ft_irc 332 %s %s :%s\r\n"
 #define RPL_NAMREPLY				":ft_irc 353 %s = %s :%s\r\n"
-#define RPL_ENDOFNAMES				":ft_irc 366 %s :End of /NAMES List\r\n"
+#define RPL_ENDOFNAMES				":ft_irc 366 %s %s :End of /NAMES List\r\n"
 
 #endif

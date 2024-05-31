@@ -67,7 +67,7 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 		conn.sendMessage(joinedMessage);
 		conn.sendMessage(Strings::f(RPL_TOPIC, nickname, channel, channelGoted->getTopic()));
 		conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(channelGoted->getUsers())));
-		conn.sendMessage(Strings::f(RPL_ENDOFNAMES, channel));
+		conn.sendMessage(Strings::f(RPL_ENDOFNAMES, nickname, channel));
 
         Log::debug(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
 		return;
@@ -80,7 +80,7 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	conn.sendMessage(joinedMessage);
 	conn.sendMessage(Strings::f(RPL_NOTOPIC, nickname, channel));
     conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(newChannel->getUsers()))); 
-	conn.sendMessage(Strings::f(RPL_ENDOFNAMES, channel));
+	conn.sendMessage(Strings::f(RPL_ENDOFNAMES, nickname, channel));
 	
 	Log::debug(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
 }
