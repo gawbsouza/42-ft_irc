@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRCProtocol.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/30 19:26:36 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 23:22:58 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
 #define ERR_NOTREGISTERED 			":ft_irc 451 %s :You have not registered\r\n"
 #define ERR_NEEDMOREPARAMS          ":ft_irc 461 %s :Not enough parameters\r\n"
 #define ERR_PASSWDMISMATCH          ":ft_irc 464 %s :Password incorrect\r\n"
-#define ERR_CHANNELISFULL 			":ft_irc 471 %s :Cannot join channel, channel is full (+l)\r\n"
-#define ERR_INVITEONLYCHAN 			":ft_irc 473 %s :Cannot join channel, you must be invited first (+i)\r\n"
-#define ERR_BADCHANNELKEY 			":ft_irc 475 %s :Cannot join channel, wrong channel key (+k)\r\n"
+#define ERR_CHANNELISFULL 			":ft_irc 471 %s %s :Cannot join channel, channel is full (+l)\r\n"
+#define ERR_INVITEONLYCHAN 			":ft_irc 473 %s %s :Cannot join channel, you must be invited first (+i)\r\n"
+#define ERR_BADCHANNELKEY 			":ft_irc 475 %s %s :Cannot join channel, wrong channel key (+k)\r\n"
 #define ERR_CHANOPRIVSNEEDED		":ft_irc 482 %s %s :You're not channel operator\r\n"
 
 #define RPL_WELCOMEMESSAGE			":ft_irc 001 %s :Welcome to the ft_irc Network, %s!\r\n"
