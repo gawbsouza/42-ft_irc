@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 02:58:03 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:12:43 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "command/NickCommand.hpp"
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
+#include "command/ModeCommand.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -76,6 +77,7 @@ int	main(int argc, char** argv)
 	JoinCommand joinCommand(channelService);
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
+	ModeCommand modeCommand(channelService);
 	
 	UsersCommand usersCommand(userService);
 	
@@ -85,6 +87,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(USER_CMD, userCommand);
 	commandHandler.addCommand(NICK_CMD, nickCommand);
 	commandHandler.addCommand(JOIN_CMD, joinCommand);
+	commandHandler.addCommand(MODE_CMD, modeCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);

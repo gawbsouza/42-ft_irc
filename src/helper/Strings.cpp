@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Strings.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 01:39:15 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:29:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,11 @@ std::string Strings::f(const std::string & str, const std::string & arg1, const 
 {
 	char msg[1024];
 	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str());
+	return msg;
+}
+std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3, const std::string & arg4)
+{
+	char msg[1024];
+	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str(), arg4.c_str());
 	return msg;
 }

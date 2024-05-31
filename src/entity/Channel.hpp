@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:19:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 22:27:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 13:44:17 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ public:
     void    setLimit(size_t limit);
     
     void          addUser(User & user);
+    
     ChannelUser * getUser(User & user);
     void          removeUser(User & user);
+    ChannelUser * getUser(const std::string & nick);
+    void          removeUser(const std::string & nick);
     
     void        setPassword(const std::string & password);
     std::string getPassword(void);
@@ -87,6 +90,8 @@ public:
 
     void setOperator(User & user);
     void removeOperator(User & user);
+    void setOperator(const std::string & nick);
+    void removeOperator(const std::string & nick);
     
     void broadCast(User & from, const std::string & message);
 
