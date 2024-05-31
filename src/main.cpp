@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 14:12:43 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/30 23:01:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "command/PassCommand.hpp"
 #include "command/UserCommand.hpp"
 #include "command/ModeCommand.hpp"
+#include "command/PrivmsgCommand.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -78,6 +79,7 @@ int	main(int argc, char** argv)
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
 	ModeCommand modeCommand(channelService);
+	PrivmsgCommand privmsgCommand(userService, channelService);
 	
 	UsersCommand usersCommand(userService);
 	
@@ -88,6 +90,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(NICK_CMD, nickCommand);
 	commandHandler.addCommand(JOIN_CMD, joinCommand);
 	commandHandler.addCommand(MODE_CMD, modeCommand);
+	commandHandler.addCommand(PRIVMSG_CMD, privmsgCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
