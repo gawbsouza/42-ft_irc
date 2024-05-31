@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 23:01:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 18:11:41 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "command/UserCommand.hpp"
 #include "command/ModeCommand.hpp"
 #include "command/PrivmsgCommand.hpp"
+#include "command/TopicCommand.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -80,10 +81,10 @@ int	main(int argc, char** argv)
 	UserCommand userCommand(userService);
 	ModeCommand modeCommand(channelService);
 	PrivmsgCommand privmsgCommand(userService, channelService);
+	TopicCommand topicCommand(channelService);
 	
 	UsersCommand usersCommand(userService);
 	
-
 	// Common Commands
 	commandHandler.addCommand(PASS_CMD, passCommand);
 	commandHandler.addCommand(USER_CMD, userCommand);
@@ -91,6 +92,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(JOIN_CMD, joinCommand);
 	commandHandler.addCommand(MODE_CMD, modeCommand);
 	commandHandler.addCommand(PRIVMSG_CMD, privmsgCommand);
+	commandHandler.addCommand(TOPIC_CMD, topicCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
