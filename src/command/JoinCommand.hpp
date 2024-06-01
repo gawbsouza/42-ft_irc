@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:40:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:44:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:52:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define JOIN_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/UserService.hpp"
-# include "../entity/ChannelService.hpp"
+# include "../service/UserService.hpp"
+# include "../service/ChannelService.hpp"
 
 # define JOIN_CMD "JOIN"
 

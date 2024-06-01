@@ -14,8 +14,8 @@
 # define TOPIC_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/UserService.hpp"
-# include "../entity/ChannelService.hpp"
+# include "../service/UserService.hpp"
+# include "../service/ChannelService.hpp"
 
 # define TOPIC_CMD "TOPIC"
 
@@ -32,7 +32,7 @@ public:
     ~TopicCommand(void);
     
     void execute(User & user, std::vector<std::string> args) const;
-    
+
 };
 
 #endif

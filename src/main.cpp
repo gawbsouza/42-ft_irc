@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 19:33:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:53:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "helper/Strings.hpp"
 #include "server/Server.hpp"
 #include "entity/Connection.hpp"
-#include "entity/UserService.hpp"
-#include "entity/ChannelService.hpp"
+#include "service/UserService.hpp"
+#include "service/ChannelService.hpp"
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
 #include "command/JoinCommand.hpp"

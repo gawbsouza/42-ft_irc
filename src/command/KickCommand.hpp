@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:11:53 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:39:44 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:51:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define KICK_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/ChannelService.hpp"
+# include "../service/ChannelService.hpp"
 
 # define KICK_CMD "KICK"
 

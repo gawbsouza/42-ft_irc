@@ -6,13 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:48:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 23:46:39 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:56:16 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <gtest/gtest.h>
 
-#include "../../src/entity/ChannelService.hpp"
+#include "../../src/service/ChannelService.hpp"
 
 TEST(ChannelServiceTest, AddChannel)
 {

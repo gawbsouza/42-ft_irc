@@ -6,13 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 23:25:47 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:15:53 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:56:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <gtest/gtest.h>
 
-#include "../../src/entity/UserService.hpp"
+#include "../../src/service/UserService.hpp"
 
 TEST(UserServiceTest, InitialGetter)
 {

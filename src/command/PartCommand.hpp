@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 21:54:52 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 22:02:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:51:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PART_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/ChannelService.hpp"
+# include "../service/ChannelService.hpp"
 
 # define PART_CMD "PART"
 

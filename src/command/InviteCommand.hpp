@@ -14,8 +14,8 @@
 # define INVITE_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/ChannelService.hpp"
-# include "../entity/UserService.hpp"
+# include "../service/ChannelService.hpp"
+# include "../service/UserService.hpp"
 
 # define INVITE_CMD "INVITE"
 

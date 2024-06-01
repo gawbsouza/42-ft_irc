@@ -6,14 +6,14 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 19:59:54 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:53:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef USER_SERVICE_HPP
 # define USER_SERVICE_HPP
 
-# include "User.hpp"
+# include "../entity/User.hpp"
 
 # include <list>
 

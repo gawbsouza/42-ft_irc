@@ -6,12 +6,12 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 21:50:26 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:39:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:51:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ModeCommand.hpp"
-#include "../entity/ChannelService.hpp"
+#include "../service/ChannelService.hpp"
 #include "../helper/Strings.hpp"
 #include "IRCProtocol.hpp"
 
