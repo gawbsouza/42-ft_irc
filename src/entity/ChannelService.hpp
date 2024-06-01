@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 16:58:16 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:18:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:04:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 class ChannelService
 {
+    
 private:
 
     std::list<Channel *> _channels;

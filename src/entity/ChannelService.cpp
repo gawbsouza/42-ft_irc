@@ -6,15 +6,15 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:43:50 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:34:11 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:04:36 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ChannelService.hpp"
 #include "../helper/Log.hpp"
 
-ChannelService::ChannelService() {}
-ChannelService::~ChannelService() {}
+ChannelService::ChannelService(void) {}
+ChannelService::~ChannelService(void) {}
 
 void ChannelService::addChannel(Channel & channel)
 {

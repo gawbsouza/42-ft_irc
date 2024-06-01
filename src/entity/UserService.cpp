@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:33:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:40:51 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:01:01 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 #include <sstream>
 
-UserService::UserService() {}
-UserService::~UserService() {}
+UserService::UserService(void) {}
+UserService::~UserService(void) {}
 
-size_t UserService::usersCount()
+size_t UserService::usersCount(void)
 {
     return this->_users.size();
 }
@@ -82,7 +82,7 @@ bool UserService::nickNameExists(const std::string & nickName)
     return false;
 }
 
-std::list<User *> UserService::getUsers() const
+std::list<User *> UserService::getUsers(void) const
 {
     return this->_users;
 }

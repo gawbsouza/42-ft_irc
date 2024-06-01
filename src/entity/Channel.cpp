@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:10:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 21:02:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:14:31 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ Channel::Channel(User & creator, const std::string name)
     this->_password = "";
     this->_limit = 0;
     this->_inviteOnly = false;
-    this->_restrictTopicChange = false;
+    this->_restrictTopicChange = true;
 }
 
-Channel::~Channel() { }
+Channel::~Channel(void) { }
 
 std::string Channel::getName(void)
 {
@@ -64,7 +64,7 @@ std::string Channel::getPassword(void)
 
 bool Channel::hasPassword(void)
 {
-    return this->_password != "";
+    return !this->_password.empty();
 }
 
 ChannelUser * Channel::getUser(User & user)
