@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 08:21:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 16:43:39 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:42:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 Log::Level Log::_level = ALL;
 
-std::string replaceScapeChars(const std::string & str) {
+std::string replaceScapeChars(const std::string & str)
+{
     std::string copy = str;
     Strings::replace(copy, "\n", "\\n"); // newline | line feed
     Strings::replace(copy, "\r", "\\r"); // carriage return
@@ -27,7 +28,7 @@ std::string replaceScapeChars(const std::string & str) {
     return copy;
 }
 
-std::string currentDateTime()
+std::string currentDateTime(void)
 {
     time_t now = time(0);
     tm tstruct = {};
@@ -38,11 +39,13 @@ std::string currentDateTime()
     return buf;
 }
 
-void Log::setLevel(const Level level) {
+void Log::setLevel(const Level level)
+{
     Log::_level = level;
 }
 
-Log::Level Log::getLevel() {
+Log::Level Log::getLevel(void)
+{
     return _level;
 }
 
