@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:45:03 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/25 19:48:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:21:27 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ public:
     
     bool nickNameExists(const std::string & nickName);
     
+    void removeDisconnectedUsers(void);
 };
 
 #endif

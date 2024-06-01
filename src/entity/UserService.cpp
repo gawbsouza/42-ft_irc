@@ -6,11 +6,14 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:33:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/25 19:48:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:50:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "UserService.hpp"
+#include "../helper/Log.hpp"
+
+#include <sstream>
 
 UserService::UserService() {}
 UserService::~UserService() {}
@@ -82,4 +85,32 @@ bool UserService::nickNameExists(const std::string & nickName)
 std::list<User *> UserService::getUsers() const
 {
     return this->_users;
+}
+
+void UserService::removeDisconnectedUsers()
+{
+    std::list<User*> copy = this->_users;
+    std::list<User*>::iterator it;
+
+    for (it = copy.begin(); it != copy.end(); it++)
+    {
+        User *user = *it;
+        if (user == NULL) { 
+            continue;
+        }
+        
+        Connection & userConn = user->getConnection();
+        if (!userConn.isClosed()) {
+            continue;
+        }
+        
+        this->_users.remove(user);
+        
+        Log::info("User \"" + user->getNickName() + "\" removed from " + userConn.str());
+        std::stringstream ss; ss << "Users count: " << this->_users.size();
+        Log::debug(ss.str());
+        
+        delete user;
+    }
+
 }

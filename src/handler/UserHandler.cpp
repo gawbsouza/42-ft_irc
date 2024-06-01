@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:20:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 10:55:22 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:34:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void UserHandler::handle(Event event)
     {
         User *user = this->_userService.getUserByConnection(conn);
         if (user == NULL) {
-            Log::error("User not found to remove for connection: " + conn.str());
+            Log::error("User not found to remove from connection: " + conn.str());
             return;
         }
 
@@ -49,23 +49,13 @@ void UserHandler::handle(Event event)
                 if (channel == NULL) {
                     continue;
                 }
-                
                 channel->broadCast(*user, Strings::f(":%s QUIT %s\r\n", user->getNickName(), "Connection closed"));
                 channel->removeUser(*user);
-
-                if (channel->usersCount() == 0) {
-                    this->_channelService.removeChannel(*channel);
-                    Log::info("Channel #" + channel->getName() + " removed because it's empty");
-                    delete channel;
-                }
             }
         }
         
-        this->_userService.removeUser(*user);
-        delete user;
-        Log::debug("User removed for connection: " + conn.str());
+        conn.close();
+        this->_channelService.removeEmptyChannels();
+        this->_userService.removeDisconnectedUsers();
     }
-
-    std::stringstream ss; ss << "Users count: " << this->_userService.usersCount();
-    Log::debug(ss.str());
 }
