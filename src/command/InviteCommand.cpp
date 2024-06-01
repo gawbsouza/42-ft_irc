@@ -19,7 +19,7 @@
 InviteCommand::InviteCommand(UserService & userService, ChannelService & channelService)
                               :_userService(userService), _channelService(channelService) {}
 
-InviteCommand::~InviteCommand() {}
+InviteCommand::~InviteCommand(void) {}
 
 void InviteCommand::execute(User & user, std::vector<std::string> args) const
 {

@@ -21,6 +21,7 @@
 
 class TopicCommand: public Command
 {
+
 private:
 
     ChannelService & _channelService;
@@ -31,6 +32,7 @@ public:
     ~TopicCommand(void);
     
     void execute(User & user, std::vector<std::string> args) const;
+    
 };
 
 #endif

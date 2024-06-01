@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:17:41 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 21:32:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:40:06 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #include "IRCProtocol.hpp"
 
 KickCommand::KickCommand(ChannelService & channelService): _channelService(channelService) {}
-
-KickCommand::~KickCommand() {}
+KickCommand::~KickCommand(void) {}
 
 void KickCommand::execute(User & user, std::vector<std::string> args) const
 {
@@ -85,6 +84,5 @@ void KickCommand::execute(User & user, std::vector<std::string> args) const
         delete channel;
         Log::info("Channel " + channelName + " removed because it's empty");
     }
-    
 }
 

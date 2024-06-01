@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 21:50:26 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 21:24:34 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:39:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef enum
     UNCHANGED,
     ADD,
     REMOVE
-} modeFlagStatus;
+}   modeFlagStatus;
 
 ModeCommand::ModeCommand(ChannelService & channelService): _channelService(channelService) {}
-ModeCommand::~ModeCommand() {}
+ModeCommand::~ModeCommand(void) {}
 
 void setChannelModes(User & user, Channel * channel, const std::string & modes, const std::vector<std::string> & args);
 void notifyChange(User & user, Channel * channel, modeFlagStatus type, const std::string op);
@@ -188,7 +188,6 @@ void setChannelModes(User & user, Channel * channel, const std::string & modes, 
         if (passwordMode == REMOVE ) { channel->setPassword("");  }
         notifyChange(user, channel, passwordMode, "k " + passwordValue);
     }
-    
 }
 
 void notifyChange(User & user, Channel * channel, modeFlagStatus type, const std::string op)

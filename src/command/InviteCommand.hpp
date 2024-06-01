@@ -30,7 +30,7 @@ private:
 public:
 
     InviteCommand(UserService & userService, ChannelService & channelService);
-    ~InviteCommand();
+    ~InviteCommand(void);
 
     void execute(User & user, std::vector<std::string> args) const;
 };

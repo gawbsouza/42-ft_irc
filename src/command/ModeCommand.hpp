@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 23:38:07 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/29 19:16:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:38:49 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "Command.hpp"
 # include "../entity/ChannelService.hpp"
 
-#define MODE_CMD "MODE"
+# define MODE_CMD "MODE"
 
 class ModeCommand: public Command
 {
@@ -28,7 +28,7 @@ private:
 public:
 
     ModeCommand(ChannelService & channelService);
-    ~ModeCommand();
+    ~ModeCommand(void);
 
     void execute(User & user, std::vector<std::string> args) const;
     

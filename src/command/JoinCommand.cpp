@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   JoinCommand.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/01 20:40:45 by gasouza           #+#    #+#             */
+/*   Updated: 2024/06/01 20:45:21 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "JoinCommand.hpp"
 #include "IRCProtocol.hpp"
@@ -9,10 +20,15 @@
 JoinCommand::JoinCommand(ChannelService & service) : _service(service) {}
 JoinCommand::~JoinCommand(void) {}
 
+bool checkChannelName(const std::string & username);
+std::string joinedChannelUserList(const std::vector<ChannelUser> & userList);
+
 void JoinCommand::execute(User & user, std::vector<std::string> args) const
 {
 	Connection &conn = user.getConnection();
+	
 	Log::info(Strings::f(JOIN_CMD " command called from %s", conn.str()));
+	
 	std::string nickname = user.getNickName();
 	std::string channelKey = "";
 
@@ -27,7 +43,7 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
     
 	std::string channel = args[CHANNEL_ARG_INDEX];
 
-	if (!_checkChannelName(channel)) {
+	if (!checkChannelName(channel)) {
         conn.sendMessage(Strings::f(ERR_GENERICERROR, JOIN_CMD, "Invalid size or characters on channel name"));
 		return;
 	}
@@ -40,7 +56,8 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
     std::string joinedMessage = Strings::f(":%s %s %s\r\n", nickname, JOIN_CMD, channel);
 	std::string channelName = Strings::removePrefix(channel, "#");
 
-	if (_service.channelExists(channelName) == true) {
+	if (_service.channelExists(channelName) == true)
+	{
 		Channel * channelGoted = _service.getChannelByName(channelName);
 		
 		if (channelGoted->getUser(user) != NULL) {
@@ -70,7 +87,7 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 		
 		conn.sendMessage(joinedMessage);
 		conn.sendMessage(Strings::f(RPL_TOPIC, nickname, channel, channelGoted->getTopic()));
-		conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(channelGoted->getUsers())));
+		conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, joinedChannelUserList(channelGoted->getUsers())));
 		conn.sendMessage(Strings::f(RPL_ENDOFNAMES, nickname, channel));
 
         Log::debug(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
@@ -85,13 +102,13 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	
 	conn.sendMessage(joinedMessage);
 	conn.sendMessage(Strings::f(RPL_NOTOPIC, nickname, channel));
-    conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(newChannel->getUsers()))); 
+    conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, joinedChannelUserList(newChannel->getUsers()))); 
 	conn.sendMessage(Strings::f(RPL_ENDOFNAMES, nickname, channel));
 	
 	Log::info(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
 }
 
-bool JoinCommand::_checkChannelName(const std::string & channel) const
+bool checkChannelName(const std::string & channel)
 {
 	if (channel.size() < CHANNEL_MIN_LENGTH) {
         return false;
@@ -112,7 +129,7 @@ bool JoinCommand::_checkChannelName(const std::string & channel) const
 	return true;
 }
 
-std::string JoinCommand::_joinedchannelUserList(const std::vector<ChannelUser> & userList) const
+std::string joinedChannelUserList(const std::vector<ChannelUser> & userList)
 {
 	std::string joinedChanList;
 	std::vector<ChannelUser>::const_iterator iter = userList.begin();
