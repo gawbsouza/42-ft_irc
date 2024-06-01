@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:51:22 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:39:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,10 @@
 #define CONN_QUEUE_SIZE 5
 
 void setFdNonBlocking(int fd);
+void serverHeader();
 
-void printHeader()
+Server::Server(int port, const std::string password)
 {
-	Log::debug("");
-	Log::debug("-------------------------------------------");
-	Log::debug("");
-	Log::debug(" .d888 888             d8b                 ");
-	Log::debug("d88P\"  888             Y8P                 ");
-	Log::debug("888    888                                 ");
-	Log::debug("888888 888888          888 888d888 .d8888b ");
-	Log::debug("888    888             888 888P\"  d88P\"    ");
-	Log::debug("888    888             888 888    888      ");
-	Log::debug("888    Y88b.           888 888    Y88b.    ");
-	Log::debug("888     \"Y888 88888888 888 888     \"Y8888P");
-	Log::debug("");
-	Log::debug("-----    Gabriel Souza & Bruno Luiz   -----");
-	Log::debug("");
-}
-
-Server::Server(const std::string & name, int port, const std::string password)
-{
-	this->_name = name;
 	this->_port = port;
 	this->_password = password;
 	this->_serverRunning = false;
@@ -60,7 +42,7 @@ Server::Server(const std::string & name, int port, const std::string password)
 	this->_handlers[EVENT_MESSAGE] = NULL;
 }
 
-Server::~Server() {}
+Server::~Server(void) {}
 
 void Server::addHandler(EventType type, EventHandler & handler)
 {
@@ -69,11 +51,11 @@ void Server::addHandler(EventType type, EventHandler & handler)
 	}
 }
 
-void Server::run()
+void Server::run(void)
 {
 	this->_serverRunning = true;
 
-	printHeader();
+	serverHeader();
 	
 	std::stringstream ss; ss << "Server started on port: " << this->_port;
 	Log::notice(ss.str());
@@ -96,7 +78,7 @@ void Server::run()
 	Log::info("Server stopped!");
 }
 
-void Server::_setup()
+void Server::_setup(void)
 {
 	int socketFd = socket(AF_INET, SOCK_STREAM, 0);
 	
@@ -122,7 +104,7 @@ void Server::_setup()
     	throw std::runtime_error("Binding port to the server socket");
 	}
 
-	std::stringstream ss; ss << "Server socket bind at port " << this->_port;
+	std::stringstream ss; ss << "Server socket bind on port " << this->_port;
     Log::debug(ss.str());
 
 	if (listen(this->_serverSocket, CONN_QUEUE_SIZE) == -1)  {
@@ -132,7 +114,7 @@ void Server::_setup()
 	Log::info("Server listening for connections!");
 }
 
-void Server::_connectionMonitor()
+void Server::_connectionMonitor(void)
 {  
 	Log::debug("Connections monitor started");
 	while (this->_serverRunning)
@@ -190,7 +172,7 @@ void Server::_serverEvents(void)
 	handler->handle(Event(EVENT_CONNECT, *newConn, ""));
 }
 
-void Server::_clientEvents()
+void Server::_clientEvents(void)
 {
 	std::list<Connection *> connToRemove;
 	std::list<Connection *>::iterator it;
@@ -312,4 +294,22 @@ void Server::_connectionClosedHandle(Connection * conn, std::list<Connection *> 
 	if (handler != NULL) {
 		handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
 	}
+}
+
+void serverHeader()
+{
+	Log::info("");
+	Log::info("-------------------------------------------");
+	Log::info("");
+	Log::info(" .d888 888             d8b                 ");
+	Log::info("d88P\"  888             Y8P                 ");
+	Log::info("888    888                                 ");
+	Log::info("888888 888888          888 888d888 .d8888b ");
+	Log::info("888    888             888 888P\"  d88P\"    ");
+	Log::info("888    888             888 888    888      ");
+	Log::info("888    Y88b.           888 888    Y88b.    ");
+	Log::info("888     \"Y888 88888888 888 888     \"Y8888P");
+	Log::info("");
+	Log::info("-----    Gabriel Souza & Bruno Luiz   -----");
+	Log::info("");
 }
