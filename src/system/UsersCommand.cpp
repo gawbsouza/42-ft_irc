@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:44:20 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/26 14:15:42 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 12:23:24 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void UsersCommand::execute(User & user, std::vector<std::string> args) const
     Connection userConn = user.getConnection();
 
     std::stringstream ss;
-    ss << std::endl << users.size() << " Users Connected to Server" << std::endl; userConn.sendMessage(ss.str());
+    ss << std::endl << users.size() << " Users Connected to Server" << std::endl << std::endl;
+    userConn.sendMessage(ss.str());
 
     std::list<User *>::iterator it;
 
