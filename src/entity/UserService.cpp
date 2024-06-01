@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:33:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:50:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:40:51 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void UserService::removeDisconnectedUsers()
         
         this->_users.remove(user);
         
-        Log::info("User \"" + user->getNickName() + "\" removed from " + userConn.str());
+        Log::notice("User \"" + user->getNickName() + "\" removed from " + userConn.str());
         std::stringstream ss; ss << "Users count: " << this->_users.size();
         Log::debug(ss.str());
         

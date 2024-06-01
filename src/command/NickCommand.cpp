@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NickCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:03:37 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:38:43 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	   
 	if(user.isRegistered()) {
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
-        return;
     }
 	
-	Log::info("User set \"" + nickname + "\" nickname from " + conn.str());
+	Log::notice("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
 bool NickCommand::_checkNickname(const std::string & nickname) const

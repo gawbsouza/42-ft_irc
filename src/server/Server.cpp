@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 16:03:42 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:51:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@
 #define CONN_QUEUE_SIZE 5
 
 void setFdNonBlocking(int fd);
+
+void printHeader()
+{
+	Log::debug("");
+	Log::debug("-------------------------------------------");
+	Log::debug("");
+	Log::debug(" .d888 888             d8b                 ");
+	Log::debug("d88P\"  888             Y8P                 ");
+	Log::debug("888    888                                 ");
+	Log::debug("888888 888888          888 888d888 .d8888b ");
+	Log::debug("888    888             888 888P\"  d88P\"    ");
+	Log::debug("888    888             888 888    888      ");
+	Log::debug("888    Y88b.           888 888    Y88b.    ");
+	Log::debug("888     \"Y888 88888888 888 888     \"Y8888P");
+	Log::debug("");
+	Log::debug("-----    Gabriel Souza & Bruno Luiz   -----");
+	Log::debug("");
+}
 
 Server::Server(const std::string & name, int port, const std::string password)
 {
@@ -54,10 +72,12 @@ void Server::addHandler(EventType type, EventHandler & handler)
 void Server::run()
 {
 	this->_serverRunning = true;
+
+	printHeader();
 	
 	std::stringstream ss; ss << "Server started on port: " << this->_port;
-	Log::info(ss.str());
-	Log::info("Server password: " + this->_password);
+	Log::notice(ss.str());
+	Log::notice("Server password: " + this->_password);
 	
 	try
 	{   
@@ -157,7 +177,7 @@ void Server::_serverEvents(void)
 
 	this->_connections.push_back(newConn);
 	
-	Log::info("New connection stablished: " + newConn->str());
+	Log::notice("New connection stablished: " + newConn->str());
 
 	std::stringstream ss; ss << "Connections count: " << this->_connections.size();
 	Log::debug(ss.str());
@@ -243,7 +263,7 @@ void Server::_destroyConnections(void)
 		if (conn == NULL) {
 			continue;
 		}
-		Log::info("Connection closed: " + conn->str());
+		Log::notice("Connection closed: " + conn->str());
 		conn->close();
 		this->_connectionClosedHandle(conn, connToRemove);
 	}
@@ -282,7 +302,7 @@ void Server::_connectionClosedHandle(Connection * conn, std::list<Connection *> 
 	conn->close();
 	connToRemove.push_back(conn);
 	
-	Log::info("Connection closed: " + conn->str());
+	Log::notice("Connection closed: " + conn->str());
 	
 	std::stringstream ss;
 	ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
