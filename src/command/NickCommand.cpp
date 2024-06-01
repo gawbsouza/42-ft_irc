@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   NickCommand.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
+/*   Updated: 2024/06/01 09:42:12 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "NickCommand.hpp"
 #include "IRCProtocol.hpp"
@@ -7,7 +18,9 @@
 
 #include <sstream>
 
-NickCommand::NickCommand(UserService & service): _service(service) {}
+NickCommand::NickCommand(UserService & userService, ChannelService & channelService)
+						:_userService(userService), _channelService(channelService) {}
+						
 NickCommand::~NickCommand(void) {}
 
 void NickCommand::execute(User & user, std::vector<std::string> args) const
@@ -33,7 +46,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
         return;
     }
 
-	if (_service.nickNameExists(nickname)) {
+	if (this->_userService.nickNameExists(nickname)) {
 		conn.sendMessage(Strings::f(ERR_NICKNAMEINUSE, NICK_CMD));
         return;
 	}
@@ -42,8 +55,20 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 		conn.sendMessage(Strings::f("%s %s\r\n", NICK_CMD, nickname));
 	}
 
-	if (user.getNickName().size() > 0){
-		conn.sendMessage(Strings::f(":%s %s %s\r\n", user.getNickName(), NICK_CMD, nickname));
+	if (user.getNickName().size() > 0)
+	{
+		std::string message = Strings::f(":%s %s %s\r\n", user.getNickName(), NICK_CMD, nickname);
+		conn.sendMessage(message);
+		
+		std::vector<Channel *> channels = this->_channelService.getChannelsFromNickname(user.getNickName());
+		
+		for(size_t i = 0; i < channels.size(); i++)
+		{
+			Channel *channel = channels.at(i);
+			if (channel != NULL) {
+				channel->broadCast(user, message);
+			}
+		}
 	}
 
 	user.setNickName(nickname);
