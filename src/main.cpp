@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 01:34:14 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 01:42:10 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #include "command/PrivmsgCommand.hpp"
 #include "command/TopicCommand.hpp"
 #include "command/KickCommand.hpp"
+#include "command/InviteCommand.hpp"
+#include "command/PartCommand.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -84,6 +86,8 @@ int	main(int argc, char** argv)
 	PrivmsgCommand privmsgCommand(userService, channelService);
 	TopicCommand topicCommand(channelService);
 	KickCommand kickCommand(channelService);
+	InviteCommand inviteCommand(userService, channelService);
+	PartCommand partCommand(channelService);
 	
 	UsersCommand usersCommand(userService);
 	
