@@ -6,11 +6,12 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:43:50 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 23:42:40 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:22:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ChannelService.hpp"
+#include "../helper/Log.hpp"
 
 ChannelService::ChannelService() {}
 ChannelService::~ChannelService() {}
@@ -72,5 +73,21 @@ std::vector<Channel *> ChannelService::getChannelsFromNickname(const std::string
     }
 
     return userChannels;
+}
 
+void ChannelService::removeEmptyChannels(void)
+{
+    std::list<Channel *> copy = this->_channels;
+    std::list<Channel *>::iterator it;
+
+    for(it = copy.begin(); it != copy.end(); it++)
+    {
+        Channel *channel = *it;
+        if (channel != NULL && channel->usersCount() == 0)
+        {
+            this->_channels.remove(channel);
+            Log::info("Channel #" + channel->getName() + " removed because is empty");
+            delete channel;
+        }
+    }
 }

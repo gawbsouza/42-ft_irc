@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 21:59:08 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 23:02:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:23:28 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,5 @@ void PartCommand::execute(User & user, std::vector<std::string> args) const
     channel->broadCast(user, notification);
     
     channel->removeUser(user);
-
-    if (channel->usersCount() == 0) {
-        this->_channelService.removeChannel(*channel);
-        delete channel;
-        Log::info("Channel " + channelName + " removed because it's empty");
-    }
-
+    this->_channelService.removeEmptyChannels();
 }

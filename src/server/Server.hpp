@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:34:37 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 00:39:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:42:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ private:
 	void	_clientEvents(void);
 	void	_destroyConnections(void);
 	int		_nextConnId(void);
+
+	void	_connectionClosedHandle(Connection * conn, std::list<Connection *> & connToRemove);
 
 public:
 

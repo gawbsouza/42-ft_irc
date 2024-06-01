@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 00:44:30 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:03:42 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,7 @@ void Server::_clientEvents()
 		std::stringstream ss; 
 		
 		if (conn->isClosed()) {
-			connToRemove.push_back(conn);
-			Log::info("Connection closed: " + conn->str());
-			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
-			Log::debug(ss.str());
+			this->_connectionClosedHandle(conn, connToRemove);
 			continue;
 		}
 
@@ -198,19 +195,7 @@ void Server::_clientEvents()
 		
 		if (activity == -1 || pollFD.revents & POLLHUP)
 		{
-			conn->close();
-			connToRemove.push_back(conn);
-			
-			Log::info("Connection closed: " + conn->str());
-			
-			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
-			Log::debug(ss.str());
-			
-			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
-			if (handler != NULL) {
-				handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
-			}
-
+			this->_connectionClosedHandle(conn, connToRemove);
 			continue;
 		}
 
@@ -222,18 +207,7 @@ void Server::_clientEvents()
 
 		if (conn->isClosed())
 		{
-			connToRemove.push_back(conn);
-			
-			Log::info( "Connection closed: " + conn->str());
-			
-			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
-			Log::debug(ss.str());
-
-			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
-			if (handler != NULL) {
-				handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
-			}
-
+			this->_connectionClosedHandle(conn, connToRemove);
 			continue;
 		}
 
@@ -244,7 +218,9 @@ void Server::_clientEvents()
 	}
 
 	for(it = connToRemove.begin(); it != connToRemove.end(); it++) {
-		this->_connections.remove(*it);
+		Connection * conn = *it;
+		this->_connections.remove(conn);
+		delete conn;
 	}
 }
 
@@ -256,22 +232,30 @@ void Server::stop(void)
 
 void Server::_destroyConnections(void)
 {
-	Log::info("Server closing connections...");
+	Log::info("Server connections closing...");
 	
-	std::list<Connection *> copy = this->_connections; 
+	std::list<Connection *> connToRemove; 
 	std::list<Connection *>::iterator it;
 
-	for (it = copy.begin(); it != copy.end(); it++)
+	for (it = this->_connections.begin(); it != this->_connections.end(); it++)
 	{
 		Connection * conn = *it;
-		
+		if (conn == NULL) {
+			continue;
+		}
 		Log::info("Connection closed: " + conn->str());
-		
 		conn->close();
-		this->_connections.remove(conn);
+		this->_connectionClosedHandle(conn, connToRemove);
 	}
 	
-	Log::info("Server closed connections");
+	for (it = connToRemove.begin(); it != connToRemove.end(); it++)
+	{
+		Connection * conn = *it;
+		this->_connections.remove(conn);
+		delete conn;
+	}
+	
+	Log::info("Server connections closed");
 }
 
 int Server::_nextConnId()
@@ -291,4 +275,21 @@ void setFdNonBlocking(int fd)
     if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
 		Log::error("Setting fd O_NONBLOCK flag");
     }
+}
+
+void Server::_connectionClosedHandle(Connection * conn, std::list<Connection *> & connToRemove)
+{
+	conn->close();
+	connToRemove.push_back(conn);
+	
+	Log::info("Connection closed: " + conn->str());
+	
+	std::stringstream ss;
+	ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
+	Log::debug(ss.str());
+	
+	EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
+	if (handler != NULL) {
+		handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
+	}
 }
