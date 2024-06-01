@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   QuitCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:51:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 01:05:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 02:27:20 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void QuitCommand::execute(User & user, std::vector<std::string> args) const
 
         if (channel->usersCount() == 0) {
             this->_channelService.removeChannel(*channel);
-            delete channel;
             Log::info("Channel #" + channel->getName() + " removed because it's empty");
+            delete channel;
         }
 
     }
