@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:18:22 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:03:37 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	Connection &conn = user.getConnection();
 
 	Log::info(NICK_CMD " command called from " + conn.str());
+
+	if(!user.isAuthenticated()) {
+        conn.sendMessage(Strings::f(ERR_NOTAUTHENTICATED, NICK_CMD));
+        return;
+    }
 
     if (args.size() == 0) {
         conn.sendMessage(Strings::f(ERR_NEEDMOREPARAMS, NICK_CMD));
@@ -68,7 +73,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 
 	user.setNickName(nickname);
 	   
-	if(user.getUserName().size() > 0 && user.isAuthenticated()) {
+	if(user.isRegistered()) {
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
         return;
     }

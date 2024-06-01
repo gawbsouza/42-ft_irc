@@ -16,6 +16,11 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 
 	Log::info(USER_CMD " command called from " + conn.str());
 
+	if(!user.isAuthenticated()) {
+        conn.sendMessage(Strings::f(ERR_NOTAUTHENTICATED, USER_CMD));
+        return;
+    }
+
     if (args.size() < 4) {
         conn.sendMessage(Strings::f(ERR_NEEDMOREPARAMS, USER_CMD));
         return;
@@ -54,7 +59,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	user.setUserName(username);
 	user.setRealName(realname);
 	
-    if(user.getNickName().size() > 0 && user.isAuthenticated()) {
+    if(user.isRegistered()) {
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
         return;
     }
