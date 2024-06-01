@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NickCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 09:42:12 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:18:22 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
-	if (!user.isAuthenticated()) {
-        conn.sendMessage(Strings::f(ERR_NOTAUTHENTICATED, NICK_CMD));
-        return;
-    }
-
 	if (this->_userService.nickNameExists(nickname)) {
 		conn.sendMessage(Strings::f(ERR_NICKNAMEINUSE, NICK_CMD));
         return;
@@ -72,6 +67,11 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	}
 
 	user.setNickName(nickname);
+	   
+	if(user.getUserName().size() > 0 && user.isAuthenticated()) {
+		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
+        return;
+    }
 	
 	Log::info("User set \"" + nickname + "\" nickname from " + conn.str());
 }

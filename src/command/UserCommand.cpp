@@ -41,15 +41,11 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
-    if(user.getNickName().size() == 0) {
-        conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Must register nickname first"));
-        return;
-    }
-
     if(user.isRegistered()) {
         conn.sendMessage(Strings::f(ERR_ALREADYREGISTERED, USER_CMD));
         return;
     }
+	
 	
 	std::string nickname = user.getNickName();
 	Strings::truncateBySize(username, USERNAME_MAX_LENGTH);
@@ -58,7 +54,11 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	user.setUserName(username);
 	user.setRealName(realname);
 	
-	conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
+    if(user.getNickName().size() > 0 && user.isAuthenticated()) {
+		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
+        return;
+    }
+	
 	Log::info("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
 }
 
