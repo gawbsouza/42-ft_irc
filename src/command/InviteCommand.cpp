@@ -69,6 +69,11 @@ void InviteCommand::execute(User & user, std::vector<std::string> args) const
         user.sendMessage(Strings::f(ERR_NOSUCHNICK, user.getNickName(), nicknameToInvite));
         return;
     }
+
+	if (channel->getUser(nicknameToInvite) != NULL){
+		user.sendMessage(Strings::f(ERR_USERONCHANNEL, user.getNickName(), nicknameToInvite, channelName));
+		return;
+	}
     
     channel->invite(nicknameToInvite);
 	user.sendMessage(Strings::f(RPL_INVITING, user.getNickName(), nicknameToInvite, channelName));
