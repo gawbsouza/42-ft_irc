@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 08:21:51 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/18 09:58:33 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:43:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ void Log::info(const std::string & msg)
     }
     std::cout << "INF" << "[" + currentDateTime() + "] "
               << replaceScapeChars(msg) << std::endl;
+}
+
+void Log::notice(const std::string & msg)
+{
+    if (_level > NOTICE) {
+        return;
+    }
+    std::cout << COLOR_CYAN << "NOT" << "[" + currentDateTime() + "] "
+              << replaceScapeChars(msg) << COLOR_RESET << std::endl;
 }
 
 void Log::warning(const std::string & msg)

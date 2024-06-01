@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:00:00 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 23:15:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:33:48 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void CommandHandler::handle(Event event)
 
         // Command not exists
         if (command == NULL) {
-            Log::warning("Command: " + commandName + " not exists");
+            Log::warning("Command " + commandName + " not exists");
             continue;
         }
 

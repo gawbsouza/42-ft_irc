@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:43:50 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:22:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:34:11 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void ChannelService::removeEmptyChannels(void)
         if (channel != NULL && channel->usersCount() == 0)
         {
             this->_channels.remove(channel);
-            Log::info("Channel #" + channel->getName() + " removed because is empty");
+            Log::notice("Channel #" + channel->getName() + " removed because is empty");
             delete channel;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:18:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/10 13:44:20 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:18:01 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ public:
         ALL,
         DEBUG,
         INFO,
+        NOTICE,
         WARNING,
         ERROR,
         NONE
@@ -35,6 +36,7 @@ public:
     
     static void debug(const std::string & msg);
     static void info(const std::string & msg);
+    static void notice(const std::string & msg);
     static void warning(const std::string & msg);
     static void error(const std::string & msg);
 

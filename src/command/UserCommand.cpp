@@ -61,10 +61,9 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	
     if(user.isRegistered()) {
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
-        return;
     }
 	
-	Log::info("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
+	Log::notice("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
 }
 
 bool UserCommand::_checkUsername(const std::string & username) const

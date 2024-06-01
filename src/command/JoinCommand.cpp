@@ -80,13 +80,15 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	Channel * newChannel = new Channel(user, channelName);
 	_service.addChannel(*newChannel);
 	newChannel->addUser(user);
+
+	Log::notice("Channel \"#" + channelName + "\" created by \"" + user.getNickName() + "\" from " + conn.str());
 	
 	conn.sendMessage(joinedMessage);
 	conn.sendMessage(Strings::f(RPL_NOTOPIC, nickname, channel));
     conn.sendMessage(Strings::f(RPL_NAMREPLY, nickname, channel, _joinedchannelUserList(newChannel->getUsers()))); 
 	conn.sendMessage(Strings::f(RPL_ENDOFNAMES, nickname, channel));
 	
-	Log::debug(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
+	Log::info(Strings::f("User \"%s\" joined %s from %s", nickname, channel, conn.str()));
 }
 
 bool JoinCommand::_checkChannelName(const std::string & channel) const

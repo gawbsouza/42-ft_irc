@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:20:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:34:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:33:18 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void UserHandler::handle(Event event)
     {
         User *user = new User(conn);
         this->_userService.addUser(*user);
-        Log::debug("User created for connection: " + conn.str());
+        Log::notice("User created for connection: " + conn.str());
     }
 
     if (event.type == EVENT_DISCONNECT)
