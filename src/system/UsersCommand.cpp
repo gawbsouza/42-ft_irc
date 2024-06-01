@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   UsersCommand.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:44:20 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 12:23:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:27:50 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,17 @@ void UsersCommand::execute(User & user, std::vector<std::string> args) const
             ss  << "   ";
         }
 
-        if (!user->isAuthenticated() && !user->isRegistered()) {
+		int status = user->isRegistered();
+
+        if (status < AUTHENTICATED) {
             ss << " 🔒 ";
         }
         
-        if (user->isAuthenticated() && !user->isRegistered()) {
+        if (status >= AUTHENTICATED && status < REGISTERED) {
             ss << " 🔑 ";
         } 
 
-        if (user->isAuthenticated() && user->isRegistered()) {
+        if (status == REGISTERED) {
             ss << " 👤 ";
         }
 

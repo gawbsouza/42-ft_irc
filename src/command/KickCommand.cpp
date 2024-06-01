@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KickCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:17:41 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 21:32:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:47:21 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void KickCommand::execute(User & user, std::vector<std::string> args) const
     
 	Log::info(KICK_CMD " command called from " + conn.str());
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.sendMessage(Strings::f(ERR_NOTREGISTERED, KICK_CMD));
         return;
     }

@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:29:28 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 19:50:30 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:47:57 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void TopicCommand::execute(User & user, std::vector<std::string> args) const
     
 	Log::info(Strings::f(TOPIC_CMD " command called from %s", conn.str()));
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.sendMessage(Strings::f(ERR_NOTREGISTERED, TOPIC_CMD));
         return;
     }

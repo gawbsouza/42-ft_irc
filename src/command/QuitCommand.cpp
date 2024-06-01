@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:51:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 02:27:20 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:47:57 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void QuitCommand::execute(User & user, std::vector<std::string> args) const
 
 	Log::info(QUIT_CMD " command called from " + conn.str());
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.close();
         Log::debug(QUIT_CMD " closed connection from " + conn.str());
         return;

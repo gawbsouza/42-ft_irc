@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:04:06 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/29 11:04:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:28:36 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 #include "Connection.hpp"
 #include <string>
+
+typedef enum
+{
+	CONNECTED,
+    NICKNAME_SET,
+    USERNAME_SET,
+    AUTHENTICATED = 4,
+    REGISTERED = 7,
+}   RegistrationStatus;
 
 class User
 {
@@ -37,7 +46,7 @@ public:
     Connection & getConnection(void);
 
     bool isAuthenticated(void);
-    bool isRegistered(void);
+    int isRegistered(void);
 
     void authenticate(void);
     void sendMessage(const std::string & message);

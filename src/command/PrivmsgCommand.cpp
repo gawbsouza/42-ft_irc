@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PrivmsgCommand.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:29:28 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 23:05:55 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:47:57 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void PrivmsgCommand::execute(User & user, std::vector<std::string> args) const
     
 	Log::info(Strings::f(PRIVMSG_CMD " command called from %s", conn.str()));
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.sendMessage(Strings::f(ERR_NOTREGISTERED, PRIVMSG_CMD));
         return;
     }

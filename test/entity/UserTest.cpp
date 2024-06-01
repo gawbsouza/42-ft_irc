@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   UserTest.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 23:03:21 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:18:23 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:32:48 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ TEST(UserTest, GettersAndSetters)
     EXPECT_EQ("", user.getUserName());
     EXPECT_EQ("", user.getRealName());
     EXPECT_FALSE(user.isAuthenticated());
-    EXPECT_FALSE(user.isRegistered());
+    EXPECT_FALSE(user.isRegistered() == REGISTERED);
 
     user.setNickName("nickName");
     user.setRealName("realName");
@@ -51,14 +51,14 @@ TEST(UserTest, RegisteredLogic)
     EXPECT_FALSE(user.isRegistered());
 
     user.setNickName("nickName");
-    EXPECT_FALSE(user.isRegistered());
+    EXPECT_FALSE(user.isRegistered() == REGISTERED);
     
     user.setRealName("realName");
-    EXPECT_FALSE(user.isRegistered());
+    EXPECT_FALSE(user.isRegistered() == REGISTERED);
     
     user.setUserName("userName");
-    EXPECT_FALSE(user.isRegistered());
+    EXPECT_FALSE(user.isRegistered() == REGISTERED);
 
     user.authenticate();
-    EXPECT_TRUE(user.isRegistered());
+    EXPECT_TRUE(user.isRegistered() == REGISTERED);
 }

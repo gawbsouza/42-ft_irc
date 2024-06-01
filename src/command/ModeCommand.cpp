@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ModeCommand.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 21:50:26 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 21:24:34 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:48:00 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void notifyChange(User & user, Channel * channel, modeFlagStatus type, const std
 
 void ModeCommand::execute(User & user, std::vector<std::string> args) const
 {
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         user.sendMessage(Strings::f(ERR_GENERICERROR, MODE_CMD, "You are not registered"));
         return;
     }

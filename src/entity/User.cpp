@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 09:21:17 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/29 11:29:02 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 15:43:43 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ void User::sendMessage(const std::string & message)
     this->_conn.sendMessage(message);
 }
 
-bool User::isRegistered(void)
+int User::isRegistered(void)
 {
-    if (!this->isAuthenticated()) { return false; }
-    if (this->_nickName.size() == 0) { return false; }
-    if (this->_userName.size() == 0) { return false; }
-    return true;
+	int status = 0;
+
+    if (this->isAuthenticated()) { status += AUTHENTICATED; }
+    if (this->_nickName.size() > 0) { status += NICKNAME_SET; }
+    if (this->_userName.size() > 0) { status += USERNAME_SET; }
+    return status;
 }
 
 std::string User::getNickName(void)

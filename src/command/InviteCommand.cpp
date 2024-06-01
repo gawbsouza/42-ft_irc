@@ -27,7 +27,7 @@ void InviteCommand::execute(User & user, std::vector<std::string> args) const
     
 	Log::info(INVITE_CMD " command called from " + conn.str());
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.sendMessage(Strings::f(ERR_NOTREGISTERED, INVITE_CMD));
         return;
     }

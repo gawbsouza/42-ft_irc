@@ -32,7 +32,7 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
-    if (!user.isRegistered()) {
+    if (user.isRegistered() != REGISTERED) {
         conn.sendMessage(Strings::f(ERR_NOTREGISTERED, JOIN_CMD));
         return;
     }

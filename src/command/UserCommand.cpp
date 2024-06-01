@@ -41,7 +41,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 		return;
 	}
 
-    if(user.isRegistered()) {
+    if(user.isRegistered() == REGISTERED) {
         conn.sendMessage(Strings::f(ERR_ALREADYREGISTERED, USER_CMD));
         return;
     }
@@ -54,7 +54,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	user.setUserName(username);
 	user.setRealName(realname);
 	
-    if(user.getNickName().size() > 0 && user.isAuthenticated()) {
+    if(user.isRegistered() == REGISTERED) {
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
         return;
     }

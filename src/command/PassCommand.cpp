@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:24:14 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:30:08 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void PassCommand::execute(User & user, std::vector<std::string> args) const
 	
     user.authenticate();
 
-	if(user.getUserName().size() > 0 && user.isAuthenticated()) {
+	if(user.isRegistered() == REGISTERED) {
 		std::string nickname = user.getNickName();
 		conn.sendMessage(Strings::f(RPL_WELCOMEMESSAGE, nickname, nickname));
         return;
