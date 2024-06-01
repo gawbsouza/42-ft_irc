@@ -43,6 +43,10 @@ void JoinCommand::execute(User & user, std::vector<std::string> args) const
 	if (_service.channelExists(channelName) == true) {
 		Channel * channelGoted = _service.getChannelByName(channelName);
 		
+		if (channelGoted->getUser(user) != NULL) {
+			return;
+		}
+
         if (channelGoted->isInviteOnly() && !channelGoted->isInvited(nickname)) {
 			conn.sendMessage(Strings::f(ERR_INVITEONLYCHAN, nickname, channel));
             return;
