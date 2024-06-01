@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 01:48:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 09:37:18 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char** argv)
 	UserHandler userHandler(userService);
 	CommandHandler commandHandler(userService);
 	
-	NickCommand nickCommand(userService);
+	NickCommand nickCommand(userService, channelService);
 	JoinCommand joinCommand(channelService);
 	PassCommand passCommand(userService);
 	UserCommand userCommand(userService);
