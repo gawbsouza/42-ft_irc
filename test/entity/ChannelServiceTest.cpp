@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:48:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 23:20:36 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 23:46:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,25 @@ TEST(ChannelServiceTest, GetChannels)
     EXPECT_EQ(&channel1, channels.at(0));
     EXPECT_EQ(&channel2, channels.at(1));
 }
+
+TEST(ChannelServiceTest, GetUserChannels)
+{
+    Connection conn(0, 0, "", 0, "");
+    User user(conn);
+
+    user.setNickName("userTest");
+
+    Channel channel1(user, "channelTest");
+    Channel channel2(user, "channelTest2");
+    
+    ChannelService service;
+    service.addChannel(channel1);
+    service.addChannel(channel2);
+
+    std::vector<Channel *> channels = service.getChannelsFromNickname("userTest");
+
+    EXPECT_EQ(2, channels.size());
+    EXPECT_EQ(&channel1, channels.at(0));
+    EXPECT_EQ(&channel2, channels.at(1));
+}
+

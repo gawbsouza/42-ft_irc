@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 16:58:16 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 23:15:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 23:32:57 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ public:
     Channel * getChannelByName(const std::string & channelName);
 
     std::vector<Channel *> getChannels(void);
+    std::vector<Channel *> getChannelsFromNickname(const std::string & nick);
 
     size_t channelsCount(void);
     
