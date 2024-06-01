@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/31 20:09:30 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:51:29 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 #define RPL_WELCOMEMESSAGE			":ft_irc 001 %s :Welcome to the ft_irc Network, %s!\r\n"
 #define RPL_CHANNELMODEIS           ":ft_irc 324 %s %s %s\r\n"
 #define RPL_NOTOPIC					":ft_irc 331 %s %s :No topic is set\r\n"
+#define RPL_INVITING				":ft_irc 341 %s %s %s\r\n"
 #define RPL_TOPIC					":ft_irc 332 %s %s :%s\r\n"
 #define RPL_NAMREPLY				":ft_irc 353 %s = %s :%s\r\n"
 #define RPL_ENDOFNAMES				":ft_irc 366 %s %s :End of /NAMES List\r\n"
