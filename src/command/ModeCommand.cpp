@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 21:50:26 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 20:51:42 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:24:34 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void ModeCommand::execute(User & user, std::vector<std::string> args) const
     std::string channelName = args.at(0);
 
     if (channelName.size() == 0 || channelName.at(0) != '#') {
+        user.sendMessage(Strings::f(ERR_GENERICERROR, MODE_CMD, "Wrong channel prefix"));
         return;
     }
     
