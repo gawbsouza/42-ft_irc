@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:43:50 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/27 23:18:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 23:42:40 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,22 @@ std::vector<Channel *> ChannelService::getChannels(void)
 {
     std::vector<Channel *> channels(this->_channels.begin(), this->_channels.end());
     return channels;
+}
+
+std::vector<Channel *> ChannelService::getChannelsFromNickname(const std::string & nick)
+{
+    std::list<Channel *> copy = this->_channels;
+    std::list<Channel *>::iterator it;
+    std::vector<Channel *> userChannels;
+
+    for(it = copy.begin(); it != copy.end(); it++)
+    {
+        Channel *ch = *it;
+        if (ch != NULL && ch->getUser(nick) != NULL) {
+            userChannels.push_back(ch);
+        }
+    }
+
+    return userChannels;
+
 }

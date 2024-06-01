@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 07:49:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 00:44:30 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void Server::_serverEvents(void)
 
 	Connection *newConn = new Connection(this->_nextConnId(), connSocket, connAddrStr, connPort, this->_password);
 
-	this->_connections.push_back(*newConn);
+	this->_connections.push_back(newConn);
 	
 	Log::info("New connection stablished: " + newConn->str());
 
@@ -172,17 +172,25 @@ void Server::_serverEvents(void)
 
 void Server::_clientEvents()
 {
-	std::list<Connection> connToRemove;
-	std::list<Connection>::iterator 	it;
+	std::list<Connection *> connToRemove;
+	std::list<Connection *>::iterator it;
 	
 	for (it = this->_connections.begin(); it != this->_connections.end(); it++) 
 	{
-		Connection &conn = *it;
+		Connection * conn = *it;
 		std::stringstream ss; 
 		
+		if (conn->isClosed()) {
+			connToRemove.push_back(conn);
+			Log::info("Connection closed: " + conn->str());
+			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
+			Log::debug(ss.str());
+			continue;
+		}
+
 		pollfd pollFD	= {};
 		
-		pollFD.fd 		= conn.getFd();
+		pollFD.fd 		= conn->getFd();
 		pollFD.events	= POLLIN | POLLHUP;
 		pollFD.revents	= 0;
 
@@ -190,17 +198,17 @@ void Server::_clientEvents()
 		
 		if (activity == -1 || pollFD.revents & POLLHUP)
 		{
-			conn.close();
+			conn->close();
 			connToRemove.push_back(conn);
 			
-			Log::info("Connection closed: " + conn.str());
+			Log::info("Connection closed: " + conn->str());
 			
 			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
 			Log::debug(ss.str());
 			
 			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
 			if (handler != NULL) {
-				handler->handle(Event(EVENT_DISCONNECT, conn, ""));
+				handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
 			}
 
 			continue;
@@ -210,20 +218,20 @@ void Server::_clientEvents()
 			continue;
 		}
 		
-		std::string message = conn.readMessage();
+		std::string message = conn->readMessage();
 
-		if (conn.isClosed())
+		if (conn->isClosed())
 		{
 			connToRemove.push_back(conn);
 			
-			Log::info( "Connection closed: " + conn.str());
+			Log::info( "Connection closed: " + conn->str());
 			
 			ss.str(""); ss << "Connections count: " << (this->_connections.size() - connToRemove.size());
 			Log::debug(ss.str());
 
 			EventHandler *handler = this->_handlers[EVENT_DISCONNECT];
 			if (handler != NULL) {
-				handler->handle(Event(EVENT_DISCONNECT, conn, ""));
+				handler->handle(Event(EVENT_DISCONNECT, *conn, ""));
 			}
 
 			continue;
@@ -231,7 +239,7 @@ void Server::_clientEvents()
 
 		EventHandler *handler = this->_handlers[EVENT_MESSAGE];
 		if (handler != NULL) {
-			handler->handle(Event(EVENT_MESSAGE, conn, message));
+			handler->handle(Event(EVENT_MESSAGE, *conn, message));
 		}
 	}
 
@@ -250,16 +258,16 @@ void Server::_destroyConnections(void)
 {
 	Log::info("Server closing connections...");
 	
-	std::list<Connection> copy = this->_connections; 
-	std::list<Connection>::iterator it;
+	std::list<Connection *> copy = this->_connections; 
+	std::list<Connection *>::iterator it;
 
 	for (it = copy.begin(); it != copy.end(); it++)
 	{
-		Connection &conn = *it;
+		Connection * conn = *it;
 		
-		Log::info("Connection closed: " + conn.str());
+		Log::info("Connection closed: " + conn->str());
 		
-		conn.close();
+		conn->close();
 		this->_connections.remove(conn);
 	}
 	
