@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/05/31 20:09:30 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 01:16:40 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #define ERR_ERRONEUSNICKNAME        ":ft_irc 432 %s :Invalid nickname format\r\n"
 #define ERR_NICKNAMEINUSE           ":ft_irc 433 %s :This nickname is already in use\r\n"
 #define ERR_NOTONCHANNEL            ":ft_irc 442 %s %s :You're not on that channel\r\n"
+#define ERR_USERONCHANNEL			":ft_irc 443 %s %s %s :is already on channel\r\n"
 #define ERR_NOTREGISTERED 			":ft_irc 451 %s :You have not registered\r\n"
 #define ERR_NEEDMOREPARAMS          ":ft_irc 461 %s :Not enough parameters\r\n"
 #define ERR_PASSWDMISMATCH          ":ft_irc 464 %s :Password incorrect\r\n"
@@ -40,6 +41,7 @@
 #define RPL_WELCOMEMESSAGE			":ft_irc 001 %s :Welcome to the ft_irc Network, %s!\r\n"
 #define RPL_CHANNELMODEIS           ":ft_irc 324 %s %s %s\r\n"
 #define RPL_NOTOPIC					":ft_irc 331 %s %s :No topic is set\r\n"
+#define RPL_INVITING				":ft_irc 341 %s %s %s\r\n"
 #define RPL_TOPIC					":ft_irc 332 %s %s :%s\r\n"
 #define RPL_NAMREPLY				":ft_irc 353 %s = %s :%s\r\n"
 #define RPL_ENDOFNAMES				":ft_irc 366 %s %s :End of /NAMES List\r\n"

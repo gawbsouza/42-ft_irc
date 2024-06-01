@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 22:47:16 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 01:42:10 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "command/PrivmsgCommand.hpp"
 #include "command/TopicCommand.hpp"
 #include "command/KickCommand.hpp"
+#include "command/InviteCommand.hpp"
 #include "command/PartCommand.hpp"
 
 #include "system/UsersCommand.hpp"
@@ -85,6 +86,7 @@ int	main(int argc, char** argv)
 	PrivmsgCommand privmsgCommand(userService, channelService);
 	TopicCommand topicCommand(channelService);
 	KickCommand kickCommand(channelService);
+	InviteCommand inviteCommand(userService, channelService);
 	PartCommand partCommand(channelService);
 	
 	UsersCommand usersCommand(userService);
@@ -99,6 +101,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(TOPIC_CMD, topicCommand);
 	commandHandler.addCommand(KICK_CMD, kickCommand);
 	commandHandler.addCommand(PART_CMD, partCommand);
+	commandHandler.addCommand(INVITE_CMD, inviteCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
