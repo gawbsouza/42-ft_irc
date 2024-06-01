@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 20:57:07 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:47:16 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "command/PrivmsgCommand.hpp"
 #include "command/TopicCommand.hpp"
 #include "command/KickCommand.hpp"
+#include "command/PartCommand.hpp"
 
 #include "system/UsersCommand.hpp"
 
@@ -84,6 +85,7 @@ int	main(int argc, char** argv)
 	PrivmsgCommand privmsgCommand(userService, channelService);
 	TopicCommand topicCommand(channelService);
 	KickCommand kickCommand(channelService);
+	PartCommand partCommand(channelService);
 	
 	UsersCommand usersCommand(userService);
 	
@@ -96,6 +98,7 @@ int	main(int argc, char** argv)
 	commandHandler.addCommand(PRIVMSG_CMD, privmsgCommand);
 	commandHandler.addCommand(TOPIC_CMD, topicCommand);
 	commandHandler.addCommand(KICK_CMD, kickCommand);
+	commandHandler.addCommand(PART_CMD, partCommand);
 
 	// System commands
 	commandHandler.addCommand("@USERS", usersCommand);
