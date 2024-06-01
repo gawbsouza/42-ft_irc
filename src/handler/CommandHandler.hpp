@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:36:07 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/22 18:29:11 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:49:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 class CommandHandler: public EventHandler
 {
+
 private:
 
     std::map<std::string, Command*> _cmds;
@@ -34,6 +35,7 @@ public:
     ~CommandHandler();
 
     void handle(Event event);
+    
     void addCommand(const std::string & name, Command & cmd);
     std::vector<std::string> listCommands(void);
     
