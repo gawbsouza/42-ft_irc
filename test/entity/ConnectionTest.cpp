@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 13:05:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:27:20 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 01:55:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ TEST(ConnectionTest, SendMessage)
 TEST(ConnectionTest, ReadMessage)
 {
     std::string tempfile = "temp-input-file.txt";
-    std::string msg = "Test Message";
+    std::string msg = "Test Message\n";
     
     std::ofstream file(tempfile);
     file << msg;

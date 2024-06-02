@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:03:40 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 01:40:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ size_t Connection::sendMessage (const std::string &msg)
         this->close();
         return 0;
     }
-    Log::debug("Sent to " + this->str() + " " + msg);
+    Log::debug("Write to " + this->str() + " \"" + msg + "\"");
     return written;
 }
 
@@ -137,7 +137,7 @@ std::string Connection::readMessage(void)
 
     const int bytesRead = read(this->_fd, buff, buffSize);
 
-    if (bytesRead < 1) { // end of file or error
+    if (bytesRead < 1) {
         this->_closed = true;
         return "";
     }
@@ -148,6 +148,16 @@ std::string Connection::readMessage(void)
     strncpy(resultStr, buff, bytesRead);
     resultStr[bytesRead] = nullByte;
 
-    Log::debug("Received from " + this->str() + " " + resultStr);
-    return resultStr;
+    Log::debug("Read from " + this->str() + " \"" + resultStr + "\"");
+
+    this->_buffer << resultStr;
+
+    if (this->_buffer.str().find("\n") != std::string::npos) {
+        std::string completeMsg = this->_buffer.str();
+        this->_buffer.str(""); // clean buffer;
+        Log::debug("Message read from " + this->str() + " \"" + completeMsg + "\"");
+        return completeMsg;
+    }
+
+    return "";
 }
