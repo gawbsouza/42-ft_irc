@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:36:00 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 00:32:02 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	}
 
 	if (this->_userService.nickNameExists(nickname)) {
-		conn.sendMessage(Strings::f(ERR_NICKNAMEINUSE, NICK_CMD));
+		conn.sendMessage(Strings::f(ERR_NICKNAMEINUSE, NICK_CMD, nickname));
         return;
 	}
 
