@@ -6,7 +6,7 @@
 /*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/02 11:02:56 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:58:36 by bluiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
     }
     
 	std::string nickname = args[NICKNAME_ARG_INDEX];
+
+	if (nickname == user.getNickName()) {
+        return;
+	}
 
 	if (!checkNickname(nickname)) {
         conn.sendMessage(Strings::f(ERR_ERRONEUSNICKNAME, nickname));
