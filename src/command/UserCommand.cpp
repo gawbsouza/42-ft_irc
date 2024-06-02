@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:27:33 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:27:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:27:49 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include <sstream>
 
-UserCommand::UserCommand(UserService & service): _service(service) {}
+UserCommand::UserCommand(void) {}
 UserCommand::~UserCommand(void) {}
 
 bool checkUsername(const std::string & username);

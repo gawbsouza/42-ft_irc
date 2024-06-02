@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:53:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:33:58 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #include "command/UsersCommand.hpp"
 #include "command/ChannelsCommand.hpp"
 
+#include <string>
 #include <iostream>
 #include <sstream>
 #include <csignal>
@@ -81,8 +82,8 @@ int	main(int argc, char** argv)
 	// Commands
 	NickCommand nickCommand(userService, channelService);
 	JoinCommand joinCommand(channelService);
-	PassCommand passCommand(userService);
-	UserCommand userCommand(userService);
+	PassCommand passCommand;
+	UserCommand userCommand;
 	ModeCommand modeCommand(channelService);
 	PrivmsgCommand privmsgCommand(userService, channelService);
 	TopicCommand topicCommand(channelService);

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:27:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:52:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:27:34 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,10 @@
 
 class UserCommand: public Command
 {
-    
-private:
-
-    UserService & _service;
 
 public:
 
-    UserCommand(UserService & userService);
+    UserCommand(void);
     ~UserCommand(void);
     
     void execute(User & user, std::vector<std::string> args) const;

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:24:15 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 08:37:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:34:46 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define EVENT_HANDLER_HPP
 
 # include "../entity/Connection.hpp"
+
+# include <string>
 
 typedef enum 
 {

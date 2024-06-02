@@ -6,14 +6,14 @@
 #    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/06/01 19:29:59 by gasouza          ###   ########.fr        #
+#    Updated: 2024/06/02 02:37:49 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= ircserv
 
-COMPILER	= g++ -c
-LINKER		= g++
+COMPILER	= clang -c
+LINKER		= clang
 CFLAGS		= -Wall -Werror -Wextra -std=c++98
 
 SRCS		= $(wildcard src/*/*.cpp)
