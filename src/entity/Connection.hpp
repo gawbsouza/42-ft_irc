@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:50:10 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:02:16 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 01:11:49 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CONNECTION_HPP
 
 # include <string>
+# include <sstream>
 
 class Connection
 {
@@ -24,6 +25,8 @@ class Connection
     std::string _password;
     
     int _readBufferSize;
+    
+    std::stringstream _buffer;
     
 	bool _closed;
 

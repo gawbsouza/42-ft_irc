@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/02 01:02:50 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 01:44:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,6 @@ void Server::_destroyConnections(void)
 		if (conn == NULL) {
 			continue;
 		}
-		Log::notice("Connection closed: " + conn->str());
 		this->_connectionClosedHandle(conn, connToRemove);
 	}
 	
