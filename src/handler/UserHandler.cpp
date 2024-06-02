@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:20:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 19:48:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 00:46:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ void UserHandler::handle(Event event)
     {
         User *user = new User(conn);
         this->_userService.addUser(*user);
-        Log::notice("User created for connection: " + conn.str());
+        Log::notice("User created for " + conn.str());
     }
 
     if (event.type == EVENT_DISCONNECT)
     {
         User *user = this->_userService.getUserByConnection(conn);
         if (user == NULL) {
-            Log::error("User not found to remove from connection: " + conn.str());
             return;
         }
 

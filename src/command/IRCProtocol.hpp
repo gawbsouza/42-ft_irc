@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/06/01 20:47:51 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 00:31:55 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #define ERR_NOSUCHNICK              ":ft_irc 401 %s %s :No such nick\r\n"
 #define ERR_NOSUCHCHANNEL           ":ft_irc 403 %s %s :No such channel\r\n"
 #define ERR_ERRONEUSNICKNAME        ":ft_irc 432 %s :Invalid nickname format\r\n"
-#define ERR_NICKNAMEINUSE           ":ft_irc 433 %s :This nickname is already in use\r\n"
+#define ERR_NICKNAMEINUSE           ":ft_irc 433 %s %s :This nickname is already in use\r\n"
 #define ERR_NOTONCHANNEL            ":ft_irc 442 %s %s :You're not on that channel\r\n"
 #define ERR_USERONCHANNEL			":ft_irc 443 %s %s %s :is already on channel\r\n"
 #define ERR_NOTREGISTERED 			":ft_irc 451 %s :You have not registered\r\n"

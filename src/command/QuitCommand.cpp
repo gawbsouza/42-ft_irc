@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:51:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 15:24:19 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 00:33:21 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void QuitCommand::execute(User & user, std::vector<std::string> args) const
 
     if (!user.isRegistered()) {
         conn.close();
-        Log::debug(QUIT_CMD " closed connection from " + conn.str());
         return;
     }
 
