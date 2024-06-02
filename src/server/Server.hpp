@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:34:37 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 19:23:42 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 22:07:52 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ private:
 
 	void _setup(void);
 	void _connectionMonitor(void);
-	void _serverEvents(void);
-	void _clientEvents(void);
+	void _serverConnectionEvent(void);
+	void _connectionEvents(void);
 	void _destroyConnections(void);
 	int  _nextConnId(void);
 

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:46:43 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 19:39:22 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 22:08:20 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,12 @@ void Server::_setup(void)
 		throw std::runtime_error("Server socket start listening");
 	}
 
+	std::string connAddrStr = inet_ntoa(serverAddr.sin_addr);
+	int connPort			= ntohs(serverAddr.sin_port);
+
+	Connection *newConn = new Connection(this->_nextConnId(), this->_serverSocket, connAddrStr, connPort, this->_password);
+	this->_connections.push_back(newConn);
+
 	Log::info("Server listening for connections!");
 }
 
@@ -119,31 +125,13 @@ void Server::_connectionMonitor(void)
 	Log::debug("Connections monitor started");
 	while (this->_serverRunning)
     {
-		this->_serverEvents();
-		this->_clientEvents();
+		this->_connectionEvents();
 	}
 	Log::debug("Connections monitor stopped");
 }
 
-void Server::_serverEvents(void)
+void Server::_serverConnectionEvent(void)
 {
-	pollfd pollFD = {};
-
-	pollFD.fd		= this->_serverSocket;
-	pollFD.events	= POLLIN;
-	pollFD.revents	= 0;
-	
-	int activity	= poll(&pollFD, 1, 0);
-
-	if (activity == -1) {
-		Log::debug("Function poll interrupted for server socket");
-		return;
-	}
-	
-	if (activity != 1 || !(pollFD.revents & POLLIN)) {
-		return;
-	}
-	
 	sockaddr_in connAddr	= {};
 	socklen_t connAddSize	= sizeof(connAddr);
 	sockaddr *sockAddr		= reinterpret_cast<sockaddr*>(&connAddr);
@@ -172,7 +160,7 @@ void Server::_serverEvents(void)
 	handler->handle(Event(EVENT_CONNECT, *newConn, ""));
 }
 
-void Server::_clientEvents(void)
+void Server::_connectionEvents(void)
 {
 	std::list<Connection *> connToRemove;
 	std::list<Connection *>::iterator it;
@@ -202,6 +190,12 @@ void Server::_clientEvents(void)
 		}
 
 		if (!(pollFD.revents & POLLIN)) {
+			continue;
+		}
+
+		if (pollFD.fd == this->_serverSocket)
+		{
+			this->_serverConnectionEvent();
 			continue;
 		}
 		
@@ -283,6 +277,10 @@ void Server::_connectionClosedHandle(Connection * conn, std::list<Connection *> 
 {
 	conn->close();
 	connToRemove.push_back(conn);
+	
+	if (conn->getFd() == this->_serverSocket) {
+		return;
+	}
 	
 	Log::notice("Connection closed: " + conn->str());
 	
