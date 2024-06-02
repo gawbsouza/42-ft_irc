@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
+#    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/06/02 07:52:47 by gasouza          ###   ########.fr        #
+#    Updated: 2024/06/02 13:51:50 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,4 +77,9 @@ test-fclean: test-clean
 
 test-re: test-fclean test
 
-.PHONY: test test-run test-clean test-fclean test-re
+test-install:
+	@sudo apt install libgtest-dev libgmock-dev cmake -y
+	@sudo cmake -F /usr/src/googletest/CMakeLists.txt
+	@sudo make install -C /usr/src/googletest
+
+.PHONY: test test-run test-clean test-fclean test-re test-install
