@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:36:23 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:52:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:24:51 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,10 @@
 
 class PassCommand: public Command
 {
-    
-private:
-
-    UserService & _service;
 
 public:
 
-    PassCommand(UserService & userService);
+    PassCommand(void);
     ~PassCommand(void);
     
     void execute(User & user, std::vector<std::string> args) const;

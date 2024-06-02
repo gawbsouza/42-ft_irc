@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:40:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:36:28 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 02:23:36 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <cstdio>
 #include <sstream>
 
-PassCommand::PassCommand(UserService & service): _service(service) {}
+PassCommand::PassCommand(void) {}
 PassCommand::~PassCommand(void) {}
 
 void PassCommand::execute(User & user, std::vector<std::string> args) const

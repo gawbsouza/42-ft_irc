@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:19:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:05:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 07:56:05 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ struct ChannelUser
 {
     User & user;
     ChannelUserType type;
+
+	ChannelUser(User & user, ChannelUserType type): user(user), type(type) {}
 
     bool operator==(const ChannelUser & chUser) const {
         return &user == &chUser.user; 

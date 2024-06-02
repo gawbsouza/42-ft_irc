@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:10:34 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 20:14:31 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/02 07:55:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@
 
 Channel::Channel(User & creator, const std::string name)
 {
-    ChannelUser channelUser = {
-        user: creator,
-        type: CHANNEL_OPERATOR
-    };
+	ChannelUser channelUser(creator, CHANNEL_OPERATOR);
 
     this->_users.push_back(channelUser);
     this->_name = name;
@@ -114,10 +111,7 @@ void Channel::addUser(User & user)
     
     this->_inviteList.remove(user.getNickName());
 
-    ChannelUser chUser = {
-        user: user,
-        type: CHANNEL_COMMON
-    };
+    ChannelUser chUser(user, CHANNEL_COMMON);
 
     this->_users.push_back(chUser);
 }
