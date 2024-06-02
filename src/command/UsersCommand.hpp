@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ChannelsCommand.hpp                                :+:      :+:    :+:   */
+/*   UsersCommand.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 10:31:47 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 10:55:43 by gasouza          ###   ########.fr       */
+/*   Created: 2024/05/25 19:40:43 by gasouza           #+#    #+#             */
+/*   Updated: 2024/06/01 20:52:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHANNELS_COMMAND_HPP
-# define CHANNELS_COMMAND_HPP
+#ifndef USERS_COMMAND_HPP
+# define USERS_COMMAND_HPP
 
-#include "../command/Command.hpp"
-#include "../entity/ChannelService.hpp"
+# include "../service/UserService.hpp"
+# include "../command/Command.hpp"
 
-class ChannelsCommand: public Command
+class UsersCommand: public Command
 {
-    
 private:
 
-    ChannelService & _channelService;
+    UserService & _service;
 
 public:
 
-    ChannelsCommand(ChannelService & channelService);
-    ~ChannelsCommand(void);
-
+    UsersCommand(UserService & service);
+    ~UsersCommand(void);
+    
     void execute(User & user, std::vector<std::string> args) const;
+    
 };
-
 
 #endif

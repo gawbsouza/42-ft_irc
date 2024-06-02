@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 23:11:31 by gasouza           #+#    #+#              #
-#    Updated: 2024/06/01 16:04:26 by gasouza          ###   ########.fr        #
+#    Updated: 2024/06/01 19:29:59 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= ircserv
 
 COMPILER	= g++ -c
 LINKER		= g++
-CFLAGS		= -Wall -Werror -Wextra -std=c++98 -g
+CFLAGS		= -Wall -Werror -Wextra -std=c++98
 
 SRCS		= $(wildcard src/*/*.cpp)
 INCS 		= $(wildcard src/*/*.hpp)

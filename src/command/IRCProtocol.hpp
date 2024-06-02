@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRCProtocol.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 21:00:07 by bluiz-al          #+#    #+#             */
-/*   Updated: 2024/06/01 01:16:40 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:47:51 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define XCHARS_PATTERN  "-_."
 
-// Custom
+// Custom Errors
 #define ERR_GENERICERROR            ":ft_irc 400 %s :%s\r\n"
 #define ERR_ALREADYAUTHENTICATED    ":ft_irc 400 %s :You already authenticated\r\n"
 #define ERR_NOTAUTHENTICATED        ":ft_irc 400 %s :You are not authenticated\r\n"
@@ -23,7 +23,7 @@
 #define ERR_REALNAMEINVALIDCHARS    ":ft_irc 400 %s :Realname contains no printable characters\r\n"
 #define ERR_ALREADYREGISTERED       ":ft_irc 400 %s :You already registered\r\n"
 
-// Protocol Default
+// Protocol Errors
 #define ERR_NOSUCHNICK              ":ft_irc 401 %s %s :No such nick\r\n"
 #define ERR_NOSUCHCHANNEL           ":ft_irc 403 %s %s :No such channel\r\n"
 #define ERR_ERRONEUSNICKNAME        ":ft_irc 432 %s :Invalid nickname format\r\n"
@@ -38,6 +38,7 @@
 #define ERR_BADCHANNELKEY 			":ft_irc 475 %s %s :Cannot join channel, wrong channel key (+k)\r\n"
 #define ERR_CHANOPRIVSNEEDED		":ft_irc 482 %s %s :You're not channel operator\r\n"
 
+// Protocol Replies
 #define RPL_WELCOMEMESSAGE			":ft_irc 001 %s :Welcome to the ft_irc Network, %s!\r\n"
 #define RPL_CHANNELMODEIS           ":ft_irc 324 %s %s %s\r\n"
 #define RPL_NOTOPIC					":ft_irc 331 %s %s :No topic is set\r\n"

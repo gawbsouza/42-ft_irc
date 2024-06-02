@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   UserCommand.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/01 20:27:33 by gasouza           #+#    #+#             */
+/*   Updated: 2024/06/01 20:27:45 by gasouza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "UserCommand.hpp"
 #include "IRCProtocol.hpp"
@@ -9,6 +20,9 @@
 
 UserCommand::UserCommand(UserService & service): _service(service) {}
 UserCommand::~UserCommand(void) {}
+
+bool checkUsername(const std::string & username);
+bool checkRealname(const std::string & realname);
 
 void UserCommand::execute(User & user, std::vector<std::string> args) const
 {
@@ -28,7 +42,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 
 	std::string username = args[USERNAME_ARG_INDEX];
     
-	if (!_checkUsername(username)) {
+	if (!checkUsername(username)) {
         conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Username contains invalid characters"));
 		return;
 	}
@@ -41,7 +55,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 		realname.append(remainingNameParts);
 	}
 	
-	if (!_checkRealname(realname)){
+	if (!checkRealname(realname)){
 		conn.sendMessage(Strings::f(ERR_GENERICERROR, USER_CMD, "Username contains invalid characters"));
 		return;
 	}
@@ -50,7 +64,6 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
         conn.sendMessage(Strings::f(ERR_ALREADYREGISTERED, USER_CMD));
         return;
     }
-	
 	
 	std::string nickname = user.getNickName();
 	Strings::truncateBySize(username, USERNAME_MAX_LENGTH);
@@ -66,7 +79,7 @@ void UserCommand::execute(User & user, std::vector<std::string> args) const
 	Log::notice("User set \"" + username + "\" username and \"" + realname + "\" realname from " + conn.str());
 }
 
-bool UserCommand::_checkUsername(const std::string & username) const
+bool checkUsername(const std::string & username)
 {
 	if (!Strings::isOnPattern(username, ALPHANUM_PATTERN, 0)){
 		return false;
@@ -79,10 +92,10 @@ bool UserCommand::_checkUsername(const std::string & username) const
 	return true;
 }
 
-bool UserCommand::_checkRealname(std::string & realname) const
+bool checkRealname(const std::string & realname)
 {
-	std::string::iterator iter = realname.begin();
-	std::string::iterator end = realname.end();
+	std::string::const_iterator iter = realname.begin();
+	std::string::const_iterator end = realname.end();
 	
 	for (; iter != end; iter++){
 		if(!std::isprint(*iter)){

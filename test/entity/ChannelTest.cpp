@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 20:17:52 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 21:04:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:15:31 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ TEST(ChannelTest, DefaultStateAndGetters)
     EXPECT_EQ("", channel.getTopic());
     EXPECT_EQ(0, channel.getLimit());
     EXPECT_FALSE(channel.isInviteOnly());
-    EXPECT_FALSE(channel.isRestrictTopicChange());
+    EXPECT_TRUE(channel.isRestrictTopicChange());
     EXPECT_EQ("", channel.getPassword());
     EXPECT_FALSE(channel.hasPassword());
 }
@@ -124,11 +124,11 @@ TEST(ChannelTest, GetAndSetRestrictTopicChange)
 
     Channel channel(user1, "channelTest");
     
-    EXPECT_FALSE(channel.isRestrictTopicChange());
-    channel.setRestrictTopicChange(true);
     EXPECT_TRUE(channel.isRestrictTopicChange());
     channel.setRestrictTopicChange(false);
     EXPECT_FALSE(channel.isRestrictTopicChange());
+    channel.setRestrictTopicChange(true);
+    EXPECT_TRUE(channel.isRestrictTopicChange());
 }
 
 TEST(ChannelTest, Invite)
@@ -285,7 +285,7 @@ TEST(ChannelTest, GetModeStrWithInitialState)
     
     Channel channel(user, "channelTest");
     
-    EXPECT_EQ("", channel.getModeStr());
+    EXPECT_EQ("+t", channel.getModeStr());
 }
 
 TEST(ChannelTest, GetModeStrWithInviteOnlyFlag)
@@ -296,7 +296,7 @@ TEST(ChannelTest, GetModeStrWithInviteOnlyFlag)
     Channel channel(user, "channelTest");
     channel.setInviteOnly(true);
     
-    EXPECT_EQ("+i", channel.getModeStr());
+    EXPECT_EQ("+it", channel.getModeStr());
 }
 
 TEST(ChannelTest, GetModeStrWithRestrictTopicFlag)
@@ -318,7 +318,7 @@ TEST(ChannelTest, GetModeStrWithPassword)
     Channel channel(user, "channelTest");
     channel.setPassword("test");
     
-    EXPECT_EQ("+k test", channel.getModeStr());
+    EXPECT_EQ("+tk test", channel.getModeStr());
 }
 
 TEST(ChannelTest, GetModeStrWithLimit)
@@ -329,7 +329,7 @@ TEST(ChannelTest, GetModeStrWithLimit)
     Channel channel(user, "channelTest");
     channel.setLimit(10);
     
-    EXPECT_EQ("+l 10", channel.getModeStr());
+    EXPECT_EQ("+tl 10", channel.getModeStr());
 }
 
 TEST(ChannelTest, GetModeStrWithMultiFlags)
@@ -340,19 +340,19 @@ TEST(ChannelTest, GetModeStrWithMultiFlags)
     Channel channel(user, "channelTest");
     
     channel.setLimit(10);
-    EXPECT_EQ("+l 10", channel.getModeStr());
+    EXPECT_EQ("+tl 10", channel.getModeStr());
 
     channel.setInviteOnly(true);
-    EXPECT_EQ("+il 10", channel.getModeStr());
-
-    channel.setRestrictTopicChange(true);
     EXPECT_EQ("+itl 10", channel.getModeStr());
 
+    channel.setRestrictTopicChange(false);
+    EXPECT_EQ("+il 10", channel.getModeStr());
+
     channel.setPassword("test");
-    EXPECT_EQ("+itlk 10 test", channel.getModeStr());
+    EXPECT_EQ("+ilk 10 test", channel.getModeStr());
 
     channel.setLimit(0);
-    EXPECT_EQ("+itk test", channel.getModeStr());
+    EXPECT_EQ("+ik test", channel.getModeStr());
 }
 
 TEST(ChannelTest, RemoveUserFromInviteListWhenAddedOnChannel)

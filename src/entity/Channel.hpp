@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:19:11 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 13:44:17 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:05:46 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ struct ChannelUser
 
 class Channel
 {
+    
 private:
 
     std::string _name;
@@ -50,34 +51,34 @@ private:
     std::list<ChannelUser> _users;
     std::list<std::string> _inviteList;
 
-    size_t      _limit;
-    bool        _inviteOnly;
-    bool        _restrictTopicChange;
+    size_t _limit;
+    bool _inviteOnly;
+    bool _restrictTopicChange;
     std::string _password;
 
 public:
 
     Channel(User & creator, const std::string name);
-    ~Channel();
+    ~Channel(void);
 
     std::string getName(void);
     
     std::string getTopic(void);
-    void        setTopic(const std::string & topic);
+    void setTopic(const std::string & topic);
     
-    size_t  getLimit(void);
-    void    setLimit(size_t limit);
+    size_t getLimit(void);
+    void setLimit(size_t limit);
     
-    void          addUser(User & user);
+    void addUser(User & user);
     
     ChannelUser * getUser(User & user);
-    void          removeUser(User & user);
+    void removeUser(User & user);
     ChannelUser * getUser(const std::string & nick);
-    void          removeUser(const std::string & nick);
+    void removeUser(const std::string & nick);
     
-    void        setPassword(const std::string & password);
+    void setPassword(const std::string & password);
     std::string getPassword(void);
-    bool        hasPassword(void);
+    bool hasPassword(void);
     
     void setInviteOnly(bool status);
     bool isInviteOnly(void);
@@ -96,10 +97,10 @@ public:
     void broadCast(User & from, const std::string & message);
 
     std::vector<ChannelUser> getUsers(void);
-    
     size_t usersCount(void);
     
     std::string getModeStr(void);
+    
 };
 
 #endif

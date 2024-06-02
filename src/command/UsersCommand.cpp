@@ -6,16 +6,17 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:44:20 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 12:23:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:18:55 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "UsersCommand.hpp"
+
 #include <iostream>
 #include <sstream>
 
 UsersCommand::UsersCommand(UserService & service): _service(service) {}
-UsersCommand::~UsersCommand() {}
+UsersCommand::~UsersCommand(void) {}
     
 void UsersCommand::execute(User & user, std::vector<std::string> args) const
 {
@@ -71,6 +72,5 @@ void UsersCommand::execute(User & user, std::vector<std::string> args) const
         userConn.sendMessage(ss.str());
     }
 
-    userConn.sendMessage("\n");
-    
+    userConn.sendMessage("\r\n");
 }

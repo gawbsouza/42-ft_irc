@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TopicCommand.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bluiz-al <bluiz-al@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:29:28 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/31 19:50:30 by bluiz-al         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:30:45 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "../helper/Strings.hpp"
 #include "IRCProtocol.hpp"
 
-TopicCommand::TopicCommand(ChannelService & channelService)
-: _channelService(channelService) {}
+TopicCommand::TopicCommand(ChannelService & channelService): _channelService(channelService) {}
      
 TopicCommand::~TopicCommand(void) {}
 

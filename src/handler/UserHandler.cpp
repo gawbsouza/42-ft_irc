@@ -6,13 +6,14 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 23:20:58 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 16:33:18 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:48:37 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "UserHandler.hpp"
 #include "../helper/Log.hpp"
 #include "../helper/Strings.hpp"
+
 #include <sstream>
 
 UserHandler::UserHandler(UserService & userService, ChannelService & channelService)

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 09:29:49 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 17:38:43 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:36:00 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ NickCommand::NickCommand(UserService & userService, ChannelService & channelServ
 						:_userService(userService), _channelService(channelService) {}
 						
 NickCommand::~NickCommand(void) {}
+
+bool checkNickname(const std::string & username);
 
 void NickCommand::execute(User & user, std::vector<std::string> args) const
 {
@@ -41,7 +43,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
     
 	std::string nickname = args[NICKNAME_ARG_INDEX];
 
-	if (!_checkNickname(nickname)) {
+	if (!checkNickname(nickname)) {
         conn.sendMessage(Strings::f(ERR_ERRONEUSNICKNAME, nickname));
 		return;
 	}
@@ -80,7 +82,7 @@ void NickCommand::execute(User & user, std::vector<std::string> args) const
 	Log::notice("User set \"" + nickname + "\" nickname from " + conn.str());
 }
 
-bool NickCommand::_checkNickname(const std::string & nickname) const
+bool checkNickname(const std::string & nickname)
 {
 	if (nickname.size() > NICKNAME_MAX_LENGTH){
         return false;

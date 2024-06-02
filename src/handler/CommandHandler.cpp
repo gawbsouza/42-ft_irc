@@ -6,15 +6,15 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:00:00 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 16:33:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:56:12 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "CommandHandler.hpp"
 #include "../helper/Strings.hpp"
 #include "../helper/Log.hpp"
-#include <iostream>
 
+#include <iostream>
 #include <string>
 
 CommandHandler::CommandHandler(UserService & service):_service(service) {}
@@ -26,7 +26,7 @@ void CommandHandler::handle(Event event)
     User * user = this->_service.getUserByConnection(conn);
 
     if (user == NULL) {
-        Log::error("User not found to execute command, connection: " + conn.str());
+        Log::error("User not found to execute command from " + conn.str());
         return;
     }
         
@@ -53,15 +53,14 @@ void CommandHandler::handle(Event event)
         std::string commandName = Strings::toUpper(tokens[0]);
         Command *command = this->_cmds[commandName];
 
-        // Command not exists
         if (command == NULL) {
-            Log::warning("Command " + commandName + " not exists");
+            Log::warning("Unknown command " + commandName + " from " + conn.str());
+            conn.sendMessage(Strings::f(":ft_irc 421 %s %s :Unknown command\r\n", user->getNickName(), commandName));
             continue;
         }
 
         std::vector<std::string> commandArgs;
 
-        // remove command name from args
         if (tokens.size() > 1) {
             for (size_t i = 1; i < tokens.size(); i++) {
                 commandArgs.push_back(tokens.at(i)); 

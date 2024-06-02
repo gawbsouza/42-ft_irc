@@ -6,15 +6,17 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 09:54:38 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/30 19:29:39 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:46:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Strings.hpp"
 #include <cstdio>
 
-Strings::Strings() {}
-Strings::~Strings() {}
+#define NEW_STR_BUFFER_SIZE 1024
+
+Strings::Strings(void) {}
+Strings::~Strings(void) {}
     
 void Strings::replace(std::string & src, const std::string & need, const std::string & rplc)
 {
@@ -42,7 +44,7 @@ std::vector<std::string> Strings::split(const std::string & str, const std::stri
     }
 
     std::string endSub = str.substr(start);
-    if (endSub != "") {
+    if (!endSub.empty()) {
         tokens.push_back(str.substr(start));
     }
     
@@ -123,25 +125,28 @@ std::string Strings::removePrefix(const std::string &str, const std::string &pre
 
 std::string Strings::f(const std::string & str, const std::string & args)
 {
-	char msg[1024];
-	sprintf(msg, str.c_str(), args.c_str());
-	return msg;
+	char message[NEW_STR_BUFFER_SIZE];
+	sprintf(message, str.c_str(), args.c_str());
+	return message;
 }
+
 std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2)
 {
-	char msg[1024];
-	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str());
-	return msg;
+	char message[NEW_STR_BUFFER_SIZE];
+	sprintf(message, str.c_str(), arg1.c_str(), arg2.c_str());
+	return message;
 }
+
 std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3)
 {
-	char msg[1024];
-	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str());
-	return msg;
+	char message[NEW_STR_BUFFER_SIZE];
+	sprintf(message, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str());
+	return message;
 }
+
 std::string Strings::f(const std::string & str, const std::string & arg1, const std::string & arg2, const std::string & arg3, const std::string & arg4)
 {
-	char msg[1024];
-	sprintf(msg, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str(), arg4.c_str());
-	return msg;
+	char message[NEW_STR_BUFFER_SIZE];
+	sprintf(message, str.c_str(), arg1.c_str(), arg2.c_str(), arg3.c_str(), arg4.c_str());
+	return message;
 }

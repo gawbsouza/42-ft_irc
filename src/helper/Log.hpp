@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:18:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 16:18:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:41:17 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ public:
 
 
     static void setLevel(Level level);
-    static Level getLevel();
+    static Level getLevel(void);
     
     static void debug(const std::string & msg);
     static void info(const std::string & msg);

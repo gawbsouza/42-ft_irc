@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:34:40 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 13:11:36 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:53:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "helper/Strings.hpp"
 #include "server/Server.hpp"
 #include "entity/Connection.hpp"
-#include "entity/UserService.hpp"
-#include "entity/ChannelService.hpp"
+#include "service/UserService.hpp"
+#include "service/ChannelService.hpp"
 #include "handler/CommandHandler.hpp"
 #include "handler/UserHandler.hpp"
 #include "command/JoinCommand.hpp"
@@ -30,9 +30,8 @@
 #include "command/InviteCommand.hpp"
 #include "command/PartCommand.hpp"
 #include "command/QuitCommand.hpp"
-
-#include "system/UsersCommand.hpp"
-#include "system/ChannelsCommand.hpp"
+#include "command/UsersCommand.hpp"
+#include "command/ChannelsCommand.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -41,7 +40,6 @@
 #define EXIT_SUCCESS 		0
 #define EXIT_FAILURE		1
 #define PORT_ARG_INDEX		1
-#define SERVER_NAME		 	"ft_irc"
 #define VALID_PORT_CHARS	"0123456789"
 
 void	setupSignalHandler(int signalNumber);
@@ -55,8 +53,6 @@ int	main(int argc, char** argv)
 	setupSignalHandler(SIGQUIT);
 
 	Log::setLevel(Log::ALL);
-
-	// AJUSTAR DELETE DE CONNECTION NO SERVER
 	
 	if (argc != 3)
 	{
@@ -74,12 +70,15 @@ int	main(int argc, char** argv)
 	int port; ss >> port;
 	std::string password = argv[2];
 
+	// Services
 	UserService userService;
 	ChannelService channelService;
 	
+	// Handlers
 	UserHandler userHandler(userService, channelService);
 	CommandHandler commandHandler(userService);
 	
+	// Commands
 	NickCommand nickCommand(userService, channelService);
 	JoinCommand joinCommand(channelService);
 	PassCommand passCommand(userService);
@@ -91,11 +90,10 @@ int	main(int argc, char** argv)
 	InviteCommand inviteCommand(userService, channelService);
 	PartCommand partCommand(channelService);
 	QuitCommand quitCommand(channelService);
-	
 	UsersCommand usersCommand(userService);
 	ChannelsCommand channelsCommand(channelService);
 	
-	// Common Commands
+	// Protocol Commands
 	commandHandler.addCommand(PASS_CMD, passCommand);
 	commandHandler.addCommand(USER_CMD, userCommand);
 	commandHandler.addCommand(NICK_CMD, nickCommand);
@@ -114,12 +112,12 @@ int	main(int argc, char** argv)
 	
 	try
 	{
-		server = new Server(SERVER_NAME, port, password);
+		server = new Server(port, password);
 		
 		server->addHandler(EVENT_CONNECT, userHandler);
 		server->addHandler(EVENT_DISCONNECT, userHandler);
 		server->addHandler(EVENT_MESSAGE, commandHandler);
-
+		
 		server->run();
 	}
 	catch(const std::exception& e)

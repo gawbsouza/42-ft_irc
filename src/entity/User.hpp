@@ -6,15 +6,16 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:04:06 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/29 11:04:48 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:58:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef USER_HPP
 # define USER_HPP
 
-#include "Connection.hpp"
-#include <string>
+# include "Connection.hpp"
+
+# include <string>
 
 class User
 {
@@ -49,6 +50,7 @@ public:
     void setNickName(const std::string & name);
     void setUserName(const std::string & name);
     void setRealName(const std::string & name);
+    
 };
 
 #endif

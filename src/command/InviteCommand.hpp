@@ -14,8 +14,8 @@
 # define INVITE_COMMAND_HPP
 
 # include "Command.hpp"
-# include "../entity/ChannelService.hpp"
-# include "../entity/UserService.hpp"
+# include "../service/ChannelService.hpp"
+# include "../service/UserService.hpp"
 
 # define INVITE_CMD "INVITE"
 
@@ -30,7 +30,7 @@ private:
 public:
 
     InviteCommand(UserService & userService, ChannelService & channelService);
-    ~InviteCommand();
+    ~InviteCommand(void);
 
     void execute(User & user, std::vector<std::string> args) const;
 };

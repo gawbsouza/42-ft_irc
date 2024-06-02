@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 21:48:25 by gasouza           #+#    #+#             */
-/*   Updated: 2024/05/21 09:00:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:03:40 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Connection::Connection(int id, int fd, const std::string & address, int port, co
     this->_address = address;
     this->_password = password;
     this->_closed = false;
-    this->_readBufferSize = 1024;
+    this->_readBufferSize = 512;
 }
 
 Connection::Connection(const Connection & conn)
@@ -33,7 +33,7 @@ Connection::Connection(const Connection & conn)
     *this = conn;
 }
 
-Connection::~Connection() {}
+Connection::~Connection(void) {}
 
 Connection & Connection::operator=(const Connection & conn)
 {
@@ -59,41 +59,43 @@ bool Connection::operator!=(const Connection & conn)
     return this->_id != conn._id;
 }
 
-int Connection::getId() const 
+int Connection::getId(void) const 
 { 
     return this->_id; 
 }
 
-int Connection::getFd() const 
+int Connection::getFd(void) const 
 { 
     return this->_fd;
 }
 
-std::string Connection::getAddress() const
+std::string Connection::getAddress(void) const
 { 
     return this->_address;
 }
 
-std::string Connection::getPassword() const
+std::string Connection::getPassword(void) const
 { 
     return this->_password;
 }
 
-int Connection::getPort() const 
+int Connection::getPort(void) const 
 {
     return this->_port;
 }
 
-bool Connection::isClosed() const 
+bool Connection::isClosed(void) const 
 { 
     return this->_closed;
 }
 
-void closeFd(int fd) {
+void closeFd(int fd)
+{
     close(fd);
 }
 
-void Connection::close() {
+void Connection::close(void)
+{
     if (this->_closed) {
         return;
     }
@@ -101,7 +103,7 @@ void Connection::close() {
     this->_closed = true; 
 }
 
-std::string Connection::str() const 
+std::string Connection::str(void) const 
 {
     std::stringstream ss;
     ss << "(" << this->_id << ")[" << this->_address << ":" << this->_port << "]";
@@ -124,7 +126,7 @@ size_t Connection::sendMessage (const std::string &msg)
     return written;
 }
 
-std::string Connection::readMessage()
+std::string Connection::readMessage(void)
 {
     if (this->isClosed()) {
         return "";

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br >     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:34:28 by gasouza           #+#    #+#             */
-/*   Updated: 2024/06/01 12:29:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:48:44 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ void ChannelsCommand::execute(User & user, std::vector<std::string> args) const
         }
     }
 
-    userConn.sendMessage("\n");
+    userConn.sendMessage("\r\n");
 }
