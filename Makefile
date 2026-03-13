@@ -15,6 +15,7 @@ NAME 		= ircserv
 COMPILER	= g++ -c
 LINKER		= g++
 CFLAGS		= -Wall -Werror -Wextra -std=c++98
+TEST_CFLAGS	= -Wall -Werror -Wextra -std=c++17
 
 SRCS		= $(wildcard src/*/*.cpp)
 INCS 		= $(wildcard src/*/*.hpp)
@@ -51,7 +52,7 @@ re: fclean all
 
 TEST_NAME	= runTests
 
-TEST_SRCS	= $(wildcard test/*/*.cpp)
+TEST_SRCS	= $(shell find test -name "*Test.cpp")
 TEST_OBJS	= $(TEST_SRCS:.cpp=.o)
 TEST_MAIN	= test/main.cpp
 
@@ -67,7 +68,10 @@ $(TEST_NAME): $(OBJS) $(INCS) $(TEST_OBJS) $(TEST_MAIN)
 	$(LINKER) $(OBJS) $(TEST_OBJS) $(TEST_MAIN) -o runTests -lgtest -lgmock -lgtest_main -pthread
 
 %Test.o: %Test.cpp
-	$(COMPILER) -Wall -Werror -Wextra $< -o $@
+	$(COMPILER) $(TEST_CFLAGS) $< -o $@
+
+test/main.o: test/main.cpp
+	$(COMPILER) $(TEST_CFLAGS) $< -o $@
 
 test-clean:
 	$(CLEANUP) $(TEST_OBJS)
@@ -76,6 +80,9 @@ test-fclean: test-clean
 	$(CLEANUP) $(TEST_NAME)
 
 test-re: test-fclean test
+
+test-integration: $(NAME)
+	@./test/integration/run_integration.sh
 
 test-install:
 	@sudo apt install libgtest-dev libgmock-dev cmake -y

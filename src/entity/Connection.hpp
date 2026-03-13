@@ -34,7 +34,7 @@ public:
 
     Connection(int id, int fd, const std::string & address, int port, const std::string & password);
     Connection(const Connection & conn);
-    ~Connection(void);
+    virtual ~Connection(void);
 
     int getId() const;
     int getFd() const;
@@ -47,8 +47,8 @@ public:
     
     std::string str() const;
 
-    size_t sendMessage(const std::string & msg);
-    std::string readMessage();
+    virtual size_t sendMessage(const std::string & msg);
+    virtual std::string readMessage();
 
     Connection & operator=(const Connection & conn);
     bool operator==(const Connection & conn);

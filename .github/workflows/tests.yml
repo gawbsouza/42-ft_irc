@@ -1,0 +1,28 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtest-dev libgmock-dev build-essential netcat-openbsd
+
+    - name: Compile Application (C++98)
+      run: make
+
+    - name: Compile and Run Unit Tests (C++17)
+      run: make test-run
+
+    - name: Run Integration Tests
+      run: make test-integration
