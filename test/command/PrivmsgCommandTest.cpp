@@ -52,16 +52,18 @@ TEST_F(PrivmsgCommandTest, TargetNotFound) {
 }
 
 TEST_F(PrivmsgCommandTest, SuccessfulPrivateMessage) {
-    MockConnection receiverConn;
-    User receiver(receiverConn);
-    receiver.setNickName("receiver");
-    userService.addUser(receiver);
+    MockConnection *receiverConn = new MockConnection();
+    User *receiver = new User(*receiverConn);
+    receiver->setNickName("receiver");
+    userService.addUser(*receiver);
 
     PrivmsgCommand cmd(userService, channelService);
     std::vector<std::string> args;
     args.push_back("receiver");
     args.push_back("hello");
 
-    EXPECT_CALL(receiverConn, sendMessage(HasSubstr("hello")));
+    EXPECT_CALL(*receiverConn, sendMessage(HasSubstr("hello")));
     cmd.execute(*user, args);
+    
+    delete receiverConn;
 }

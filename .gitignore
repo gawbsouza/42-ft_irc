@@ -38,4 +38,4 @@
 .vscode
 
 # ircserv binary
-ircserv
+ircservtest/valgrind_output*.log

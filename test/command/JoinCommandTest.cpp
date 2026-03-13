@@ -15,6 +15,7 @@
 
 #include "../../src/command/JoinCommand.hpp"
 #include "../../src/service/ChannelService.hpp"
+#include "../../src/service/UserService.hpp"
 #include "../mock/MockConnection.hpp"
 
 using ::testing::_;
@@ -22,6 +23,7 @@ using ::testing::HasSubstr;
 
 class JoinCommandTest : public ::testing::Test {
 protected:
+    UserService userService;
     ChannelService channelService;
     MockConnection conn;
     User* user;
@@ -31,10 +33,11 @@ protected:
         user->setNickName("tester");
         user->setUserName("tester");
         user->authenticate(); // some commands check registration
+        userService.addUser(*user);
     }
 
     void TearDown() override {
-        delete user;
+        // user is managed by userService
     }
 };
 
@@ -73,11 +76,13 @@ TEST_F(JoinCommandTest, JoinExistingChannel) {
     JoinCommand cmd(channelService);
     
     // Setup existing channel with ANOTHER user
-    MockConnection otherConn;
-    User otherUser(otherConn);
-    otherUser.setNickName("other");
-    Channel existingChannel(otherUser, "existing");
-    channelService.addChannel(existingChannel);
+    MockConnection *otherConn = new MockConnection();
+    User *otherUser = new User(*otherConn);
+    otherUser->setNickName("other");
+    userService.addUser(*otherUser); // Now it's managed
+    
+    Channel *existingChannel = new Channel(*otherUser, "existing");
+    channelService.addChannel(*existingChannel);
 
     std::vector<std::string> args;
     args.push_back("#existing");
@@ -86,4 +91,10 @@ TEST_F(JoinCommandTest, JoinExistingChannel) {
     EXPECT_CALL(conn, sendMessage(HasSubstr("JOIN #existing"))).Times(::testing::AtLeast(1));
     
     cmd.execute(*user, args);
+    
+    // otherConn needs to be cleaned up, but otherUser and existingChannel 
+    // are managed by services (well, existingChannel is in channelService, 
+    // and otherUser is in existingChannel?)
+    // Wait, let's see Channel class again.
+    delete otherConn;
 }

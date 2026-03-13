@@ -16,7 +16,12 @@
 #include <sstream>
 
 UserService::UserService(void) {}
-UserService::~UserService(void) {}
+UserService::~UserService(void) {
+    std::list<User *>::iterator it;
+    for(it = this->_users.begin(); it != this->_users.end(); it++) {
+        delete *it;
+    }
+}
 
 size_t UserService::usersCount(void)
 {

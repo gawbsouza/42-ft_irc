@@ -62,9 +62,10 @@ TEST_F(NickCommandTest, SuccessfulNickSet) {
 }
 
 TEST_F(NickCommandTest, NicknameInUse) {
-    User otherUser(conn);
-    otherUser.setNickName("taken");
-    userService.addUser(otherUser);
+    MockConnection *otherConn = new MockConnection();
+    User *otherUser = new User(*otherConn);
+    otherUser->setNickName("taken");
+    userService.addUser(*otherUser);
 
     NickCommand cmd(userService, channelService);
     std::vector<std::string> args;
@@ -72,4 +73,6 @@ TEST_F(NickCommandTest, NicknameInUse) {
 
     EXPECT_CALL(conn, sendMessage(HasSubstr("433"))); // ERR_NICKNAMEINUSE
     cmd.execute(*user, args);
+    
+    delete otherConn;
 }

@@ -72,12 +72,12 @@ TEST(CommandHandlerTest, ExecuteCommandWithoutUser)
 
 TEST(CommandHandlerTest, ExecuteOneCommandWithoutArgs)
 {
-    Connection conn(0, 0, "", 0, "");
-    Event event(EVENT_MESSAGE, conn, "TEST");
-    User user(conn);
+    Connection *conn = new Connection(0, 0, "", 0, "");
+    Event event(EVENT_MESSAGE, *conn, "TEST");
+    User *user = new User(*conn);
     
     UserService service;
-    service.addUser(user);
+    service.addUser(*user);
     
     CommandHandler handler(service);
     
@@ -89,16 +89,17 @@ TEST(CommandHandlerTest, ExecuteOneCommandWithoutArgs)
     EXPECT_CALL(command, execute(_, args));
     
     handler.handle(event);
+    delete conn;
 }
 
 TEST(CommandHandlerTest, NotExecuteCommandWhenNameIsInvalid)
 {
-    Connection conn(0, 0, "", 0, "");
-    Event event(EVENT_MESSAGE, conn, "TEST@");
-    User user(conn);
+    Connection *conn = new Connection(0, 0, "", 0, "");
+    Event event(EVENT_MESSAGE, *conn, "TEST@");
+    User *user = new User(*conn);
     
     UserService service;
-    service.addUser(user);
+    service.addUser(*user);
     
     CommandHandler handler(service);
     
@@ -110,16 +111,17 @@ TEST(CommandHandlerTest, NotExecuteCommandWhenNameIsInvalid)
     std::vector<std::string> args;
     
     handler.handle(event);
+    delete conn;
 }
 
 TEST(CommandHandlerTest, ExecuteMultiplesCommandsWithoutArgs)
 {
-    Connection conn(0, 0, "", 0, "");
-    Event event(EVENT_MESSAGE, conn, "TEST1 \nTEST2   \r\nTEST3");
-    User user(conn);
+    Connection *conn = new Connection(0, 0, "", 0, "");
+    Event event(EVENT_MESSAGE, *conn, "TEST1 \nTEST2   \r\nTEST3");
+    User *user = new User(*conn);
     
     UserService service;
-    service.addUser(user);
+    service.addUser(*user);
     
     CommandHandler handler(service);
     
@@ -138,16 +140,17 @@ TEST(CommandHandlerTest, ExecuteMultiplesCommandsWithoutArgs)
     EXPECT_CALL(command3, execute(_, args));
     
     handler.handle(event);
+    delete conn;
 }
 
 TEST(CommandHandlerTest, ExecuteOneCommandWithArgs)
 {
-    Connection conn(0, 0, "", 0, "");
-    Event event(EVENT_MESSAGE, conn, "TEST VAL val :#$   ");
-    User user(conn);
+    Connection *conn = new Connection(0, 0, "", 0, "");
+    Event event(EVENT_MESSAGE, *conn, "TEST VAL val :#$   ");
+    User *user = new User(*conn);
     
     UserService service;
-    service.addUser(user);
+    service.addUser(*user);
     
     CommandHandler handler(service);
     
@@ -163,16 +166,17 @@ TEST(CommandHandlerTest, ExecuteOneCommandWithArgs)
     EXPECT_CALL(command, execute(_, args));
     
     handler.handle(event);
+    delete conn;
 }
 
 TEST(CommandHandlerTest, ExecuteMultiplesCommandsWithArgs)
 {
-    Connection conn(0, 0, "", 0, "");
-    Event event(EVENT_MESSAGE, conn, "TEST1 VAL1   VAL2 \nTEST2 VAL1 VAL2  \r\nTEST3  VAL1 VAL2");
-    User user(conn);
+    Connection *conn = new Connection(0, 0, "", 0, "");
+    Event event(EVENT_MESSAGE, *conn, "TEST1 VAL1   VAL2 \nTEST2 VAL1 VAL2  \r\nTEST3  VAL1 VAL2");
+    User *user = new User(*conn);
     
     UserService service;
-    service.addUser(user);
+    service.addUser(*user);
     
     CommandHandler handler(service);
     
@@ -194,4 +198,5 @@ TEST(CommandHandlerTest, ExecuteMultiplesCommandsWithArgs)
     EXPECT_CALL(command3, execute(_, args));
     
     handler.handle(event);
+    delete conn;
 }

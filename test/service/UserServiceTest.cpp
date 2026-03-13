@@ -23,102 +23,120 @@ TEST(UserServiceTest, InitialGetter)
 
 TEST(UserServiceTest, AddUsers)
 {
-    Connection conn1(0, 0, "", 0, "");
-    Connection conn2(1, 1, "", 0, "");
-    Connection conn3(2, 2, "", 0, "");
-    User user1(conn1);
-    User user2(conn2);
-    User user3(conn3);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    Connection *conn2 = new Connection(1, 1, "", 0, "");
+    Connection *conn3 = new Connection(2, 2, "", 0, "");
+    User *user1 = new User(*conn1);
+    User *user2 = new User(*conn2);
+    User *user3 = new User(*conn3);
 
     UserService service;
 
     EXPECT_EQ(0, service.usersCount());
 
-    service.addUser(user1);
-    service.addUser(user2);
-    service.addUser(user3);
+    service.addUser(*user1);
+    service.addUser(*user2);
+    service.addUser(*user3);
 
     EXPECT_EQ(3, service.usersCount());
+    
+    delete conn1;
+    delete conn2;
+    delete conn3;
 }
 
 TEST(UserServiceTest, RemoveUsers)
 {
-    Connection conn1(0, 0, "", 0, "");
-    Connection conn2(1, 1, "", 0, "");
-    User user1(conn1);
-    User user2(conn2);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    Connection *conn2 = new Connection(1, 1, "", 0, "");
+    User *user1 = new User(*conn1);
+    User *user2 = new User(*conn2);
 
     UserService service;
 
-    service.addUser(user1);
-    service.addUser(user2);
+    service.addUser(*user1);
+    service.addUser(*user2);
 
     EXPECT_EQ(2, service.usersCount());
 
-    service.removeUser(user2);
+    service.removeUser(*user2);
     EXPECT_EQ(1, service.usersCount());
+    
+    delete user2;
+    delete conn1;
+    delete conn2;
 }
 
 TEST(UserServiceTest, RemoveUserNotAdded)
 {
-    Connection conn1(0, 0, "", 0, "");
-    Connection conn2(1, 1, "", 0, "");
-    User user1(conn1);
-    User user2(conn2);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    Connection *conn2 = new Connection(1, 1, "", 0, "");
+    User *user1 = new User(*conn1);
+    User *user2 = new User(*conn2);
 
     UserService service;
 
-    service.addUser(user1);
+    service.addUser(*user1);
 
     EXPECT_EQ(1, service.usersCount());
 
-    service.removeUser(user2);
+    service.removeUser(*user2);
     EXPECT_EQ(1, service.usersCount());
+    
+    delete user2;
+    delete conn1;
+    delete conn2;
 }
 
 TEST(UserServiceTest, GetUserByConnection)
 {
-    Connection conn1(0, 0, "", 0, "");
-    User user1(conn1);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    User *user1 = new User(*conn1);
     UserService service;
     
-    service.addUser(user1);
+    service.addUser(*user1);
 
-    User *caught = service.getUserByConnection(conn1);
+    User *caught = service.getUserByConnection(*conn1);
     
-    EXPECT_EQ(caught, &user1);
+    EXPECT_EQ(caught, user1);
     
     Connection conn2(1, 1, "", 0, "");
     EXPECT_EQ(NULL, service.getUserByConnection(conn2));
+    
+    delete conn1;
 }
 
 TEST(UserServiceTest, GetUserByNickName)
 {
-    Connection conn1(0, 0, "", 0, "");
-    User user(conn1);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    User *user = new User(*conn1);
     UserService service;
     
-    user.setNickName("test_user");
-    service.addUser(user);
+    user->setNickName("test_user");
+    service.addUser(*user);
 
-    User *caught = service.getUserByNickName(user.getNickName());
-    EXPECT_EQ(caught, &user);
+    User *caught = service.getUserByNickName(user->getNickName());
+    EXPECT_EQ(caught, user);
     
     // Not added previously
     EXPECT_EQ(NULL, service.getUserByNickName(""));
     EXPECT_EQ(NULL, service.getUserByNickName("some_other_nick"));
+    
+    delete conn1;
 }
 
 TEST(UserServiceTest, NickNameExists)
 {
-    Connection conn1(0, 0, "", 0, "");
-    User user(conn1);
+    Connection *conn1 = new Connection(0, 0, "", 0, "");
+    User *user = new User(*conn1);
     UserService service;
     
-    user.setNickName("test_user");
-    service.addUser(user);
+    user->setNickName("test_user");
+    service.addUser(*user);
 
     EXPECT_TRUE(service.nickNameExists("test_user"));
     EXPECT_FALSE(service.nickNameExists(""));
     EXPECT_FALSE(service.nickNameExists("some_other_nick"));
+    
+    delete conn1;
 }

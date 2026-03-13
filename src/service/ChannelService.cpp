@@ -14,7 +14,12 @@
 #include "../helper/Log.hpp"
 
 ChannelService::ChannelService(void) {}
-ChannelService::~ChannelService(void) {}
+ChannelService::~ChannelService(void) {
+    std::list<Channel *>::iterator it;
+    for(it = this->_channels.begin(); it != this->_channels.end(); it++) {
+        delete *it;
+    }
+}
 
 void ChannelService::addChannel(Channel & channel)
 {

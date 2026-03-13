@@ -1,46 +1,122 @@
-INF[2026-03-12 23:35:07] 
-INF[2026-03-12 23:35:07] -------------------------------------------
-INF[2026-03-12 23:35:07] 
-INF[2026-03-12 23:35:07]  .d888 888             d8b                 
-INF[2026-03-12 23:35:07] d88P"  888             Y8P                 
-INF[2026-03-12 23:35:07] 888    888                                 
-INF[2026-03-12 23:35:07] 888888 888888          888 888d888 .d8888b 
-INF[2026-03-12 23:35:07] 888    888             888 888P"  d88P"    
-INF[2026-03-12 23:35:07] 888    888             888 888    888      
-INF[2026-03-12 23:35:07] 888    Y88b.           888 888    Y88b.    
-INF[2026-03-12 23:35:07] 888     "Y888 88888888 888 888     "Y8888P
-INF[2026-03-12 23:35:07] 
-INF[2026-03-12 23:35:07] -----    Gabriel Souza & Bruno Luiz   -----
-INF[2026-03-12 23:35:07] 
-[36mNOT[2026-03-12 23:35:07] Server started on port: 6667[0m
-[36mNOT[2026-03-12 23:35:07] Server password: testpassword[0m
-[90mDBG[2026-03-12 23:35:07] Server socket created![0m
-[90mDBG[2026-03-12 23:35:07] Server socket bind on port 6667[0m
-INF[2026-03-12 23:35:07] Server listening for connections!
-[90mDBG[2026-03-12 23:35:07] Connections monitor started[0m
-[36mNOT[2026-03-12 23:35:09] New connection stablished: (2)[127.0.0.1:44366][0m
-[90mDBG[2026-03-12 23:35:09] Connections count: 2[0m
-[36mNOT[2026-03-12 23:35:09] User created for (2)[127.0.0.1:44366][0m
-[90mDBG[2026-03-12 23:35:09] Read from (2)[127.0.0.1:44366] "PASS testpassword\r\nNICK tester\r\nUSER tester 0 * :Tester Real\r\nJOIN #testchan\r\nQUIT\r\n\n"[0m
-[90mDBG[2026-03-12 23:35:09] Message read from (2)[127.0.0.1:44366] "PASS testpassword\r\nNICK tester\r\nUSER tester 0 * :Tester Real\r\nJOIN #testchan\r\nQUIT\r\n\n"[0m
-INF[2026-03-12 23:35:09] PASS command called from (2)[127.0.0.1:44366]
-[36mNOT[2026-03-12 23:35:09] User authenticated from (2)[127.0.0.1:44366][0m
-INF[2026-03-12 23:35:09] NICK command called from (2)[127.0.0.1:44366]
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] "NICK tester\r\n"[0m
-[36mNOT[2026-03-12 23:35:09] User set "tester" nickname from (2)[127.0.0.1:44366][0m
-INF[2026-03-12 23:35:09] USER command called from (2)[127.0.0.1:44366]
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] ":ft_irc 001 tester :Welcome to the ft_irc Network, tester!\r\n"[0m
-[36mNOT[2026-03-12 23:35:09] User set "tester" username and "Tester Real" realname from (2)[127.0.0.1:44366][0m
-INF[2026-03-12 23:35:09] JOIN command called from (2)[127.0.0.1:44366]
-[36mNOT[2026-03-12 23:35:09] Channel "#testchan" created by "tester" from (2)[127.0.0.1:44366][0m
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] ":tester JOIN #testchan\r\n"[0m
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] ":ft_irc 331 tester #testchan :No topic is set\r\n"[0m
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] ":ft_irc 353 tester = #testchan :@tester\r\n"[0m
-[90mDBG[2026-03-12 23:35:09] Write to (2)[127.0.0.1:44366] ":ft_irc 366 tester #testchan :End of /NAMES List\r\n"[0m
-INF[2026-03-12 23:35:09] User "tester" joined #testchan from (2)[127.0.0.1:44366]
-INF[2026-03-12 23:35:09] QUIT command called from (2)[127.0.0.1:44366]
-[36mNOT[2026-03-12 23:35:09] Channel #testchan removed because is empty[0m
-[36mNOT[2026-03-12 23:35:09] Connection closed: (2)[127.0.0.1:44366][0m
-[90mDBG[2026-03-12 23:35:09] Connections count: 1[0m
-[36mNOT[2026-03-12 23:35:09] User "tester" removed from (2)[127.0.0.1:44366][0m
-[90mDBG[2026-03-12 23:35:09] Users count: 0[0m
+INF[2026-03-12 23:56:34] 
+INF[2026-03-12 23:56:34] -------------------------------------------
+INF[2026-03-12 23:56:34] 
+INF[2026-03-12 23:56:34]  .d888 888             d8b                 
+INF[2026-03-12 23:56:34] d88P"  888             Y8P                 
+INF[2026-03-12 23:56:34] 888    888                                 
+INF[2026-03-12 23:56:34] 888888 888888          888 888d888 .d8888b 
+INF[2026-03-12 23:56:34] 888    888             888 888P"  d88P"    
+INF[2026-03-12 23:56:34] 888    888             888 888    888      
+INF[2026-03-12 23:56:34] 888    Y88b.           888 888    Y88b.    
+INF[2026-03-12 23:56:34] 888     "Y888 88888888 888 888     "Y8888P
+INF[2026-03-12 23:56:34] 
+INF[2026-03-12 23:56:34] -----    Gabriel Souza & Bruno Luiz   -----
+INF[2026-03-12 23:56:34] 
+[36mNOT[2026-03-12 23:56:34] Server started on port: 6667[0m
+[36mNOT[2026-03-12 23:56:34] Server password: testpassword[0m
+[90mDBG[2026-03-12 23:56:34] Server socket created![0m
+[90mDBG[2026-03-12 23:56:34] Server socket bind on port 6667[0m
+INF[2026-03-12 23:56:34] Server listening for connections!
+[90mDBG[2026-03-12 23:56:34] Connections monitor started[0m
+[36mNOT[2026-03-12 23:56:36] New connection stablished: (2)[127.0.0.1:45110][0m
+[90mDBG[2026-03-12 23:56:36] Connections count: 2[0m
+[36mNOT[2026-03-12 23:56:36] User created for (2)[127.0.0.1:45110][0m
+[90mDBG[2026-03-12 23:56:36] Read from (2)[127.0.0.1:45110] "PASS testpassword\r\nNICK tester\r\nUSER tester 0 * :Tester Real\r\nJOIN #testchan\r\nQUIT\r\n\n"[0m
+[90mDBG[2026-03-12 23:56:36] Message read from (2)[127.0.0.1:45110] "PASS testpassword\r\nNICK tester\r\nUSER tester 0 * :Tester Real\r\nJOIN #testchan\r\nQUIT\r\n\n"[0m
+INF[2026-03-12 23:56:36] PASS command called from (2)[127.0.0.1:45110]
+[36mNOT[2026-03-12 23:56:36] User authenticated from (2)[127.0.0.1:45110][0m
+INF[2026-03-12 23:56:36] NICK command called from (2)[127.0.0.1:45110]
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] "NICK tester\r\n"[0m
+[36mNOT[2026-03-12 23:56:36] User set "tester" nickname from (2)[127.0.0.1:45110][0m
+INF[2026-03-12 23:56:36] USER command called from (2)[127.0.0.1:45110]
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] ":ft_irc 001 tester :Welcome to the ft_irc Network, tester!\r\n"[0m
+[36mNOT[2026-03-12 23:56:36] User set "tester" username and "Tester Real" realname from (2)[127.0.0.1:45110][0m
+INF[2026-03-12 23:56:36] JOIN command called from (2)[127.0.0.1:45110]
+[36mNOT[2026-03-12 23:56:36] Channel "#testchan" created by "tester" from (2)[127.0.0.1:45110][0m
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] ":tester JOIN #testchan\r\n"[0m
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] ":ft_irc 331 tester #testchan :No topic is set\r\n"[0m
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] ":ft_irc 353 tester = #testchan :@tester\r\n"[0m
+[90mDBG[2026-03-12 23:56:36] Write to (2)[127.0.0.1:45110] ":ft_irc 366 tester #testchan :End of /NAMES List\r\n"[0m
+INF[2026-03-12 23:56:36] User "tester" joined #testchan from (2)[127.0.0.1:45110]
+INF[2026-03-12 23:56:36] QUIT command called from (2)[127.0.0.1:45110]
+[36mNOT[2026-03-12 23:56:36] Channel #testchan removed because is empty[0m
+[36mNOT[2026-03-12 23:56:36] Connection closed: (2)[127.0.0.1:45110][0m
+[90mDBG[2026-03-12 23:56:36] Connections count: 1[0m
+[36mNOT[2026-03-12 23:56:36] User "tester" removed from (2)[127.0.0.1:45110][0m
+[90mDBG[2026-03-12 23:56:36] Users count: 0[0m
+[36mNOT[2026-03-12 23:56:36] New connection stablished: (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:36] Connections count: 2[0m
+[36mNOT[2026-03-12 23:56:36] User created for (3)[127.0.0.1:45112][0m
+[36mNOT[2026-03-12 23:56:36] New connection stablished: (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:36] Connections count: 3[0m
+[36mNOT[2026-03-12 23:56:36] User created for (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:36] Read from (3)[127.0.0.1:45112] "PASS testpassword\r\nNICK alice\r\n"[0m
+[90mDBG[2026-03-12 23:56:36] Message read from (3)[127.0.0.1:45112] "PASS testpassword\r\nNICK alice\r\n"[0m
+INF[2026-03-12 23:56:36] PASS command called from (3)[127.0.0.1:45112]
+[36mNOT[2026-03-12 23:56:36] User authenticated from (3)[127.0.0.1:45112][0m
+INF[2026-03-12 23:56:36] NICK command called from (3)[127.0.0.1:45112]
+[90mDBG[2026-03-12 23:56:36] Write to (3)[127.0.0.1:45112] "NICK alice\r\n"[0m
+[36mNOT[2026-03-12 23:56:36] User set "alice" nickname from (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:36] Read from (3)[127.0.0.1:45112] "USER alice 0 * :Alice\r\n"[0m
+[90mDBG[2026-03-12 23:56:36] Message read from (3)[127.0.0.1:45112] "USER alice 0 * :Alice\r\n"[0m
+INF[2026-03-12 23:56:36] USER command called from (3)[127.0.0.1:45112]
+[90mDBG[2026-03-12 23:56:36] Write to (3)[127.0.0.1:45112] ":ft_irc 001 alice :Welcome to the ft_irc Network, alice!\r\n"[0m
+[36mNOT[2026-03-12 23:56:36] User set "alice" username and "Alice" realname from (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:37] Read from (3)[127.0.0.1:45112] "JOIN #integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:37] Message read from (3)[127.0.0.1:45112] "JOIN #integtest\r\n"[0m
+INF[2026-03-12 23:56:37] JOIN command called from (3)[127.0.0.1:45112]
+[36mNOT[2026-03-12 23:56:37] Channel "#integtest" created by "alice" from (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:37] Write to (3)[127.0.0.1:45112] ":alice JOIN #integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:37] Write to (3)[127.0.0.1:45112] ":ft_irc 331 alice #integtest :No topic is set\r\n"[0m
+[90mDBG[2026-03-12 23:56:37] Write to (3)[127.0.0.1:45112] ":ft_irc 353 alice = #integtest :@alice\r\n"[0m
+[90mDBG[2026-03-12 23:56:37] Write to (3)[127.0.0.1:45112] ":ft_irc 366 alice #integtest :End of /NAMES List\r\n"[0m
+INF[2026-03-12 23:56:37] User "alice" joined #integtest from (3)[127.0.0.1:45112]
+[90mDBG[2026-03-12 23:56:38] Read from (4)[127.0.0.1:45128] "PASS testpassword\r\nNICK bob\r\n"[0m
+[90mDBG[2026-03-12 23:56:38] Message read from (4)[127.0.0.1:45128] "PASS testpassword\r\nNICK bob\r\n"[0m
+INF[2026-03-12 23:56:38] PASS command called from (4)[127.0.0.1:45128]
+[36mNOT[2026-03-12 23:56:38] User authenticated from (4)[127.0.0.1:45128][0m
+INF[2026-03-12 23:56:38] NICK command called from (4)[127.0.0.1:45128]
+[90mDBG[2026-03-12 23:56:38] Write to (4)[127.0.0.1:45128] "NICK bob\r\n"[0m
+[36mNOT[2026-03-12 23:56:38] User set "bob" nickname from (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:38] Read from (4)[127.0.0.1:45128] "USER bob 0 * :Bob\r\n"[0m
+[90mDBG[2026-03-12 23:56:38] Message read from (4)[127.0.0.1:45128] "USER bob 0 * :Bob\r\n"[0m
+INF[2026-03-12 23:56:38] USER command called from (4)[127.0.0.1:45128]
+[90mDBG[2026-03-12 23:56:38] Write to (4)[127.0.0.1:45128] ":ft_irc 001 bob :Welcome to the ft_irc Network, bob!\r\n"[0m
+[36mNOT[2026-03-12 23:56:38] User set "bob" username and "Bob" realname from (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:38] Read from (3)[127.0.0.1:45112] "TOPIC #integtest :Hello World Topic\r\n"[0m
+[90mDBG[2026-03-12 23:56:38] Message read from (3)[127.0.0.1:45112] "TOPIC #integtest :Hello World Topic\r\n"[0m
+INF[2026-03-12 23:56:38] TOPIC command called from (3)[127.0.0.1:45112]
+[90mDBG[2026-03-12 23:56:38] Write to (3)[127.0.0.1:45112] ":alice TOPIC #integtest :Hello World Topic\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Read from (4)[127.0.0.1:45128] "JOIN #integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Message read from (4)[127.0.0.1:45128] "JOIN #integtest\r\n"[0m
+INF[2026-03-12 23:56:39] JOIN command called from (4)[127.0.0.1:45128]
+[90mDBG[2026-03-12 23:56:39] Write to (3)[127.0.0.1:45112] ":bob JOIN :#integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Write to (4)[127.0.0.1:45128] ":bob JOIN #integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Write to (4)[127.0.0.1:45128] ":ft_irc 332 bob #integtest :Hello World Topic\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Write to (4)[127.0.0.1:45128] ":ft_irc 353 bob = #integtest :@alice bob\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Write to (4)[127.0.0.1:45128] ":ft_irc 366 bob #integtest :End of /NAMES List\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] User "bob" joined #integtest from (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:39] Read from (4)[127.0.0.1:45128] "PRIVMSG #integtest :Hi from Bob\r\n"[0m
+[90mDBG[2026-03-12 23:56:39] Message read from (4)[127.0.0.1:45128] "PRIVMSG #integtest :Hi from Bob\r\n"[0m
+INF[2026-03-12 23:56:39] PRIVMSG command called from (4)[127.0.0.1:45128]
+[90mDBG[2026-03-12 23:56:39] Write to (3)[127.0.0.1:45112] ":bob PRIVMSG #integtest :Hi from Bob\r\n"[0m
+[90mDBG[2026-03-12 23:56:40] Read from (3)[127.0.0.1:45112] "PART #integtest\r\n"[0m
+[90mDBG[2026-03-12 23:56:40] Message read from (3)[127.0.0.1:45112] "PART #integtest\r\n"[0m
+INF[2026-03-12 23:56:40] PART command called from (3)[127.0.0.1:45112]
+[90mDBG[2026-03-12 23:56:40] Write to (3)[127.0.0.1:45112] ":alice PART #integtest \r\n"[0m
+[90mDBG[2026-03-12 23:56:40] Write to (4)[127.0.0.1:45128] ":alice PART #integtest \r\n"[0m
+[90mDBG[2026-03-12 23:56:40] Read from (3)[127.0.0.1:45112] "QUIT\r\n"[0m
+[90mDBG[2026-03-12 23:56:40] Message read from (3)[127.0.0.1:45112] "QUIT\r\n"[0m
+INF[2026-03-12 23:56:40] QUIT command called from (3)[127.0.0.1:45112]
+[36mNOT[2026-03-12 23:56:40] Connection closed: (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:40] Connections count: 2[0m
+[36mNOT[2026-03-12 23:56:40] User "alice" removed from (3)[127.0.0.1:45112][0m
+[90mDBG[2026-03-12 23:56:40] Users count: 1[0m
+[90mDBG[2026-03-12 23:56:41] Read from (4)[127.0.0.1:45128] "QUIT\r\n"[0m
+[90mDBG[2026-03-12 23:56:41] Message read from (4)[127.0.0.1:45128] "QUIT\r\n"[0m
+INF[2026-03-12 23:56:41] QUIT command called from (4)[127.0.0.1:45128]
+[36mNOT[2026-03-12 23:56:41] Channel #integtest removed because is empty[0m
+[36mNOT[2026-03-12 23:56:41] Connection closed: (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:41] Connections count: 1[0m
+[36mNOT[2026-03-12 23:56:41] User "bob" removed from (4)[127.0.0.1:45128][0m
+[90mDBG[2026-03-12 23:56:41] Users count: 0[0m

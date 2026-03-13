@@ -1,0 +1,281 @@
+==34655== Memcheck, a memory error detector
+==34655== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==34655== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==34655== Command: ./runTests
+==34655== 
+[==========] Running 80 tests from 10 test suites.
+[----------] Global test environment set-up.
+[----------] 7 tests from UserServiceTest
+[ RUN      ] UserServiceTest.InitialGetter
+[       OK ] UserServiceTest.InitialGetter (13 ms)
+[ RUN      ] UserServiceTest.AddUsers
+[       OK ] UserServiceTest.AddUsers (17 ms)
+[ RUN      ] UserServiceTest.RemoveUsers
+[       OK ] UserServiceTest.RemoveUsers (20 ms)
+[ RUN      ] UserServiceTest.RemoveUserNotAdded
+[       OK ] UserServiceTest.RemoveUserNotAdded (7 ms)
+[ RUN      ] UserServiceTest.GetUserByConnection
+[       OK ] UserServiceTest.GetUserByConnection (12 ms)
+[ RUN      ] UserServiceTest.GetUserByNickName
+[       OK ] UserServiceTest.GetUserByNickName (13 ms)
+[ RUN      ] UserServiceTest.NickNameExists
+[       OK ] UserServiceTest.NickNameExists (9 ms)
+[----------] 7 tests from UserServiceTest (101 ms total)
+
+[----------] 7 tests from ChannelServiceTest
+[ RUN      ] ChannelServiceTest.AddChannel
+[       OK ] ChannelServiceTest.AddChannel (24 ms)
+[ RUN      ] ChannelServiceTest.RemoveChannel
+[       OK ] ChannelServiceTest.RemoveChannel (17 ms)
+[ RUN      ] ChannelServiceTest.RemoveChannelNotAdded
+[       OK ] ChannelServiceTest.RemoveChannelNotAdded (8 ms)
+[ RUN      ] ChannelServiceTest.ChannelExists
+[       OK ] ChannelServiceTest.ChannelExists (15 ms)
+[ RUN      ] ChannelServiceTest.GetChannelByName
+[       OK ] ChannelServiceTest.GetChannelByName (9 ms)
+[ RUN      ] ChannelServiceTest.GetChannels
+[       OK ] ChannelServiceTest.GetChannels (22 ms)
+[ RUN      ] ChannelServiceTest.GetUserChannels
+[       OK ] ChannelServiceTest.GetUserChannels (25 ms)
+[----------] 7 tests from ChannelServiceTest (125 ms total)
+
+[----------] 7 tests from ConnectionTest
+[ RUN      ] ConnectionTest.Getters
+[       OK ] ConnectionTest.Getters (8 ms)
+[ RUN      ] ConnectionTest.StartOpened
+[       OK ] ConnectionTest.StartOpened (3 ms)
+[ RUN      ] ConnectionTest.Close
+[       OK ] ConnectionTest.Close (5 ms)
+[ RUN      ] ConnectionTest.SendMessage
+[90mDBG[2026-03-12 23:43:00] Write to (0)[address:0] "Test Message"[0m
+[       OK ] ConnectionTest.SendMessage (100 ms)
+[ RUN      ] ConnectionTest.ReadMessage
+[90mDBG[2026-03-12 23:43:00] Read from (0)[address:0] "Test Message\n"[0m
+[90mDBG[2026-03-12 23:43:00] Message read from (0)[address:0] "Test Message\n"[0m
+[       OK ] ConnectionTest.ReadMessage (20 ms)
+[ RUN      ] ConnectionTest.ReadMessageWithClosedOrInvalidFdMustCloseConnection
+[       OK ] ConnectionTest.ReadMessageWithClosedOrInvalidFdMustCloseConnection (5 ms)
+[ RUN      ] ConnectionTest.SendMessageWithClosedOrInvalidFdMustCloseConnection
+[       OK ] ConnectionTest.SendMessageWithClosedOrInvalidFdMustCloseConnection (4 ms)
+[----------] 7 tests from ConnectionTest (150 ms total)
+
+[----------] 25 tests from ChannelTest
+[ RUN      ] ChannelTest.DefaultStateAndGetters
+[       OK ] ChannelTest.DefaultStateAndGetters (13 ms)
+[ RUN      ] ChannelTest.GetAndSetTopic
+[       OK ] ChannelTest.GetAndSetTopic (5 ms)
+[ RUN      ] ChannelTest.GetAndSetLimit
+[       OK ] ChannelTest.GetAndSetLimit (4 ms)
+[ RUN      ] ChannelTest.NewUserIsAddedAsCommon
+[       OK ] ChannelTest.NewUserIsAddedAsCommon (11 ms)
+[ RUN      ] ChannelTest.GetUserNotAddedMustReturnNull
+[       OK ] ChannelTest.GetUserNotAddedMustReturnNull (5 ms)
+[ RUN      ] ChannelTest.GetAndSetPassword
+[       OK ] ChannelTest.GetAndSetPassword (7 ms)
+[ RUN      ] ChannelTest.GetAndSetInviteMode
+[       OK ] ChannelTest.GetAndSetInviteMode (6 ms)
+[ RUN      ] ChannelTest.GetAndSetRestrictTopicChange
+[       OK ] ChannelTest.GetAndSetRestrictTopicChange (5 ms)
+[ RUN      ] ChannelTest.Invite
+[       OK ] ChannelTest.Invite (24 ms)
+[ RUN      ] ChannelTest.SetOperatorWithCommonStatusMustUpdateToOperator
+[       OK ] ChannelTest.SetOperatorWithCommonStatusMustUpdateToOperator (13 ms)
+[ RUN      ] ChannelTest.SetOperatorByNickNameWithCommonStatusMustUpdateToOperator
+[       OK ] ChannelTest.SetOperatorByNickNameWithCommonStatusMustUpdateToOperator (12 ms)
+[ RUN      ] ChannelTest.RemoveOperatorWithOperatorStatusMustUpdateToCommon
+[       OK ] ChannelTest.RemoveOperatorWithOperatorStatusMustUpdateToCommon (10 ms)
+[ RUN      ] ChannelTest.RemoveOperatorByNickNameWithOperatorStatusMustUpdateToCommon
+[       OK ] ChannelTest.RemoveOperatorByNickNameWithOperatorStatusMustUpdateToCommon (12 ms)
+[ RUN      ] ChannelTest.GetUsers
+[       OK ] ChannelTest.GetUsers (22 ms)
+[ RUN      ] ChannelTest.GetModeStrWithInitialState
+[       OK ] ChannelTest.GetModeStrWithInitialState (6 ms)
+[ RUN      ] ChannelTest.GetModeStrWithInviteOnlyFlag
+[       OK ] ChannelTest.GetModeStrWithInviteOnlyFlag (6 ms)
+[ RUN      ] ChannelTest.GetModeStrWithRestrictTopicFlag
+[       OK ] ChannelTest.GetModeStrWithRestrictTopicFlag (4 ms)
+[ RUN      ] ChannelTest.GetModeStrWithPassword
+[       OK ] ChannelTest.GetModeStrWithPassword (7 ms)
+[ RUN      ] ChannelTest.GetModeStrWithLimit
+[       OK ] ChannelTest.GetModeStrWithLimit (11 ms)
+[ RUN      ] ChannelTest.GetModeStrWithMultiFlags
+[       OK ] ChannelTest.GetModeStrWithMultiFlags (12 ms)
+[ RUN      ] ChannelTest.RemoveUserFromInviteListWhenAddedOnChannel
+[       OK ] ChannelTest.RemoveUserFromInviteListWhenAddedOnChannel (16 ms)
+[ RUN      ] ChannelTest.RemoveUserCanRemoveOperator
+[       OK ] ChannelTest.RemoveUserCanRemoveOperator (13 ms)
+[ RUN      ] ChannelTest.RemoveUserCanRemoveAllUsers
+[       OK ] ChannelTest.RemoveUserCanRemoveAllUsers (7 ms)
+[ RUN      ] ChannelTest.GetUserByNickName
+[       OK ] ChannelTest.GetUserByNickName (5 ms)
+[ RUN      ] ChannelTest.RemoveUserByNickName
+[       OK ] ChannelTest.RemoveUserByNickName (8 ms)
+[----------] 25 tests from ChannelTest (259 ms total)
+
+[----------] 2 tests from UserTest
+[ RUN      ] UserTest.GettersAndSetters
+[       OK ] UserTest.GettersAndSetters (17 ms)
+[ RUN      ] UserTest.RegisteredLogic
+[       OK ] UserTest.RegisteredLogic (20 ms)
+[----------] 2 tests from UserTest (38 ms total)
+
+[----------] 14 tests from StringsTest
+[ RUN      ] StringsTest.ReplaceMultiplesSpaces
+[       OK ] StringsTest.ReplaceMultiplesSpaces (6 ms)
+[ RUN      ] StringsTest.ReplaceWithMultiplesSizes
+[       OK ] StringsTest.ReplaceWithMultiplesSizes (14 ms)
+[ RUN      ] StringsTest.SplitWithoutDelimiterInIt
+[       OK ] StringsTest.SplitWithoutDelimiterInIt (12 ms)
+[ RUN      ] StringsTest.SplitWithDelimiterInIt
+[       OK ] StringsTest.SplitWithDelimiterInIt (6 ms)
+[ RUN      ] StringsTest.SplitWithDelimiterAtEnd
+[       OK ] StringsTest.SplitWithDelimiterAtEnd (7 ms)
+[ RUN      ] StringsTest.ToUpper
+[       OK ] StringsTest.ToUpper (8 ms)
+[ RUN      ] StringsTest.stringsIsOnPattern
+[       OK ] StringsTest.stringsIsOnPattern (5 ms)
+[ RUN      ] StringsTest.stringIsNotOnPattern
+[       OK ] StringsTest.stringIsNotOnPattern (7 ms)
+[ RUN      ] StringsTest.stringEmptyAndOrPatternEmpty
+[       OK ] StringsTest.stringEmptyAndOrPatternEmpty (14 ms)
+[ RUN      ] StringsTest.truncateVariousSizes
+[       OK ] StringsTest.truncateVariousSizes (6 ms)
+[ RUN      ] StringsTest.SplitWithEmptyArgs
+[       OK ] StringsTest.SplitWithEmptyArgs (6 ms)
+[ RUN      ] StringsTest.SplitWithOneArgs
+[       OK ] StringsTest.SplitWithOneArgs (9 ms)
+[ RUN      ] StringsTest.SplitWithSomeArgs
+[       OK ] StringsTest.SplitWithSomeArgs (5 ms)
+[ RUN      ] StringsTest.Sprintf
+[       OK ] StringsTest.Sprintf (12 ms)
+[----------] 14 tests from StringsTest (127 ms total)
+
+[----------] 2 tests from PrivmsgCommandTest
+[ RUN      ] PrivmsgCommandTest.TargetNotFound
+INF[2026-03-12 23:43:01] PRIVMSG command called from (0)[127.0.0.1:0]
+[       OK ] PrivmsgCommandTest.TargetNotFound (131 ms)
+[ RUN      ] PrivmsgCommandTest.SuccessfulPrivateMessage
+INF[2026-03-12 23:43:01] PRIVMSG command called from (0)[127.0.0.1:0]
+[       OK ] PrivmsgCommandTest.SuccessfulPrivateMessage (10 ms)
+[----------] 2 tests from PrivmsgCommandTest (142 ms total)
+
+[----------] 3 tests from NickCommandTest
+[ RUN      ] NickCommandTest.NeedMoreParams
+INF[2026-03-12 23:43:01] NICK command called from (0)[127.0.0.1:0]
+[       OK ] NickCommandTest.NeedMoreParams (10 ms)
+[ RUN      ] NickCommandTest.SuccessfulNickSet
+INF[2026-03-12 23:43:01] NICK command called from (0)[127.0.0.1:0]
+[36mNOT[2026-03-12 23:43:01] User set "newnick" nickname from (0)[127.0.0.1:0][0m
+[       OK ] NickCommandTest.SuccessfulNickSet (21 ms)
+[ RUN      ] NickCommandTest.NicknameInUse
+INF[2026-03-12 23:43:01] NICK command called from (0)[127.0.0.1:0]
+[       OK ] NickCommandTest.NicknameInUse (7 ms)
+[----------] 3 tests from NickCommandTest (39 ms total)
+
+[----------] 4 tests from JoinCommandTest
+[ RUN      ] JoinCommandTest.NeedMoreParams
+INF[2026-03-12 23:43:01] JOIN command called from (0)[127.0.0.1:0]
+[       OK ] JoinCommandTest.NeedMoreParams (10 ms)
+[ RUN      ] JoinCommandTest.InvalidChannelName
+INF[2026-03-12 23:43:01] JOIN command called from (0)[127.0.0.1:0]
+[       OK ] JoinCommandTest.InvalidChannelName (7 ms)
+[ RUN      ] JoinCommandTest.SuccessfulCreateAndJoin
+INF[2026-03-12 23:43:01] JOIN command called from (0)[127.0.0.1:0]
+[36mNOT[2026-03-12 23:43:01] Channel "#testchan" created by "tester" from (0)[127.0.0.1:0][0m
+INF[2026-03-12 23:43:01] User "tester" joined #testchan from (0)[127.0.0.1:0]
+[       OK ] JoinCommandTest.SuccessfulCreateAndJoin (52 ms)
+[ RUN      ] JoinCommandTest.JoinExistingChannel
+INF[2026-03-12 23:43:01] JOIN command called from (0)[127.0.0.1:0]
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: sendMessage(@0x1ffeffee80 ":tester JOIN :#existing\r\n")
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[90mDBG[2026-03-12 23:43:01] User "tester" joined #existing from (0)[127.0.0.1:0][0m
+[       OK ] JoinCommandTest.JoinExistingChannel (45 ms)
+[----------] 4 tests from JoinCommandTest (117 ms total)
+
+[----------] 9 tests from CommandHandlerTest
+[ RUN      ] CommandHandlerTest.InitialState
+[       OK ] CommandHandlerTest.InitialState (9 ms)
+[ RUN      ] CommandHandlerTest.AddCommand
+[       OK ] CommandHandlerTest.AddCommand (31 ms)
+[ RUN      ] CommandHandlerTest.AddCommandWithoutUpperCase
+[       OK ] CommandHandlerTest.AddCommandWithoutUpperCase (6 ms)
+[ RUN      ] CommandHandlerTest.ExecuteCommandWithoutUser
+[31mERR[2026-03-12 23:43:01] User not found to execute command from (0)[:0][0m
+[       OK ] CommandHandlerTest.ExecuteCommandWithoutUser (8 ms)
+[ RUN      ] CommandHandlerTest.ExecuteOneCommandWithoutArgs
+[       OK ] CommandHandlerTest.ExecuteOneCommandWithoutArgs (72 ms)
+[ RUN      ] CommandHandlerTest.NotExecuteCommandWhenNameIsInvalid
+[33mWAR[2026-03-12 23:43:01] Unknown command TEST@ from (0)[:0][0m
+[       OK ] CommandHandlerTest.NotExecuteCommandWhenNameIsInvalid (17 ms)
+[ RUN      ] CommandHandlerTest.ExecuteMultiplesCommandsWithoutArgs
+[       OK ] CommandHandlerTest.ExecuteMultiplesCommandsWithoutArgs (17 ms)
+[ RUN      ] CommandHandlerTest.ExecuteOneCommandWithArgs
+[       OK ] CommandHandlerTest.ExecuteOneCommandWithArgs (12 ms)
+[ RUN      ] CommandHandlerTest.ExecuteMultiplesCommandsWithArgs
+[       OK ] CommandHandlerTest.ExecuteMultiplesCommandsWithArgs (18 ms)
+[----------] 9 tests from CommandHandlerTest (196 ms total)
+
+[----------] Global test environment tear-down
+[==========] 80 tests from 10 test suites ran. (1378 ms total)
+[  PASSED  ] 80 tests.
+==34655== 
+==34655== HEAP SUMMARY:
+==34655==     in use at exit: 248 bytes in 3 blocks
+==34655==   total heap usage: 2,533 allocs, 2,530 frees, 346,506 bytes allocated
+==34655== 
+==34655== 32 bytes in 1 blocks are indirectly lost in loss record 1 of 3
+==34655==    at 0x4846FA3: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34655==    by 0x13620F: std::__new_allocator<std::_List_node<ChannelUser> >::allocate(unsigned long, void const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x135DF7: std::__cxx11::_List_base<ChannelUser, std::allocator<ChannelUser> >::_M_get_node() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x13569E: std::__cxx11::list<ChannelUser, std::allocator<ChannelUser> >::_M_create_node(ChannelUser const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x134CC8: std::__cxx11::list<ChannelUser, std::allocator<ChannelUser> >::_M_insert(std::_List_iterator<ChannelUser>, ChannelUser const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x13431F: std::__cxx11::list<ChannelUser, std::allocator<ChannelUser> >::push_back(ChannelUser const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x132F56: Channel::Channel(User&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1279A8: JoinCommand::execute(User&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >) const (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x186CFC: JoinCommandTest_SuccessfulCreateAndJoin_Test::TestBody() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1CD35E: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4AF5: testing::Test::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4CB4: testing::TestInfo::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655== 
+==34655== 56 bytes in 1 blocks are still reachable in loss record 2 of 3
+==34655==    at 0x4846FA3: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34655==    by 0x1CEBE9: testing::(anonymous namespace)::UninterestingCallReactionMap() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1D90EB: testing::Mock::GetReactionOnUninterestingCalls(void const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x17B1AE: testing::internal::FunctionMocker<unsigned long (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)>::InvokeWith(std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&>&&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x179E9D: testing::internal::FunctionMocker<unsigned long (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)>::Invoke(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x179105: MockConnection::sendMessage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x133BC9: Channel::broadCast(User&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x127624: JoinCommand::execute(User&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >) const (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x187444: JoinCommandTest_JoinExistingChannel_Test::TestBody() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1CD35E: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4AF5: testing::Test::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4CB4: testing::TestInfo::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655== 
+==34655== 192 (160 direct, 32 indirect) bytes in 1 blocks are definitely lost in loss record 3 of 3
+==34655==    at 0x4846FA3: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34655==    by 0x127973: JoinCommand::execute(User&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >) const (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x186CFC: JoinCommandTest_SuccessfulCreateAndJoin_Test::TestBody() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1CD35E: void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4AF5: testing::Test::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4CB4: testing::TestInfo::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B4E9E: testing::TestSuite::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1C2D0B: testing::internal::UnitTestImpl::RunAllTests() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1CDA36: bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1B5097: testing::UnitTest::Run() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1971D7: RUN_ALL_TESTS() (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655==    by 0x1971BF: main (in /home/gabriel/Projects/42-ft_irc/runTests)
+==34655== 
+==34655== LEAK SUMMARY:
+==34655==    definitely lost: 160 bytes in 1 blocks
+==34655==    indirectly lost: 32 bytes in 1 blocks
+==34655==      possibly lost: 0 bytes in 0 blocks
+==34655==    still reachable: 56 bytes in 1 blocks
+==34655==         suppressed: 0 bytes in 0 blocks
+==34655== 
+==34655== For lists of detected and suppressed errors, rerun with: -s
+==34655== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+make: *** [Makefile:65: test-run-val] Erro 1
